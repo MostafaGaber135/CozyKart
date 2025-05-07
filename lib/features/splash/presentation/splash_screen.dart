@@ -1,8 +1,9 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:furni_iti/features/home/presentation/widgets/start_screen.dart';
 import 'package:lottie/lottie.dart';
+import 'package:furni_iti/core/services/shared_preferences_singleton.dart';
+import 'package:furni_iti/features/home/presentation/pages/home_screen.dart';
+import 'package:furni_iti/features/onboarding/presentation/views/onboarding_views.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -16,10 +17,18 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    _navigateAfterSplash();
+  }
 
-    Timer(const Duration(seconds: 5), () {
-      Navigator.pushReplacementNamed(context, StartScreen.routeName);
-    });
+  Future<void> _navigateAfterSplash() async {
+    await Future.delayed(const Duration(seconds: 5));
+    final seen = SharedPreferencesSingleton.getBool('onBoardingSeen');
+    if (!mounted) return;
+    if (seen) {
+      Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+    } else {
+      Navigator.pushReplacementNamed(context, OnBoardingPageView.routeName);
+    }
   }
 
   @override

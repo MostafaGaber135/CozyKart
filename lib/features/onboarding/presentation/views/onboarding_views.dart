@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:furni_iti/core/services/shared_preferences_singleton.dart';
 import 'package:furni_iti/core/utils/app_theme.dart';
 import 'package:furni_iti/features/home/presentation/pages/home_screen.dart';
 import 'package:furni_iti/features/onboarding/presentation/views/widgets/page_view_item.dart';
@@ -49,13 +50,24 @@ class _OnBoardingPageViewState extends State<OnBoardingPageView> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        "SKIP",
-                        style: TextStyle(
-                          color: Color(0XFF7a7a7a),
-                          fontSize: 16,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w400,
+                      GestureDetector(
+                        onTap: () {
+                          SharedPreferencesSingleton.setBool(
+                            'onBoardingSeen',
+                            true,
+                          );
+                          Navigator.of(
+                            context,
+                          ).pushReplacementNamed(HomeScreen.routeName);
+                        },
+                        child: const Text(
+                          "SKIP",
+                          style: TextStyle(
+                            color: Color(0XFF7a7a7a),
+                            fontSize: 16,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
                       ),
                     ],
@@ -122,6 +134,10 @@ class _OnBoardingPageViewState extends State<OnBoardingPageView> {
                         ),
                         onPressed: () {
                           if (_currentPage == _onBoardData.length - 1) {
+                            SharedPreferencesSingleton.setBool(
+                              'onBoardingSeen',
+                              true,
+                            );
                             Navigator.of(
                               context,
                             ).pushReplacementNamed(HomeScreen.routeName);
@@ -132,6 +148,7 @@ class _OnBoardingPageViewState extends State<OnBoardingPageView> {
                             );
                           }
                         },
+
                         child: Text(
                           _currentPage == _onBoardData.length - 1
                               ? "GET STARTED"
