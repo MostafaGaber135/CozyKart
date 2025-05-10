@@ -5,6 +5,13 @@ class HomeScreen extends StatelessWidget {
   static const String routeName = '/HomeScreen';
   @override
   Widget build(BuildContext context) {
-    return Placeholder();
+    return Scaffold(
+      body: Center(
+        child: Text(
+          'Home Screen',
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        ),
+      ),
+    );
   }
 }
