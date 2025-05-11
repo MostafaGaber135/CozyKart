@@ -3,17 +3,17 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:furni_iti/core/utils/app_theme.dart';
+import 'package:furni_iti/core/utils/app_colors.dart';
 import 'package:furni_iti/core/widgets/custom_button.dart';
 import 'package:furni_iti/core/widgets/custom_outlined_button.dart';
 import 'package:furni_iti/core/widgets/custom_text_form_field.dart';
+import 'package:furni_iti/core/widgets/main_screen.dart';
 import 'package:furni_iti/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:furni_iti/features/auth/presentation/cubit/auth_state.dart';
 import 'package:furni_iti/features/auth/presentation/views/widgets/dont_have_an_account_widget.dart';
 import 'package:furni_iti/core/utils/app_text_styles.dart';
 import 'package:furni_iti/features/auth/presentation/views/widgets/forgot_password.dart';
 import 'package:furni_iti/features/auth/presentation/views/widgets/or_divider.dart';
-import 'package:furni_iti/features/home/presentation/pages/home_screen.dart';
 
 class LoginViewBody extends StatefulWidget {
   const LoginViewBody({super.key});
@@ -84,7 +84,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
           showToast("Login Successful", success: true);
           Future.delayed(const Duration(seconds: 1), () {
             if (!context.mounted) return;
-            Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+            Navigator.pushReplacementNamed(context, MainScreen.routeName);
           });
         }
       },

@@ -41,7 +41,7 @@ class UserModel {
       userName:
           json['userName'] != null
               ? Name.fromJson(json['userName'])
-              : Name(en: '', ar: ''), // ✅ هنا أصل المشكلة
+              : Name(en: '', ar: ''),
       image: json['image'],
       token: json['token'],
       refreshToken: json['refreshToken'],

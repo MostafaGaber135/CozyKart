@@ -52,7 +52,7 @@ class _SignupViewBodyState extends State<SignupViewBody> {
       listener: (context, state) {
         if (state is RegisterSuccessState) {
           showToast(
-            "Account created successfully. Please verify your email.", // ✅ ثابتة عندك
+            "Account created successfully. Please verify your email.",
             success: true,
           );
           Navigator.pushReplacementNamed(context, OtpVerification.routeName);

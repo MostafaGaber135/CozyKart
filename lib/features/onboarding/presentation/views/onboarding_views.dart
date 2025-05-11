@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:furni_iti/core/services/shared_preferences_singleton.dart';
-import 'package:furni_iti/core/utils/app_theme.dart';
+import 'package:furni_iti/core/utils/app_colors.dart';
 import 'package:furni_iti/features/auth/presentation/views/login_view.dart';
 import 'package:furni_iti/features/onboarding/presentation/views/widgets/page_view_item.dart';
 

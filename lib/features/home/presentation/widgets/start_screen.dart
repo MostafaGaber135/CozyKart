@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:furni_iti/core/utils/app_theme.dart';
+import 'package:furni_iti/core/utils/app_colors.dart';
 import 'package:furni_iti/features/onboarding/presentation/views/onboarding_views.dart';
 import 'package:furni_iti/core/widgets/custom_elevated_button.dart';
 

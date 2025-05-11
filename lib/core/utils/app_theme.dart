@@ -1,38 +1,50 @@
 import 'package:flutter/material.dart';
-
-class AppColors {
-  static const Color lightBackground = Color(0xFFEDEDED);
-  static const Color primaryAccent = Color(0xFF3B4E54);
-  static const Color hintGrey = Color(0xFF949D9E);
-  static const Color secondaryText = Color(0xFF4E5456);
-  static const Color lightInputFill = Color(0XFFe8eaea);
-  static const Color unselectedNav = Color(0xFFA5B5B5);
-  static const Color darkBackground = Color(0xFF121212);
-  static const Color darkInputFill = Color(0xFF2C2C2C);
-  static const Color darkNavBackground = Color(0xFF1F1F1F);
-  static const Color darkText = Color(0xFFD7DBE0);
-}
+import 'package:furni_iti/core/utils/app_colors.dart';
 
 class AppTheme {
   static ThemeData lightTheme = ThemeData(
-    brightness: Brightness.light,
     scaffoldBackgroundColor: AppColors.lightBackground,
     primaryColor: AppColors.primaryAccent,
     hintColor: AppColors.hintGrey,
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
-      fillColor: AppColors.lightBackground,
+      fillColor: AppColors.lightInputFill,
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
         borderSide: BorderSide.none,
       ),
-      contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+    ),
+    appBarTheme: const AppBarTheme(
+      centerTitle: true,
+      elevation: 0,
+      backgroundColor: Colors.transparent,
+      iconTheme: IconThemeData(color: AppColors.primaryAccent),
+      titleTextStyle: TextStyle(
+        color: AppColors.primaryAccent,
+        fontSize: 20,
+        fontWeight: FontWeight.w600,
+      ),
+    ),
+    switchTheme: SwitchThemeData(
+      trackColor: WidgetStateProperty.resolveWith<Color>((states) {
+        if (states.contains(WidgetState.selected)) {
+          return AppColors.darkInputFill;
+        }
+        return AppColors.unselectedNav;
+      }),
+      thumbColor: WidgetStateProperty.resolveWith<Color>((states) {
+        if (states.contains(WidgetState.selected)) {
+          return Colors.white;
+        }
+        return AppColors.primaryAccent;
+      }),
     ),
 
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.primaryAccent,
-        shape: StadiumBorder(),
+        shape: const StadiumBorder(),
         textStyle: const TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.bold,
@@ -40,8 +52,9 @@ class AppTheme {
         ),
       ),
     ),
-    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-      backgroundColor: Colors.white,
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      type: BottomNavigationBarType.fixed,
+      backgroundColor: AppColors.lightBackground,
       selectedItemColor: AppColors.primaryAccent,
       unselectedItemColor: AppColors.unselectedNav,
       showUnselectedLabels: true,
@@ -51,6 +64,7 @@ class AppTheme {
   static ThemeData darkTheme = ThemeData.dark().copyWith(
     scaffoldBackgroundColor: AppColors.darkBackground,
     primaryColor: AppColors.primaryAccent,
+    hintColor: AppColors.hintGrey,
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: AppColors.darkInputFill,
@@ -58,31 +72,58 @@ class AppTheme {
         borderRadius: BorderRadius.circular(8),
         borderSide: BorderSide.none,
       ),
-      contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
     ),
     textTheme: ThemeData.dark().textTheme.copyWith(
       bodyMedium: const TextStyle(color: AppColors.darkText),
       headlineMedium: const TextStyle(
-        color: Colors.white,
+        color: AppColors.darkText,
         fontSize: 24,
         fontWeight: FontWeight.bold,
       ),
       labelLarge: const TextStyle(
-        color: Colors.white,
+        color: AppColors.darkText,
         fontWeight: FontWeight.bold,
       ),
     ),
+    appBarTheme: const AppBarTheme(
+      centerTitle: true,
+      elevation: 0,
+      backgroundColor: Colors.transparent,
+      iconTheme: IconThemeData(color: AppColors.darkText),
+      titleTextStyle: TextStyle(
+        color: AppColors.darkText,
+        fontSize: 20,
+        fontWeight: FontWeight.w600,
+      ),
+    ),
+    switchTheme: SwitchThemeData(
+      trackColor: WidgetStateProperty.resolveWith<Color>((states) {
+        if (states.contains(WidgetState.selected)) {
+          return AppColors.primaryAccent;
+        }
+        return AppColors.darkInputFill;
+      }),
+      thumbColor: WidgetStateProperty.resolveWith<Color>((states) {
+        if (states.contains(WidgetState.selected)) {
+          return AppColors.lightBackground;
+        }
+        return AppColors.darkInputFill;
+      }),
+    ),
+
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.primaryAccent,
-        shape: StadiumBorder(),
+        shape: const StadiumBorder(),
         textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
       ),
     ),
-    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-      backgroundColor: AppColors.darkNavBackground,
-      selectedItemColor: AppColors.darkText,
-      unselectedItemColor: Colors.grey,
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      backgroundColor: AppColors.darkBackground,
+      selectedItemColor: AppColors.primaryAccent,
+      unselectedItemColor: AppColors.unselectedNav,
+      showUnselectedLabels: true,
     ),
   );
 }
