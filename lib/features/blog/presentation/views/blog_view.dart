@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:furni_iti/core/widgets/main_scaffold.dart';
+import 'package:furni_iti/features/blog/presentation/views/widgets/blog_view_body.dart';
 
 class BlogView extends StatelessWidget {
   const BlogView({super.key});
@@ -7,6 +7,6 @@ class BlogView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MainScaffold(body: Center(child: Text('Blog View')), title: 'Blog');
+    return BlogViewBody();
   }
 }
