@@ -18,6 +18,8 @@ import 'package:furni_iti/features/contact_us/presentation/views/contact_us_view
 import 'package:furni_iti/features/home/presentation/pages/home_screen.dart';
 import 'package:furni_iti/features/home/presentation/widgets/start_screen.dart';
 import 'package:furni_iti/features/onboarding/presentation/views/onboarding_views.dart';
+import 'package:furni_iti/features/profile/presentation/views/widgets/help_page.dart';
+import 'package:furni_iti/features/profile/presentation/views/widgets/privacy_page.dart';
 import 'package:furni_iti/features/settings/domain/settings_provider.dart';
 import 'package:furni_iti/features/settings/presentation/views/settings_view.dart';
 import 'package:furni_iti/features/shop/presentation/views/shop_view.dart';
@@ -75,6 +77,8 @@ class FurniITI extends StatelessWidget {
         ContactUsView.routeName: (context) => ContactUsView(),
         SettingsView.routeName: (context) => SettingsView(),
         MainScreen.routeName: (context) => const MainScreen(),
+        PrivacyPage.routeName: (context) => const PrivacyPage(),
+        HelpPage.routeName: (context) => const HelpPage(),
       },
     );
   }

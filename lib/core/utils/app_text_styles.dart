@@ -90,4 +90,9 @@ abstract class AppTextStyles {
     fontSize: 28,
     fontWeight: FontWeight.bold,
   );
+  static const TextStyle bold32 = TextStyle(
+    fontFamily: _fontFamily,
+    fontSize: 32,
+    fontWeight: FontWeight.bold,
+  );
 }

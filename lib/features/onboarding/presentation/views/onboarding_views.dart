@@ -44,7 +44,7 @@ class _OnBoardingPageViewState extends State<OnBoardingPageView> {
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 20.0,
+                    horizontal: 20,
                     vertical: 10,
                   ),
                   child: Row(

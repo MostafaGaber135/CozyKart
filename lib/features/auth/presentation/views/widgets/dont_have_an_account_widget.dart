@@ -3,6 +3,8 @@ import 'package:flutter/gestures.dart';
 import 'package:furni_iti/core/utils/app_colors.dart';
 import 'package:furni_iti/features/auth/presentation/views/signup_view.dart';
 import 'package:furni_iti/core/utils/app_text_styles.dart';
+import 'package:furni_iti/features/settings/domain/settings_provider.dart';
+import 'package:provider/provider.dart';
 
 class DontHaveAnAccountWidget extends StatelessWidget {
   const DontHaveAnAccountWidget({super.key});
@@ -10,21 +12,36 @@ class DontHaveAnAccountWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final settingsProvider = Provider.of<SettingsProvider>(context);
+
     return Text.rich(
       TextSpan(
         children: [
           TextSpan(
             text: 'Don\'t have an account?',
-            style: AppTextStyles.bold16.copyWith(color: Color(0xFF949D9E)),
+            style: AppTextStyles.bold16.copyWith(
+              color:
+                  settingsProvider.isDark
+                      ? AppColors.darkText
+                      : Color(0xFF949D9E),
+            ),
           ),
           TextSpan(
             text: ' ',
-            style: AppTextStyles.bold16.copyWith(color: Color(0xFF616A6B)),
+            style: AppTextStyles.bold16.copyWith(
+              color:
+                  settingsProvider.isDark
+                      ? AppColors.darkText
+                      : Color(0xFF949D9E),
+            ),
           ),
           TextSpan(
             text: 'Sign Up',
             style: AppTextStyles.bold19.copyWith(
-              color: AppColors.primaryAccent,
+              color:
+                  settingsProvider.isDark
+                      ? AppColors.primaryAccent
+                      : AppColors.primaryAccent,
             ),
             recognizer:
                 TapGestureRecognizer()

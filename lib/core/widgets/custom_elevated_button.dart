@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:furni_iti/core/utils/app_colors.dart';
+import 'package:furni_iti/core/utils/app_text_styles.dart';
 
 class CustomElevatedButton extends StatelessWidget {
   const CustomElevatedButton({super.key, required this.title, this.onPressed});
@@ -18,12 +19,7 @@ class CustomElevatedButton extends StatelessWidget {
       ),
       child: Text(
         title,
-        style: TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
-          color: Colors.white,
-          fontFamily: 'Poppins',
-        ),
+        style: AppTextStyles.bold16.copyWith(color: Colors.white),
       ),
     );
   }

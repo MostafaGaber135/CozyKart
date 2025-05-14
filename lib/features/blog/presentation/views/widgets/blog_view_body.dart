@@ -11,7 +11,12 @@ class BlogViewBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Blog')),
+      appBar: AppBar(
+        surfaceTintColor: Colors.transparent,
+
+        title: const Text('Blog'),
+      ),
+
       body: BlocBuilder<BlogCubit, BlogState>(
         builder: (context, state) {
           if (state is BlogLoading) {

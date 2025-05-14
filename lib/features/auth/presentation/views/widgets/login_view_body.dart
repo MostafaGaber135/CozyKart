@@ -14,6 +14,8 @@ import 'package:furni_iti/features/auth/presentation/views/widgets/dont_have_an_
 import 'package:furni_iti/core/utils/app_text_styles.dart';
 import 'package:furni_iti/features/auth/presentation/views/widgets/forgot_password.dart';
 import 'package:furni_iti/features/auth/presentation/views/widgets/or_divider.dart';
+import 'package:furni_iti/features/settings/domain/settings_provider.dart';
+import 'package:provider/provider.dart';
 
 class LoginViewBody extends StatefulWidget {
   const LoginViewBody({super.key});
@@ -76,6 +78,8 @@ class _LoginViewBodyState extends State<LoginViewBody> {
 
   @override
   Widget build(BuildContext context) {
+    final settingsProvider = Provider.of<SettingsProvider>(context);
+
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is AuthFailure) {
@@ -151,7 +155,10 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                       child: Text(
                         'Forgot password?',
                         style: AppTextStyles.regular16.copyWith(
-                          color: Colors.black54,
+                          color:
+                              settingsProvider.isDark
+                                  ? Colors.white
+                                  : Colors.black54,
                         ),
                       ),
                     ),

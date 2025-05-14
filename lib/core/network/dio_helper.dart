@@ -6,10 +6,8 @@ class DioHelper {
   static void init() {
     dio = Dio(
       BaseOptions(
-        baseUrl: 'https://furniture-backend-production-8726.up.railway.app/',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        baseUrl: 'http://192.168.1.2:3000',
+        headers: {'Content-Type': 'application/json'},
         validateStatus: (status) => status! < 500,
       ),
     );

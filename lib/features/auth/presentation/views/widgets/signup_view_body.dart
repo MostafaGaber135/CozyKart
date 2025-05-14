@@ -21,8 +21,8 @@ class _SignupViewBodyState extends State<SignupViewBody> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
-  final firstNameController = TextEditingController();
-  final lastNameController = TextEditingController();
+  final englishNameController = TextEditingController();
+  final arabicNameController = TextEditingController();
 
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
@@ -82,13 +82,13 @@ class _SignupViewBodyState extends State<SignupViewBody> {
                 ),
                 const SizedBox(height: 16),
                 CustomTextFormField(
-                  controller: firstNameController,
+                  controller: englishNameController,
                   hintText: 'Full Name',
                   textInputType: TextInputType.name,
                 ),
                 const SizedBox(height: 16),
                 CustomTextFormField(
-                  controller: lastNameController,
+                  controller: arabicNameController,
                   hintText: 'الاسم الكامل (عربي)',
                   textInputType: TextInputType.name,
                 ),
@@ -134,8 +134,8 @@ class _SignupViewBodyState extends State<SignupViewBody> {
                 CustomButton(
                   text: 'Register',
                   onPressed: () {
-                    final nameEn = firstNameController.text.trim();
-                    final nameAr = lastNameController.text.trim();
+                    final nameEn = englishNameController.text.trim();
+                    final nameAr = arabicNameController.text.trim();
                     final email = emailController.text.trim();
                     final password = passwordController.text.trim();
                     final confirm = confirmPasswordController.text.trim();
