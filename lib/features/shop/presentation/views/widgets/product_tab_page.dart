@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:furni_iti/features/shop/presentation/cubit/product_cubit.dart';
 import 'package:furni_iti/features/shop/presentation/cubit/product_state.dart';
-import 'package:furni_iti/features/shop/presentation/views/widgets/custom_product.dart';
+import 'package:furni_iti/features/shop/presentation/views/widgets/product_card.dart';
 
 class ProductsTabPage extends StatelessWidget {
   const ProductsTabPage({super.key});
@@ -20,18 +20,12 @@ class ProductsTabPage extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(10)),
               color: Colors.blueAccent,
             ),
-            tabs: [
-              Tab(text: 'All'),
-              Tab(text: 'Favorites'),
-            ],
+            tabs: [Tab(text: 'All'), Tab(text: 'Favorites')],
           ),
         ),
         body: const TabBarView(
           physics: BouncingScrollPhysics(),
-          children: [
-            AllProductsTab(),
-            FavoritesProductsTab(),
-          ],
+          children: [AllProductsTab(), FavoritesProductsTab()],
         ),
       ),
     );
@@ -46,7 +40,7 @@ class AllProductsTab extends StatelessWidget {
     return BlocBuilder<ProductCubit, ProductState>(
       builder: (context, state) {
         if (state is ProductLoading) {
-          return const ProductShimmer();
+          return const ProductCard();
         } else if (state is ProductError) {
           return Center(child: Text(state.message));
         } else if (state is ProductLoaded) {
@@ -66,14 +60,16 @@ class AllProductsTab extends StatelessWidget {
                 scale: 1,
                 child: Card(
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15)),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
                   elevation: 4,
                   child: Column(
                     children: [
                       Expanded(
                         child: ClipRRect(
                           borderRadius: const BorderRadius.vertical(
-                              top: Radius.circular(15)),
+                            top: Radius.circular(15),
+                          ),
                           child: Image.network(
                             product.image,
                             fit: BoxFit.cover,

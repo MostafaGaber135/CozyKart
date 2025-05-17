@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:furni_iti/core/services/shared_prefs_helper.dart';
 import 'package:furni_iti/core/utils/app_colors.dart';
 import 'package:furni_iti/features/auth/presentation/views/login_view.dart';
-import 'package:furni_iti/features/onboarding/presentation/views/widgets/page_view_item.dart';
+import 'package:furni_iti/features/onboarding/presentation/views/widgets/onboarding_page_item.dart';
 
 class OnBoardingPageView extends StatefulWidget {
   const OnBoardingPageView({super.key});
@@ -51,11 +51,9 @@ class _OnBoardingPageViewState extends State<OnBoardingPageView> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       GestureDetector(
-                        onTap: () {
-                          SharedPrefsHelper.setBool(
-                            'onBoardingSeen',
-                            true,
-                          );
+                        onTap: () async {
+                          await SharedPrefsHelper.setOnboardingSeen(true);
+                          if (!context.mounted) return;
                           Navigator.of(
                             context,
                           ).pushReplacementNamed(LoginView.routeName);
@@ -84,7 +82,7 @@ class _OnBoardingPageViewState extends State<OnBoardingPageView> {
                       });
                     },
                     itemBuilder: (context, index) {
-                      return PageViewItem(
+                      return OnboardingPageItem(
                         imagePath: _onBoardData[index]['image']!,
                         title: _onBoardData[index]['title']!,
                         subTitle: _onBoardData[index]['subTitle'] ?? '',
@@ -103,27 +101,25 @@ class _OnBoardingPageViewState extends State<OnBoardingPageView> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      TextButton(
-                        onPressed:
-                            _currentPage > 0
-                                ? () {
-                                  _pageController.previousPage(
-                                    duration: const Duration(milliseconds: 300),
-                                    curve: Curves.ease,
-                                  );
-                                }
-                                : null,
-                        child: const Text(
-                          "BACK",
-                          style: TextStyle(
-                            color: Color(0XFF7a7a7a),
-                            fontSize: 16,
-                            fontFamily: 'Lato',
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ),
+                      _currentPage > 0
+                          ? TextButton(
+                            onPressed: () {
+                              _pageController.previousPage(
+                                duration: const Duration(milliseconds: 300),
+                                curve: Curves.ease,
+                              );
+                            },
 
+                            child: const Text(
+                              "BACK",
+                              style: TextStyle(
+                                color: Color(0XFF7a7a7a),
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          )
+                          : const SizedBox(),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.primaryAccent,
@@ -134,10 +130,7 @@ class _OnBoardingPageViewState extends State<OnBoardingPageView> {
                         ),
                         onPressed: () {
                           if (_currentPage == _onBoardData.length - 1) {
-                            SharedPrefsHelper.setBool(
-                              'onBoardingSeen',
-                              true,
-                            );
+                            SharedPrefsHelper.setBool('onBoardingSeen', true);
                             Navigator.of(
                               context,
                             ).pushReplacementNamed(LoginView.routeName);
@@ -148,7 +141,6 @@ class _OnBoardingPageViewState extends State<OnBoardingPageView> {
                             );
                           }
                         },
-
                         child: Text(
                           _currentPage == _onBoardData.length - 1
                               ? "GET STARTED"

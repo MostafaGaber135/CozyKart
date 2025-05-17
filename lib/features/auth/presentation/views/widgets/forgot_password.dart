@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:furni_iti/core/utils/app_colors.dart';
 import 'package:furni_iti/core/utils/app_text_styles.dart';
-import 'package:furni_iti/core/widgets/custom_elevated_button.dart';
-import 'package:furni_iti/core/widgets/custom_text_form_field.dart';
+import 'package:furni_iti/core/widgets/custom_input_field.dart';
+import 'package:furni_iti/core/widgets/primary_button.dart';
 
 class ForgotPassword extends StatelessWidget {
   const ForgotPassword({super.key});
@@ -50,13 +50,13 @@ class ForgotPassword extends StatelessWidget {
                 ),
                 const SizedBox(height: 42),
 
-                CustomTextFormField(
+                CustomInputField(
                   controller: emailController,
                   hintText: 'Email address',
                   textInputType: TextInputType.emailAddress,
                 ),
                 const SizedBox(height: 42),
-                CustomElevatedButton(title: 'RESET PASSWORD', onPressed: () {}),
+                PrimaryButton(title: 'RESET PASSWORD', onPressed: () {}),
               ],
             ),
           ),

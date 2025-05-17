@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:furni_iti/core/utils/app_colors.dart';
-import 'package:furni_iti/core/widgets/custom_elevated_button.dart';
+import 'package:furni_iti/core/widgets/primary_button.dart';
 import 'package:furni_iti/features/blog/domain/entities/post.dart';
 import 'package:furni_iti/features/blog/presentation/views/post_details_view.dart';
 
@@ -93,7 +93,7 @@ class PostCard extends StatelessWidget {
             Center(
               child: SizedBox(
                 width: double.infinity,
-                child: CustomElevatedButton(
+                child: PrimaryButton(
                   title: 'Read More',
                   onPressed: () {
                     Navigator.push(

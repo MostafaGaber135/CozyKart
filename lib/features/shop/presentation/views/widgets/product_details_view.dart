@@ -4,13 +4,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:furni_iti/core/services/shared_prefs_helper.dart';
 import 'package:furni_iti/core/services/wishlist_service.dart';
 import 'package:furni_iti/core/utils/toast_helper.dart';
-import 'package:furni_iti/core/widgets/custom_elevated_button.dart';
+import 'package:furni_iti/core/widgets/primary_button.dart';
 import 'package:furni_iti/features/shop/data/models/product_model.dart';
 
-class ProductDetailsScreen extends StatelessWidget {
+class ProductDetailsView extends StatelessWidget {
   final Product product;
 
-  const ProductDetailsScreen({super.key, required this.product});
+  const ProductDetailsView({super.key, required this.product});
 
   Future<void> addToCart(Product product) async {
     final cart = await SharedPrefsHelper.getCart();
@@ -114,7 +114,7 @@ class ProductDetailsScreen extends StatelessWidget {
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(16.0),
 
-        child: CustomElevatedButton(
+        child: PrimaryButton(
           title: 'Add to Cart',
           onPressed: () => addToCart(context as Product),
         ),

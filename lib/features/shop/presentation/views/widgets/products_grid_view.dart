@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:furni_iti/core/services/shared_prefs_helper.dart';
 import 'package:furni_iti/core/utils/toast_helper.dart';
-import 'package:furni_iti/core/widgets/custom_elevated_button.dart';
+import 'package:furni_iti/core/widgets/primary_button.dart';
 import 'package:furni_iti/features/shop/data/models/product_model.dart';
-import 'package:furni_iti/features/shop/presentation/views/widgets/product_details_screen.dart';
+import 'package:furni_iti/features/shop/presentation/views/widgets/product_details_view.dart';
 import 'package:furni_iti/core/services/wishlist_service.dart';
 
 class ProductsGridView extends StatefulWidget {
@@ -64,7 +64,7 @@ class _ProductsGridViewState extends State<ProductsGridView> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (_) => ProductDetailsScreen(product: product),
+                builder: (_) => ProductDetailsView(product: product),
               ),
             );
           },
@@ -162,7 +162,7 @@ class _ProductsGridViewState extends State<ProductsGridView> {
                 const Spacer(),
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
-                  child: CustomElevatedButton(
+                  child: PrimaryButton(
                     title: 'Add To Cart',
                     onPressed: () => addToCart(product),
                   ),

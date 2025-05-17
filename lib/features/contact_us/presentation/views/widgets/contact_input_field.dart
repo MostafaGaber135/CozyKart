@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:furni_iti/core/utils/app_colors.dart';
 
-class CustomTextField extends StatelessWidget {
+class ContactInputField extends StatelessWidget {
   final String label;
   final int maxLines;
   final TextEditingController controller;
 
-  const CustomTextField({
+  const ContactInputField({
     super.key,
     required this.label,
     required this.controller,

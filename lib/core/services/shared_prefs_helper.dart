@@ -5,7 +5,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPrefsHelper {
   static late SharedPreferences _instance;
-
   static Future<void> init() async {
     _instance = await SharedPreferences.getInstance();
   }
@@ -122,5 +121,15 @@ class SharedPrefsHelper {
     final list = _instance.getStringList('wishlist_$userId') ?? [];
     list.removeWhere((item) => jsonDecode(item)['id'] == productId);
     await _instance.setStringList('wishlist_$userId', list);
+  }
+
+  static const String _onboardingKey = 'onboarding_seen';
+
+  static Future<void> setOnboardingSeen(bool value) async {
+    await _instance.setBool(_onboardingKey, value);
+  }
+
+  static bool hasSeenOnboarding() {
+    return _instance.getBool(_onboardingKey) ?? false;
   }
 }

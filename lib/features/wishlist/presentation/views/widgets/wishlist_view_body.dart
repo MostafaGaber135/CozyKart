@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:furni_iti/core/utils/toast_helper.dart';
 import 'package:furni_iti/features/shop/data/models/product_model.dart';
-import 'package:furni_iti/features/shop/presentation/views/widgets/product_details_screen.dart';
+import 'package:furni_iti/features/shop/presentation/views/widgets/product_details_view.dart';
 import 'package:furni_iti/core/services/wishlist_service.dart';
 
 class WishlistViewBody extends StatefulWidget {
@@ -65,7 +65,7 @@ class _WishlistViewBodyState extends State<WishlistViewBody> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => ProductDetailsScreen(product: product),
+                    builder: (_) => ProductDetailsView(product: product),
                   ),
                 );
               },

@@ -4,8 +4,8 @@ import 'package:furni_iti/core/utils/app_text_styles.dart';
 import 'package:furni_iti/features/settings/domain/settings_provider.dart';
 import 'package:provider/provider.dart';
 
-class CustomTextFormField extends StatelessWidget {
-  const CustomTextFormField({
+class CustomInputField extends StatelessWidget {
+  const CustomInputField({
     super.key,
     this.controller,
     required this.hintText,

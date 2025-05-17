@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:furni_iti/core/utils/app_colors.dart';
 import 'package:furni_iti/core/utils/app_text_styles.dart';
 
-class CustomOutlinedButton extends StatelessWidget {
-  const CustomOutlinedButton({
+class SecondaryButton extends StatelessWidget {
+  const SecondaryButton({
     super.key,
     required this.textBtn,
     required this.onPressed,

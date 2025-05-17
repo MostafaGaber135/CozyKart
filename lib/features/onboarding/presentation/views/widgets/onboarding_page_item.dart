@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:furni_iti/core/utils/app_colors.dart';
 import 'package:furni_iti/core/utils/app_text_styles.dart';
 
-class PageViewItem extends StatelessWidget {
+class OnboardingPageItem extends StatelessWidget {
   final String imagePath, title, subTitle;
   final int currentPage, totalPages;
 
-  const PageViewItem({
+  const OnboardingPageItem({
     super.key,
     required this.imagePath,
     required this.title,

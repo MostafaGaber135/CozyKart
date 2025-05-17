@@ -5,9 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:furni_iti/core/services/shared_prefs_helper.dart';
 import 'package:furni_iti/core/utils/app_colors.dart';
-import 'package:furni_iti/core/widgets/custom_button.dart';
-import 'package:furni_iti/core/widgets/custom_outlined_button.dart';
-import 'package:furni_iti/core/widgets/custom_text_form_field.dart';
+import 'package:furni_iti/core/widgets/custom_text_button.dart';
+import 'package:furni_iti/core/widgets/secondary_button.dart';
+import 'package:furni_iti/core/widgets/custom_input_field.dart';
 import 'package:furni_iti/core/widgets/main_screen.dart';
 import 'package:furni_iti/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:furni_iti/features/auth/presentation/cubit/auth_state.dart';
@@ -124,13 +124,13 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                     ),
                   ),
                   const SizedBox(height: 32),
-                  CustomTextFormField(
+                  CustomInputField(
                     controller: emailController,
                     hintText: 'Email address',
                     textInputType: TextInputType.emailAddress,
                   ),
                   const SizedBox(height: 16),
-                  CustomTextFormField(
+                  CustomInputField(
                     controller: passwordController,
                     hintText: 'Password',
                     textInputType: TextInputType.visiblePassword,
@@ -167,7 +167,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                     ),
                   ),
                   const SizedBox(height: 32),
-                  CustomButton(
+                  CustomTextButton(
                     onPressed: () => _submitLogin(context),
                     text: 'LOG IN',
                   ),
@@ -176,7 +176,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                   const SizedBox(height: 32),
                   const OrDivider(),
                   const SizedBox(height: 32),
-                  CustomOutlinedButton(
+                  SecondaryButton(
                     onPressed: () {},
                     textBtn: 'LOG IN WITH GOOGLE',
                   ),

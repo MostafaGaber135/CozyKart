@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:furni_iti/core/utils/app_colors.dart';
 import 'package:furni_iti/core/utils/app_text_styles.dart';
+import 'package:furni_iti/core/widgets/primary_button.dart';
 import 'package:furni_iti/features/onboarding/presentation/views/onboarding_views.dart';
-import 'package:furni_iti/core/widgets/custom_elevated_button.dart';
 
 class StartScreen extends StatelessWidget {
   const StartScreen({super.key});
@@ -30,7 +30,7 @@ class StartScreen extends StatelessWidget {
                 style: AppTextStyles.semiBold16.copyWith(color: Colors.grey),
               ),
               Spacer(),
-              CustomElevatedButton(
+              PrimaryButton(
                 title: 'get started'.toUpperCase(),
                 onPressed: () {
                   Navigator.pushReplacementNamed(

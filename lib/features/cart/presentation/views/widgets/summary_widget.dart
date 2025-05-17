@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:furni_iti/core/widgets/custom_elevated_button.dart';
+import 'package:furni_iti/core/utils/toast_helper.dart';
+import 'package:furni_iti/core/widgets/primary_button.dart';
 
 class SummaryWidget extends StatelessWidget {
   const SummaryWidget({super.key, required this.total});
@@ -26,7 +27,12 @@ class SummaryWidget extends StatelessWidget {
         SizedBox(
           width: double.infinity,
 
-          child: CustomElevatedButton(title: 'Checkout', onPressed: () {}),
+          child: PrimaryButton(
+            title: 'Checkout',
+            onPressed: () {
+              showToast('Checkout Success');
+            },
+          ),
         ),
       ],
     );

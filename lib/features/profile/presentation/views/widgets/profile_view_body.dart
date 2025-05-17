@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:furni_iti/core/services/shared_prefs_helper.dart';
 import 'package:furni_iti/core/utils/app_colors.dart';
-import 'package:furni_iti/core/widgets/custom_elevated_button.dart';
+import 'package:furni_iti/core/widgets/primary_button.dart';
 import 'package:furni_iti/features/auth/presentation/views/login_view.dart';
-import 'package:furni_iti/features/profile/presentation/views/widgets/edit_profile.dart';
+import 'package:furni_iti/features/profile/presentation/views/edit_profile_view.dart';
 import 'package:furni_iti/features/profile/presentation/views/widgets/help_page.dart';
 import 'package:furni_iti/features/profile/presentation/views/widgets/privacy_page.dart';
 import 'package:furni_iti/features/profile/presentation/views/widgets/profile_action_card.dart';
@@ -50,7 +50,7 @@ class ProfileViewBody extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (_) => const EditProfile(),
+                            builder: (_) => const EditProfileView(),
                           ),
                         );
                       },
@@ -86,7 +86,7 @@ class ProfileViewBody extends StatelessWidget {
               ),
               SizedBox(
                 width: double.infinity,
-                child: CustomElevatedButton(
+                child: PrimaryButton(
                   title: 'Logout',
                   onPressed: () async {
                     await SharedPrefsHelper.clearToken();

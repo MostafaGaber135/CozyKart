@@ -1,20 +1,20 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:furni_iti/core/widgets/custom_elevated_button.dart';
+import 'package:furni_iti/core/widgets/primary_button.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:furni_iti/core/utils/app_colors.dart';
-import 'package:furni_iti/core/widgets/custom_text_form_field.dart';
+import 'package:furni_iti/core/widgets/custom_input_field.dart';
 
-class EditProfile extends StatefulWidget {
-  const EditProfile({super.key});
+class EditProfileView extends StatefulWidget {
+  const EditProfileView({super.key});
   static const String routeName = '/EditProfile';
 
   @override
-  State<EditProfile> createState() => _EditProfileState();
+  State<EditProfileView> createState() => _EditProfileViewState();
 }
 
-class _EditProfileState extends State<EditProfile> {
+class _EditProfileViewState extends State<EditProfileView> {
   final userNameController = TextEditingController();
   final passwordController = TextEditingController();
   final phoneController = TextEditingController();
@@ -100,13 +100,13 @@ class _EditProfileState extends State<EditProfile> {
               ),
             ),
             const SizedBox(height: 24),
-            CustomTextFormField(
+            CustomInputField(
               controller: userNameController,
               hintText: 'Full Name',
               textInputType: TextInputType.name,
             ),
             const SizedBox(height: 16),
-            CustomTextFormField(
+            CustomInputField(
               controller: passwordController,
               hintText: 'Password',
               textInputType: TextInputType.visiblePassword,
@@ -120,7 +120,7 @@ class _EditProfileState extends State<EditProfile> {
               ),
             ),
             const SizedBox(height: 16),
-            CustomTextFormField(
+            CustomInputField(
               controller: phoneController,
               hintText: 'Phone',
               textInputType: TextInputType.phone,
@@ -128,7 +128,7 @@ class _EditProfileState extends State<EditProfile> {
             const SizedBox(height: 32),
             SizedBox(
               width: double.infinity,
-              child: CustomElevatedButton(
+              child: PrimaryButton(
                 title: 'Save Changes',
                 onPressed: () {
                   Navigator.pop(context);

@@ -44,14 +44,17 @@ void main() async {
 
   final prefs = await SharedPreferences.getInstance();
   final token = await SharedPrefsHelper.getToken();
+  final hasSeenOnboarding = SharedPrefsHelper.getBool('onBoardingSeen');
   log("All Keys: ${prefs.getKeys()}");
   log("userId: ${prefs.getString("userId")}");
   Widget startWidget;
 
-  if (token != null && !JwtDecoder.isExpired(token)) {
-    startWidget = const MainScreen();
+  if (!hasSeenOnboarding) {
+    startWidget = const OnBoardingPageView();
+  } else if (token != null && !JwtDecoder.isExpired(token)) {
+    startWidget = const SplashScreen();
   } else {
-    startWidget = LoginView();
+    startWidget = SplashScreen();
   }
 
   runApp(FurniITI(startWidget: startWidget));
@@ -80,7 +83,6 @@ class FurniITI extends StatelessWidget {
       child: Builder(
         builder: (context) {
           final settingsProvider = Provider.of<SettingsProvider>(context);
-
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             themeMode: settingsProvider.themeMode,
@@ -91,13 +93,14 @@ class FurniITI extends StatelessWidget {
               SplashScreen.routeName: (context) => SplashScreen(),
               HomeScreen.routeName: (context) => const HomeScreen(),
               StartScreen.routeName: (context) => const StartScreen(),
-              OnBoardingPageView.routeName: (context) => OnBoardingPageView(),
+              OnBoardingPageView.routeName:
+                  (context) => const OnBoardingPageView(),
               LoginView.routeName: (context) => LoginView(),
               SignupView.routeName: (context) => SignupView(),
               ForgotPassword.routeName: (context) => ForgotPassword(),
               OtpVerification.routeName: (context) => OtpVerification(),
               DontHaveAnAccountWidget.routeName:
-                  (context) => DontHaveAnAccountWidget(),
+                  (context) => const DontHaveAnAccountWidget(),
               ShopView.routeName: (context) {
                 final dio = Dio();
                 final remoteDataSource = CategoryRemoteDataSource(dio);

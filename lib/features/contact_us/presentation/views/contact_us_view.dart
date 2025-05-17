@@ -1,9 +1,9 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:furni_iti/core/widgets/custom_elevated_button.dart';
 import 'package:furni_iti/core/widgets/main_scaffold.dart';
-import 'package:furni_iti/features/contact_us/presentation/views/widgets/custom_text_field.dart';
+import 'package:furni_iti/core/widgets/primary_button.dart';
+import 'package:furni_iti/features/contact_us/presentation/views/widgets/contact_input_field.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
 
@@ -75,11 +75,11 @@ class _ContactUsViewState extends State<ContactUsView> {
         padding: const EdgeInsets.all(24),
         child: Column(
           children: [
-            CustomTextField(label: 'Name', controller: nameController),
+            ContactInputField(label: 'Name', controller: nameController),
             const SizedBox(height: 16),
-            CustomTextField(label: 'Email', controller: emailController),
+            ContactInputField(label: 'Email', controller: emailController),
             const SizedBox(height: 16),
-            CustomTextField(
+            ContactInputField(
               label: 'Subject',
               controller: messageController,
               maxLines: 5,
@@ -87,7 +87,7 @@ class _ContactUsViewState extends State<ContactUsView> {
             const SizedBox(height: 24),
             SizedBox(
               width: double.infinity,
-              child: CustomElevatedButton(title: 'Send', onPressed: sendEmail),
+              child: PrimaryButton(title: 'Send', onPressed: sendEmail),
             ),
           ],
         ),

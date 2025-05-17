@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:furni_iti/core/widgets/custom_button.dart';
-import 'package:furni_iti/core/widgets/custom_outlined_button.dart';
-import 'package:furni_iti/core/widgets/custom_text_form_field.dart';
+import 'package:furni_iti/core/widgets/custom_text_button.dart';
+import 'package:furni_iti/core/widgets/secondary_button.dart';
+import 'package:furni_iti/core/widgets/custom_input_field.dart';
 import 'package:furni_iti/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:furni_iti/features/auth/presentation/cubit/auth_state.dart';
 import 'package:furni_iti/features/auth/presentation/views/widgets/already_have_an_account_widget.dart';
@@ -81,25 +81,25 @@ class _SignupViewBodyState extends State<SignupViewBody> {
                   width: 180,
                 ),
                 const SizedBox(height: 16),
-                CustomTextFormField(
+                CustomInputField(
                   controller: englishNameController,
                   hintText: 'Full Name',
                   textInputType: TextInputType.name,
                 ),
                 const SizedBox(height: 16),
-                CustomTextFormField(
+                CustomInputField(
                   controller: arabicNameController,
                   hintText: 'الاسم الكامل (عربي)',
                   textInputType: TextInputType.name,
                 ),
                 const SizedBox(height: 16),
-                CustomTextFormField(
+                CustomInputField(
                   controller: emailController,
                   hintText: 'Email',
                   textInputType: TextInputType.emailAddress,
                 ),
                 const SizedBox(height: 16),
-                CustomTextFormField(
+                CustomInputField(
                   controller: passwordController,
                   hintText: 'Password',
                   obscureText: _obscurePassword,
@@ -115,7 +115,7 @@ class _SignupViewBodyState extends State<SignupViewBody> {
                   ),
                 ),
                 const SizedBox(height: 16),
-                CustomTextFormField(
+                CustomInputField(
                   controller: confirmPasswordController,
                   hintText: 'Confirm Password',
                   obscureText: _obscureConfirmPassword,
@@ -131,7 +131,7 @@ class _SignupViewBodyState extends State<SignupViewBody> {
                   ),
                 ),
                 const SizedBox(height: 24),
-                CustomButton(
+                CustomTextButton(
                   text: 'Register',
                   onPressed: () {
                     final nameEn = englishNameController.text.trim();
@@ -171,7 +171,7 @@ class _SignupViewBodyState extends State<SignupViewBody> {
                 const SizedBox(height: 16),
                 const OrDivider(),
                 const SizedBox(height: 32),
-                CustomOutlinedButton(
+                SecondaryButton(
                   onPressed: () {},
                   textBtn: 'SIGN UP WITH GOOGLE',
                 ),

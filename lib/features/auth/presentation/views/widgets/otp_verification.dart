@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:furni_iti/core/widgets/custom_elevated_button.dart';
+import 'package:furni_iti/core/widgets/primary_button.dart';
 
 class OtpVerification extends StatelessWidget {
   const OtpVerification({super.key});
@@ -66,7 +66,7 @@ class OtpVerification extends StatelessWidget {
               const SizedBox(height: 42),
               SizedBox(
                 width: double.infinity,
-                child: CustomElevatedButton(title: 'VERIFY', onPressed: () {}),
+                child: PrimaryButton(title: 'VERIFY', onPressed: () {}),
               ),
             ],
           ),
