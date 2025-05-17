@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:furni_iti/core/services/shared_prefs_helper.dart';
 import 'package:furni_iti/core/utils/app_colors.dart';
 import 'package:furni_iti/core/widgets/custom_elevated_button.dart';
+import 'package:furni_iti/features/auth/presentation/views/login_view.dart';
 import 'package:furni_iti/features/profile/presentation/views/widgets/edit_profile.dart';
 import 'package:furni_iti/features/profile/presentation/views/widgets/help_page.dart';
 import 'package:furni_iti/features/profile/presentation/views/widgets/privacy_page.dart';
@@ -15,7 +17,7 @@ class ProfileViewBody extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -84,7 +86,18 @@ class ProfileViewBody extends StatelessWidget {
               ),
               SizedBox(
                 width: double.infinity,
-                child: CustomElevatedButton(title: 'Logout', onPressed: () {}),
+                child: CustomElevatedButton(
+                  title: 'Logout',
+                  onPressed: () async {
+                    await SharedPrefsHelper.clearToken();
+                    await SharedPrefsHelper.removeUserId();
+                    if (!context.mounted) return;
+                    Navigator.pushReplacementNamed(
+                      context,
+                      LoginView.routeName,
+                    );
+                  },
+                ),
               ),
             ],
           ),

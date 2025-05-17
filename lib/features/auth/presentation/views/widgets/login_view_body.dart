@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:furni_iti/core/services/shared_prefs_helper.dart';
 import 'package:furni_iti/core/utils/app_colors.dart';
 import 'package:furni_iti/core/widgets/custom_button.dart';
 import 'package:furni_iti/core/widgets/custom_outlined_button.dart';
@@ -81,11 +82,13 @@ class _LoginViewBodyState extends State<LoginViewBody> {
     final settingsProvider = Provider.of<SettingsProvider>(context);
 
     return BlocListener<AuthCubit, AuthState>(
-      listener: (context, state) {
+      listener: (context, state) async {
         if (state is AuthFailure) {
           showToast(state.message);
         } else if (state is AuthSuccess) {
           showToast("Login Successful", success: true);
+          await SharedPrefsHelper.saveUserId(state.user.id);
+
           Future.delayed(const Duration(seconds: 1), () {
             if (!context.mounted) return;
             Navigator.pushReplacementNamed(context, MainScreen.routeName);
