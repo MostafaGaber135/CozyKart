@@ -87,6 +87,8 @@ class UserModel {
       ispurchased: ispurchased ?? this.ispurchased,
     );
   }
+    String get nameEn => userName.en;
+  String get nameAr => userName.ar;
 }
 
 class Name {

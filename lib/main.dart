@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:furni_iti/core/services/shared_prefs_helper.dart';
 import 'package:furni_iti/features/profile/presentation/cubit/profile_cubit.dart';
+import 'package:furni_iti/features/profile/presentation/views/widgets/profile_view_body.dart';
 import 'package:provider/provider.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -51,7 +52,7 @@ void main() async {
   Widget startWidget;
 
   if (!hasSeenOnboarding) {
-    startWidget = const OnBoardingPageView();
+    startWidget = const MainScreen();
   } else if (token != null && !JwtDecoder.isExpired(token)) {
     startWidget = const MainScreen();
   } else {
@@ -70,7 +71,10 @@ class FurniITI extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => SettingsProvider()),
-        BlocProvider(create: (_) => ProfileCubit()..loadUser()),
+        BlocProvider(
+          create: (_) => ProfileCubit()..loadUser(),
+          child: ProfileViewBody(),
+        ),
         BlocProvider(
           create:
               (_) =>

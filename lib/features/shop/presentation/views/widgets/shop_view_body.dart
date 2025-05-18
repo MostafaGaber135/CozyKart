@@ -13,19 +13,19 @@ class ShopProductsViewBody extends StatefulWidget {
 }
 
 class _ShopProductsViewBodyState extends State<ShopProductsViewBody> {
-  TextEditingController _searchController = TextEditingController();
+  TextEditingController searchController = TextEditingController();
   List<Product> _allProducts = [];
   List<Product> _filteredProducts = [];
 
   @override
   void initState() {
     super.initState();
-    _searchController.addListener(_onSearchChanged);
+    searchController.addListener(_onSearchChanged);
     context.read<ProductCubit>().getProducts();
   }
 
   void _onSearchChanged() {
-    final query = _searchController.text.toLowerCase();
+    final query = searchController.text.toLowerCase();
     setState(() {
       _filteredProducts =
           _allProducts
@@ -36,7 +36,7 @@ class _ShopProductsViewBodyState extends State<ShopProductsViewBody> {
 
   @override
   void dispose() {
-    _searchController.dispose();
+    searchController.dispose();
     super.dispose();
   }
 
@@ -48,7 +48,7 @@ class _ShopProductsViewBodyState extends State<ShopProductsViewBody> {
         Padding(
           padding: const EdgeInsets.all(16),
           child: TextField(
-            controller: _searchController,
+            controller: searchController,
             decoration: InputDecoration(
               hintText: 'Search products...',
               prefixIcon: const Icon(Icons.search),
@@ -71,12 +71,12 @@ class _ShopProductsViewBodyState extends State<ShopProductsViewBody> {
               } else if (state is ProductLoaded) {
                 _allProducts = state.products;
                 _filteredProducts =
-                    _searchController.text.isEmpty
+                    searchController.text.isEmpty
                         ? _allProducts
                         : _allProducts
                             .where(
                               (p) => p.name.toLowerCase().contains(
-                                _searchController.text.toLowerCase(),
+                                searchController.text.toLowerCase(),
                               ),
                             )
                             .toList();

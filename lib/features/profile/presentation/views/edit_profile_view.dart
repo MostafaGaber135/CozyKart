@@ -1,12 +1,12 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:furni_iti/features/profile/presentation/cubit/profile_state.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:furni_iti/core/utils/app_colors.dart';
 import 'package:furni_iti/core/widgets/custom_input_field.dart';
 import 'package:furni_iti/core/utils/toast_helper.dart';
 import 'package:furni_iti/features/profile/presentation/cubit/profile_cubit.dart';
+import 'package:furni_iti/features/profile/presentation/cubit/profile_state.dart';
 
 class EditProfileView extends StatefulWidget {
   const EditProfileView({super.key});
@@ -82,8 +82,9 @@ class _EditProfileViewState extends State<EditProfileView> {
                   : null;
 
           if (user == null) return const SizedBox();
+
           if (nameEnController.text.isEmpty) {
-           nameEnController.text = user.userName.en;
+            nameEnController.text = user.userName.en;
           }
           if (nameArController.text.isEmpty) {
             nameArController.text = user.userName.ar;

@@ -1,21 +1,42 @@
+import 'dart:developer';
 import 'dart:io';
-import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:furni_iti/features/profile/presentation/cubit/profile_state.dart';
+import 'package:furni_iti/features/auth/data/models/user_model.dart';
 import 'package:furni_iti/core/network/dio_helper.dart';
 import 'package:furni_iti/core/services/shared_prefs_helper.dart';
-import 'package:furni_iti/features/auth/data/models/user_model.dart';
-import 'package:furni_iti/features/profile/presentation/cubit/profile_state.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
   ProfileCubit() : super(ProfileInitial());
 
   Future<void> loadUser() async {
     emit(ProfileLoading());
-    final user = await SharedPrefsHelper.getUser();
-    if (user != null) {
+    try {
+      final userId = await SharedPrefsHelper.getUserId();
+      log("Loading user with ID: $userId");
+      if (userId == null) {
+        emit(ProfileError("User ID not found"));
+        return;
+      }
+
+      final response = await DioHelper.getData(url: 'users');
+      final users = response.data['users'] as List;
+      final userJson = users.firstWhere(
+        (u) => u['_id'] == userId,
+        orElse: () => null,
+      );
+
+      if (userJson == null) {
+        emit(ProfileError("User not found"));
+        return;
+      }
+
+      final user = UserModel.fromJson(userJson);
+      await SharedPrefsHelper.saveUserId(user.id);
+      await SharedPrefsHelper.setUser(user);
       emit(ProfileLoaded(user));
-    } else {
-      emit(const ProfileError('User not found'));
+    } catch (e) {
+      emit(ProfileError(e.toString()));
     }
   }
 
@@ -28,26 +49,18 @@ class ProfileCubit extends Cubit<ProfileState> {
     emit(ProfileUpdating());
 
     try {
-      await DioHelper.setTokenHeader();
+      final user = await SharedPrefsHelper.getUser();
+      if (user == null) throw Exception("User not logged in");
 
-      final data = {
-        "name[en]": nameEn.trim(),
-        "name[ar]": nameAr.trim(),
-        if (password != null && password.trim().isNotEmpty)
-          "password": password.trim(),
-        if (imageFile != null)
-          "image": await MultipartFile.fromFile(
-            imageFile.path,
-            filename: imageFile.path.split('/').last,
-          ),
+      final body = {
+        "userName": {"en": nameEn, "ar": nameAr},
+        if (password != null && password.isNotEmpty) "password": password,
+        if (imageFile != null) "image": imageFile.path,
       };
 
-      final formData = FormData.fromMap(data);
-
       final response = await DioHelper.putData(
-        url: 'user/updateMe',
-        data: formData,
-        extraHeaders: {'Content-Type': 'multipart/form-data'},
+        url: "users/${user.id}",
+        data: body,
       );
 
       if (response.statusCode == 200) {
@@ -55,12 +68,13 @@ class ProfileCubit extends Cubit<ProfileState> {
         await SharedPrefsHelper.setUser(updatedUser);
         emit(ProfileUpdated(updatedUser));
       } else {
-        emit(
-          ProfileError(response.data['message'] ?? "Failed to update profile"),
+        log("Update failed: ${response.statusCode} - ${response.data}");
+        throw Exception(
+          "Failed to update profile: ${response.statusCode} - ${response.data}",
         );
       }
     } catch (e) {
-      emit(ProfileError("Failed to update profile: $e"));
+      emit(ProfileError(e.toString()));
     }
   }
 }
