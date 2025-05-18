@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:furni_iti/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:furni_iti/features/auth/presentation/cubit/auth_state.dart';
@@ -16,7 +18,24 @@ class AuthCubit extends Cubit<AuthState> {
     result.fold((error) => emit(AuthFailure(error)), (user) async {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString("token", user.token ?? '');
-      await SharedPrefsHelper.saveUserId(user.id); 
+      await SharedPrefsHelper.saveUserId(user.id);
+
+     await SharedPrefsHelper.saveString(
+  'username',
+  user.userName.en.isNotEmpty ? user.userName.en : 'Guest User',
+);
+
+      await SharedPrefsHelper.saveString('email', user.email);
+      await SharedPrefsHelper.saveString(
+        'image',
+        (user.image != null && user.image!.isNotEmpty)
+            ? user.image!
+            : 'https://cdn-icons-png.flaticon.com/512/149/149071.png',
+      );
+      log('Full user model: ${user.toJson()}');
+log('user.userName.en = ${user.userName.en}');
+      log('user.image = ${user.image}');
+
       emit(AuthSuccess(user));
     });
   }
@@ -36,7 +55,7 @@ class AuthCubit extends Cubit<AuthState> {
     result.fold((error) => emit(AuthFailure(error)), (user) async {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString("token", user.token ?? '');
-      await SharedPrefsHelper.saveUserId(user.id); 
+      await SharedPrefsHelper.saveUserId(user.id);
       emit(RegisterSuccessState(user));
     });
   }

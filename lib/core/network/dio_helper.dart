@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:furni_iti/core/services/shared_prefs_helper.dart';
+
 class DioHelper {
   static late Dio dio;
 
@@ -16,10 +17,11 @@ class DioHelper {
 
   static Future<void> setTokenHeader() async {
     final token = await SharedPrefsHelper.getToken();
-
-    log("Saved token: $token");
     if (token != null && token.isNotEmpty) {
       dio.options.headers['Authorization'] = 'Bearer $token';
+      log("Header token set: Bearer $token");
+    } else {
+      log("Token is missing!");
     }
   }
 
@@ -34,5 +36,20 @@ class DioHelper {
   }) async {
     await setTokenHeader();
     return await dio.post(url, data: data);
+  }
+
+  static Future<Response> putData({
+    required String url,
+    required dynamic data,
+    Map<String, String>? extraHeaders,
+  }) async {
+    await setTokenHeader();
+
+    final headers = Map<String, dynamic>.from(dio.options.headers);
+    if (extraHeaders != null) {
+      headers.addAll(extraHeaders);
+    }
+
+    return await dio.put(url, data: data, options: Options(headers: headers));
   }
 }

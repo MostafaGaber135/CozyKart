@@ -3,9 +3,12 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:furni_iti/core/services/shared_prefs_helper.dart';
 import 'package:furni_iti/core/utils/toast_helper.dart';
+import 'package:furni_iti/core/widgets/primary_button.dart';
 import 'package:furni_iti/features/cart/presentation/views/widgets/cart_item_widget.dart';
-import 'package:furni_iti/features/cart/presentation/views/widgets/summary_widget.dart';
 import 'package:furni_iti/features/shop/data/models/product_model.dart';
+
+import 'package:furni_iti/core/services/paypal_service.dart';
+import 'package:furni_iti/features/payment/presentation/views/widgets/paypal_webview.dart';
 
 class CartViewBody extends StatefulWidget {
   const CartViewBody({super.key});
@@ -44,10 +47,31 @@ class _CartViewBodyState extends State<CartViewBody> with RouteAware {
     });
   }
 
-  Future<void> removeFromCart(String productId) async {
-    await SharedPrefsHelper.removeFromCart(productId);
-    loadCart();
-    showToast("Removed from cart");
+  Future<void> startPayPalCheckout() async {
+    final token = await PayPalService.getAccessToken();
+    if (token == null || !mounted) return;
+
+    final total = cartItems.fold<double>(
+      0,
+      (sum, item) => sum + (item.price * item.quantity),
+    );
+
+    final orderId = await PayPalService.createOrder(
+      token,
+      total.toStringAsFixed(2),
+    );
+    if (orderId == null || !mounted) return;
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder:
+            (_) => PaypalWebView(
+              checkoutUrl:
+                  "https://www.sandbox.paypal.com/checkoutnow?token=$orderId",
+            ),
+      ),
+    );
   }
 
   @override
@@ -67,7 +91,6 @@ class _CartViewBodyState extends State<CartViewBody> with RouteAware {
                     child: CartItemWidget(
                       title: item.name,
                       subtitle: "EGP ${item.price.toStringAsFixed(2)}",
-
                       imageUrl: item.image,
                       quantity: item.quantity,
                       onRemove: () async {
@@ -95,12 +118,22 @@ class _CartViewBodyState extends State<CartViewBody> with RouteAware {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: SummaryWidget(
-                total: cartItems.fold<double>(
-                  0,
-                  (sum, item) => sum + (item.price * item.quantity),
-                ),
+              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 32),
+              child: Column(
+                children: [
+                  Text(
+                    "Total: EGP ${cartItems.fold<double>(0, (sum, item) => sum + (item.price * item.quantity)).toStringAsFixed(2)}",
+                    style: const TextStyle(fontSize: 18),
+                  ),
+                  const SizedBox(height: 12),
+                  SizedBox(
+                    width: double.infinity,
+                    child: PrimaryButton(
+                      onPressed: startPayPalCheckout,
+                      title: "Checkout with PayPal",
+                    ),
+                  ),
+                ],
               ),
             ),
           ],

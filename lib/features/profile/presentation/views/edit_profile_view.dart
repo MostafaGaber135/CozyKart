@@ -1,10 +1,13 @@
+// ✅ النسخة النهائية لـ EditProfileView مع كل التحسينات
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:furni_iti/core/widgets/primary_button.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:furni_iti/features/profile/presentation/cubit/profile_state.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:furni_iti/core/utils/app_colors.dart';
 import 'package:furni_iti/core/widgets/custom_input_field.dart';
+import 'package:furni_iti/core/utils/toast_helper.dart';
+import 'package:furni_iti/features/profile/presentation/cubit/profile_cubit.dart';
 
 class EditProfileView extends StatefulWidget {
   const EditProfileView({super.key});
@@ -15,128 +18,152 @@ class EditProfileView extends StatefulWidget {
 }
 
 class _EditProfileViewState extends State<EditProfileView> {
-  final userNameController = TextEditingController();
+  final nameEnController = TextEditingController();
+  final nameArController = TextEditingController();
   final passwordController = TextEditingController();
-  final phoneController = TextEditingController();
 
-  bool _obscurePassword = true;
   XFile? _image;
-  final ImagePicker _picker = ImagePicker();
+  final picker = ImagePicker();
+  bool _obscurePassword = true;
+
   void _togglePasswordVisibility() {
     setState(() => _obscurePassword = !_obscurePassword);
   }
 
   Future<void> _pickImage() async {
-    try {
-      final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
-      if (!mounted) return;
-      if (pickedFile != null) {
-        setState(() {
-          _image = pickedFile;
-        });
-      }
-    } catch (e) {
-      debugPrint("Image pick error: $e");
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() => _image = pickedFile);
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<ProfileCubit>().loadUser();
+  }
+
+  void _save() async {
+    if (nameEnController.text.isEmpty || nameArController.text.isEmpty) {
+      showToast("Please fill in name fields", isError: true);
+      return;
+    }
+
+    context.read<ProfileCubit>().updateProfile(
+      nameEn: nameEnController.text,
+      nameAr: nameArController.text,
+      password: passwordController.text,
+      imageFile: _image != null ? File(_image!.path) : null,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Edit Profile'),
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(
-            Icons.arrow_back_ios,
-            color: AppColors.primaryAccent,
-          ),
-        ),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            GestureDetector(
-              onTap: _pickImage,
-              child: Stack(
+      appBar: AppBar(title: const Text('Edit Profile')),
+      body: BlocConsumer<ProfileCubit, ProfileState>(
+        listener: (context, state) {
+          if (state is ProfileUpdated) {
+            showToast("Profile updated successfully");
+            Navigator.pop(context, true);
+          } else if (state is ProfileError) {
+            showToast(state.message, isError: true);
+          }
+        },
+        builder: (context, state) {
+          if (state is ProfileLoading || state is ProfileUpdating) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          final user =
+              (state is ProfileLoaded)
+                  ? state.user
+                  : (state is ProfileUpdated)
+                  ? state.updatedUser
+                  : null;
+
+          if (user == null) return const SizedBox();
+          if (nameEnController.text.isEmpty) {
+           nameEnController.text = user.userName.en;
+          }
+          if (nameArController.text.isEmpty) {
+            nameArController.text = user.userName.ar;
+          }
+
+          final avatar =
+              _image != null
+                  ? FileImage(File(_image!.path))
+                  : (user.image != null && user.image!.isNotEmpty
+                      ? NetworkImage(user.image!)
+                      : null);
+
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: SingleChildScrollView(
+              child: Column(
                 children: [
-                  ClipOval(
-                    child: SizedBox(
-                      width: 100,
-                      height: 100,
+                  GestureDetector(
+                    onTap: _pickImage,
+                    child: CircleAvatar(
+                      radius: 40,
+                      backgroundColor: AppColors.primaryAccent,
+                      backgroundImage: avatar as ImageProvider?,
                       child:
-                          _image == null
-                              ? Image.asset(
-                                'assets/images/person.png',
-                                fit: BoxFit.cover,
+                          avatar == null
+                              ? const Icon(
+                                Icons.camera_alt,
+                                color: Colors.white,
                               )
-                              : Image.file(
-                                File(_image!.path),
-                                fit: BoxFit.cover,
-                              ),
+                              : null,
                     ),
                   ),
-                  Positioned(
-                    bottom: 0,
-                    right: 4,
-                    child: Container(
-                      padding: const EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                        color: AppColors.primaryAccent,
-                        shape: BoxShape.circle,
-                        border: Border.all(color: Colors.white, width: 2),
+                  const SizedBox(height: 16),
+                  CustomInputField(
+                    controller: nameEnController,
+                    hintText: 'Name (EN)',
+                    textInputType: TextInputType.name,
+                  ),
+                  const SizedBox(height: 10),
+                  CustomInputField(
+                    controller: nameArController,
+                    hintText: 'Name (AR)',
+                    textInputType: TextInputType.name,
+                  ),
+                  const SizedBox(height: 10),
+                  CustomInputField(
+                    controller: passwordController,
+                    hintText: 'New Password (optional)',
+                    obscureText: _obscurePassword,
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _obscurePassword
+                            ? Icons.visibility
+                            : Icons.visibility_off,
                       ),
-                      child: const Icon(
-                        Icons.edit,
-                        color: Colors.white,
-                        size: 18,
+                      onPressed: _togglePasswordVisibility,
+                    ),
+                    textInputType: TextInputType.visiblePassword,
+                  ),
+                  const SizedBox(height: 20),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 48,
+                    child: ElevatedButton(
+                      onPressed: _save,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primaryAccent,
+                      ),
+                      child: const Text(
+                        "Save",
+                        style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
                     ),
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 24),
-            CustomInputField(
-              controller: userNameController,
-              hintText: 'Full Name',
-              textInputType: TextInputType.name,
-            ),
-            const SizedBox(height: 16),
-            CustomInputField(
-              controller: passwordController,
-              hintText: 'Password',
-              textInputType: TextInputType.visiblePassword,
-              obscureText: _obscurePassword,
-              suffixIcon: IconButton(
-                icon: Icon(
-                  _obscurePassword ? Icons.visibility : Icons.visibility_off,
-                  color: AppColors.primaryAccent,
-                ),
-                onPressed: _togglePasswordVisibility,
-              ),
-            ),
-            const SizedBox(height: 16),
-            CustomInputField(
-              controller: phoneController,
-              hintText: 'Phone',
-              textInputType: TextInputType.phone,
-            ),
-            const SizedBox(height: 32),
-            SizedBox(
-              width: double.infinity,
-              child: PrimaryButton(
-                title: 'Save Changes',
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

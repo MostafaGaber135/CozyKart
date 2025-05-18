@@ -1,7 +1,7 @@
 class UserModel {
   final String id;
   final String email;
-  final String password;
+  final String? password; // optional لأمان أكثر
   final String role;
   final String? image;
   final bool isVerified;
@@ -10,21 +10,21 @@ class UserModel {
   final String? token;
   final String? refreshToken;
   final Name userName;
-  final List<dynamic> wishlist;
-  final List<dynamic> ispurchased;
+  final List<String> wishlist;
+  final List<String> ispurchased;
 
   UserModel({
     required this.id,
     required this.email,
-    required this.password,
+    this.password,
     required this.role,
+    this.image,
     required this.isVerified,
     required this.createdAt,
     required this.updatedAt,
-    required this.userName,
-    this.image,
     this.token,
     this.refreshToken,
+    required this.userName,
     this.wishlist = const [],
     this.ispurchased = const [],
   });
@@ -33,34 +33,59 @@ class UserModel {
     return UserModel(
       id: json['_id'] ?? '',
       email: json['email'] ?? '',
-      password: json['password'] ?? '',
+      password: json['password'],
       role: json['role'] ?? '',
+      image: json['image'],
       isVerified: json['isVerified'] ?? false,
       createdAt: DateTime.tryParse(json['createdAt'] ?? '') ?? DateTime.now(),
       updatedAt: DateTime.tryParse(json['updatedAt'] ?? '') ?? DateTime.now(),
-      userName:
-          json['userName'] != null
-              ? Name.fromJson(json['userName'])
-              : Name(en: '', ar: ''),
-      image: json['image'],
       token: json['token'],
       refreshToken: json['refreshToken'],
-      wishlist: json['wishlist'] ?? [],
-      ispurchased: json['ispurchased'] ?? [],
+      userName: Name.fromJson(json['userName'] ?? {}),
+      wishlist: List<String>.from(json['wishlist'] ?? []),
+      ispurchased: List<String>.from(json['ispurchased'] ?? []),
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
+      '_id': id,
       'email': email,
       'password': password,
-      'userName': userName.toJson(),
-      'image': image,
       'role': role,
+      'image': image,
       'isVerified': isVerified,
       'createdAt': createdAt.toIso8601String(),
       'updatedAt': updatedAt.toIso8601String(),
+      'token': token,
+      'refreshToken': refreshToken,
+      'userName': userName.toJson(),
+      'wishlist': wishlist,
+      'ispurchased': ispurchased,
     };
+  }
+
+  UserModel copyWith({
+    String? token,
+    String? refreshToken,
+    List<String>? wishlist,
+    List<String>? ispurchased,
+  }) {
+    return UserModel(
+      id: id,
+      email: email,
+      password: password,
+      role: role,
+      image: image,
+      isVerified: isVerified,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
+      token: token ?? this.token,
+      refreshToken: refreshToken ?? this.refreshToken,
+      userName: userName,
+      wishlist: wishlist ?? this.wishlist,
+      ispurchased: ispurchased ?? this.ispurchased,
+    );
   }
 }
 
@@ -71,11 +96,17 @@ class Name {
   Name({required this.en, required this.ar});
 
   factory Name.fromJson(Map<String, dynamic> json) {
-    return Name(en: json['en'] ?? '', ar: json['ar'] ?? '');
+    return Name(
+      en: json['en'] ?? '',
+      ar: json['ar'] ?? '',
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {'en': en, 'ar': ar};
+    return {
+      'en': en,
+      'ar': ar,
+    };
   }
 }
 
@@ -86,10 +117,16 @@ class Address {
   Address({required this.en, required this.ar});
 
   factory Address.fromJson(Map<String, dynamic> json) {
-    return Address(en: json['en'] ?? '', ar: json['ar'] ?? '');
+    return Address(
+      en: json['en'] ?? '',
+      ar: json['ar'] ?? '',
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {'en': en, 'ar': ar};
+    return {
+      'en': en,
+      'ar': ar,
+    };
   }
 }

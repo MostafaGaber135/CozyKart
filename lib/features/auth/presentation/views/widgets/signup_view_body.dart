@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:furni_iti/core/widgets/custom_text_button.dart';
-import 'package:furni_iti/core/widgets/secondary_button.dart';
 import 'package:furni_iti/core/widgets/custom_input_field.dart';
 import 'package:furni_iti/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:furni_iti/features/auth/presentation/cubit/auth_state.dart';
 import 'package:furni_iti/features/auth/presentation/views/widgets/already_have_an_account_widget.dart';
-import 'package:furni_iti/features/auth/presentation/views/widgets/or_divider.dart';
 import 'package:furni_iti/features/auth/presentation/views/widgets/otp_verification.dart';
 
 class SignupViewBody extends StatefulWidget {
@@ -168,13 +166,6 @@ class _SignupViewBodyState extends State<SignupViewBody> {
                 ),
                 const SizedBox(height: 16),
                 const AlreadyHaveAnAccountWidget(),
-                const SizedBox(height: 16),
-                const OrDivider(),
-                const SizedBox(height: 32),
-                SecondaryButton(
-                  onPressed: () {},
-                  textBtn: 'SIGN UP WITH GOOGLE',
-                ),
               ],
             ),
           ),

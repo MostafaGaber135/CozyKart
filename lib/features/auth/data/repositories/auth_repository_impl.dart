@@ -7,53 +7,64 @@ import 'package:furni_iti/features/auth/domain/repositories/auth_repository.dart
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
-  @override
-  Future<Either<String, UserModel>> login(String email, String password) async {
-    try {
-      final response = await DioHelper.postData(
-        url: 'auth/login',
-        data: {"email": email, "password": password},
+ @override
+Future<Either<String, UserModel>> login(String email, String password) async {
+  try {
+    final response = await DioHelper.postData(
+      url: 'auth/login',
+      data: {"email": email, "password": password},
+    );
+
+    log("response.statusCode: ${response.statusCode}");
+    log("response.data: ${response.data}");
+
+    final token = response.data['token'];
+    final refreshToken = response.data['refreshToken'];
+
+    if (response.statusCode == 200 && token != null) {
+      final decodedToken = JwtDecoder.decode(token);
+      log('🔥 Decoded Token: ${decodedToken["data"]}');
+
+      final userId = decodedToken["data"]["id"];
+      final userName = decodedToken["data"]["userName"]?["en"] ?? "";
+      final emailFromToken = decodedToken["data"]["email"] ?? "";
+      final image = decodedToken["data"]["image"] ?? "";
+      final role = decodedToken["data"]["role"] ?? "";
+
+      final user = UserModel(
+        id: userId,
+        email: emailFromToken,
+        password: "",
+        role: role,
+        isVerified: false,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+      userName: Name(en: userName, ar: ""),
+
+        image: image,
+        token: token,
+        refreshToken: refreshToken,
+        wishlist: [],
+        ispurchased: [],
       );
 
-      log("response.statusCode: ${response.statusCode}");
-      log("response.data: ${response.data}");
+      await SharedPrefsHelper.setToken(token);
+      await SharedPrefsHelper.saveUserId(userId);
+      await SharedPrefsHelper.setUser(user); // ✅ بعد الإنشاء
 
-      final token = response.data['token'];
+      log("✅ TOKEN SAVED: $token");
+      log("✅ User SAVED: ${user.toJson()}");
 
-      if (response.statusCode == 200 && token != null) {
-        await SharedPrefsHelper.setToken(token);
-        final savedToken = await SharedPrefsHelper.getToken();
-        log("TOKEN SAVED ACTUALLY: $savedToken");
-        final decodedToken = JwtDecoder.decode(token);
-        final userId = decodedToken["data"]["id"];
-        await SharedPrefsHelper.saveUserId(userId);
-        log("Extracted userId from token: $userId");
-
-        return Right(
-          UserModel(
-            id: userId,
-            email: email,
-            password: "",
-            role: decodedToken["data"]["role"] ?? "",
-            isVerified: false,
-            createdAt: DateTime.now(),
-            updatedAt: DateTime.now(),
-            userName: Name(en: "", ar: ""),
-            image: null,
-            token: token,
-            refreshToken: response.data['refreshToken'],
-            wishlist: [],
-            ispurchased: [],
-          ),
-        );
-      } else {
-        final msg = response.data['message'] ?? "Invalid credentials";
-        return Left(msg);
-      }
-    } catch (e) {
-      return Left("Login failed: ${e.toString()}");
+      return Right(user);
+    } else {
+      final msg = response.data['message'] ?? "Invalid credentials";
+      return Left(msg);
     }
+  } catch (e) {
+    return Left("Login failed: ${e.toString()}");
   }
+}
+
 
   @override
   Future<Either<String, UserModel>> register({
@@ -71,6 +82,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
       if (response.statusCode == 201 && response.data['user'] != null) {
         final user = UserModel.fromJson(response.data['user']);
+          await SharedPrefsHelper.setUser(user);
         return Right(user);
       } else {
         return Left(response.data['message'] ?? "Registration failed");

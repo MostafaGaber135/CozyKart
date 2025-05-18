@@ -6,7 +6,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:furni_iti/core/services/shared_prefs_helper.dart';
 import 'package:furni_iti/core/utils/app_colors.dart';
 import 'package:furni_iti/core/widgets/custom_text_button.dart';
-import 'package:furni_iti/core/widgets/secondary_button.dart';
 import 'package:furni_iti/core/widgets/custom_input_field.dart';
 import 'package:furni_iti/core/widgets/main_screen.dart';
 import 'package:furni_iti/features/auth/presentation/cubit/auth_cubit.dart';
@@ -14,7 +13,6 @@ import 'package:furni_iti/features/auth/presentation/cubit/auth_state.dart';
 import 'package:furni_iti/features/auth/presentation/views/widgets/dont_have_an_account_widget.dart';
 import 'package:furni_iti/core/utils/app_text_styles.dart';
 import 'package:furni_iti/features/auth/presentation/views/widgets/forgot_password.dart';
-import 'package:furni_iti/features/auth/presentation/views/widgets/or_divider.dart';
 import 'package:furni_iti/features/settings/domain/settings_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -173,13 +171,6 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                   ),
                   const SizedBox(height: 32),
                   const DontHaveAnAccountWidget(),
-                  const SizedBox(height: 32),
-                  const OrDivider(),
-                  const SizedBox(height: 32),
-                  SecondaryButton(
-                    onPressed: () {},
-                    textBtn: 'LOG IN WITH GOOGLE',
-                  ),
                 ],
               ),
             ),
