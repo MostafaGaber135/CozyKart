@@ -5,8 +5,8 @@ import 'package:furni_iti/core/widgets/custom_text_button.dart';
 import 'package:furni_iti/core/widgets/custom_input_field.dart';
 import 'package:furni_iti/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:furni_iti/features/auth/presentation/cubit/auth_state.dart';
+import 'package:furni_iti/features/auth/presentation/views/login_view.dart';
 import 'package:furni_iti/features/auth/presentation/views/widgets/already_have_an_account_widget.dart';
-import 'package:furni_iti/features/auth/presentation/views/widgets/otp_verification.dart';
 
 class SignupViewBody extends StatefulWidget {
   const SignupViewBody({super.key});
@@ -36,7 +36,7 @@ class _SignupViewBodyState extends State<SignupViewBody> {
   void showToast(String msg, {bool success = false}) {
     Fluttertoast.showToast(
       msg: msg,
-      toastLength: Toast.LENGTH_SHORT,
+      toastLength: Toast.LENGTH_LONG,
       gravity: ToastGravity.BOTTOM,
       backgroundColor: success ? Colors.green : Colors.red,
       textColor: Colors.white,
@@ -50,10 +50,18 @@ class _SignupViewBodyState extends State<SignupViewBody> {
       listener: (context, state) {
         if (state is RegisterSuccessState) {
           showToast(
-            "Account created successfully. Please verify your email.",
+            "Account created successfully. Please login.",
             success: true,
           );
-          Navigator.pushReplacementNamed(context, OtpVerification.routeName);
+
+          Future.microtask(() {
+            if (context.mounted) {
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (_) => const LoginView()),
+                (route) => false,
+              );
+            }
+          });
         }
 
         if (state is AuthFailure) {
@@ -161,7 +169,12 @@ class _SignupViewBodyState extends State<SignupViewBody> {
                       showToast("Passwords do not match");
                       return;
                     }
-                    Navigator.pushNamed(context, OtpVerification.routeName);
+
+                    context.read<AuthCubit>().register(
+                      email: email,
+                      password: password,
+                      userName: {"en": nameEn, "ar": nameAr},
+                    );
                   },
                 ),
                 const SizedBox(height: 16),

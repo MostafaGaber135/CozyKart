@@ -40,25 +40,21 @@ class HomeScreen extends StatelessWidget {
                   );
                 }).toList(),
           ),
-
           const SizedBox(height: 24),
-
           const Text(
             "Best Price",
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
-          const SizedBox(height: 12),
-
+          const SizedBox(height: 24),
           BlocBuilder<ProductCubit, ProductState>(
             builder: (context, state) {
               if (state is ProductLoading) {
                 return SizedBox(
-                  height: 200,
+                  height: 400,
                   child: const Center(child: CircularProgressIndicator()),
                 );
               } else if (state is BestPriceProductsLoaded) {
                 final bestProducts = state.bestPriceProducts;
-
                 return GridView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),

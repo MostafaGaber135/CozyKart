@@ -50,10 +50,10 @@ Future<Either<String, UserModel>> login(String email, String password) async {
 
       await SharedPrefsHelper.setToken(token);
       await SharedPrefsHelper.saveUserId(userId);
-      await SharedPrefsHelper.setUser(user); // ✅ بعد الإنشاء
+      await SharedPrefsHelper.setUser(user); 
 
-      log("✅ TOKEN SAVED: $token");
-      log("✅ User SAVED: ${user.toJson()}");
+      log("TOKEN SAVED: $token");
+      log("User SAVED: ${user.toJson()}");
 
       return Right(user);
     } else {

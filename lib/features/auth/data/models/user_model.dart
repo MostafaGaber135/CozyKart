@@ -1,7 +1,7 @@
 class UserModel {
   final String id;
   final String email;
-  final String? password; // optional لأمان أكثر
+  final String? password; 
   final String role;
   final String? image;
   final bool isVerified;

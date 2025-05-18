@@ -20,10 +20,10 @@ class AuthCubit extends Cubit<AuthState> {
       await prefs.setString("token", user.token ?? '');
       await SharedPrefsHelper.saveUserId(user.id);
 
-     await SharedPrefsHelper.saveString(
-  'username',
-  user.userName.en.isNotEmpty ? user.userName.en : 'Guest User',
-);
+      await SharedPrefsHelper.saveString(
+        'username',
+        user.userName.en.isNotEmpty ? user.userName.en : 'Guest User',
+      );
 
       await SharedPrefsHelper.saveString('email', user.email);
       await SharedPrefsHelper.saveString(
@@ -32,10 +32,8 @@ class AuthCubit extends Cubit<AuthState> {
             ? user.image!
             : 'https://cdn-icons-png.flaticon.com/512/149/149071.png',
       );
-      log('Full user model: ${user.toJson()}');
-log('user.userName.en = ${user.userName.en}');
-      log('user.image = ${user.image}');
 
+      log('Full user model: ${user.toJson()}');
       emit(AuthSuccess(user));
     });
   }
