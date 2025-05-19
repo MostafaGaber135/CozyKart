@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:furni_iti/core/services/shared_prefs_helper.dart';
 import 'package:furni_iti/core/utils/app_colors.dart';
 import 'package:furni_iti/features/auth/presentation/views/login_view.dart';
@@ -43,9 +44,9 @@ class _OnBoardingPageViewState extends State<OnBoardingPageView> {
             Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 10,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 20.w,
+                    vertical: 10.h,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -58,11 +59,11 @@ class _OnBoardingPageViewState extends State<OnBoardingPageView> {
                             context,
                           ).pushReplacementNamed(LoginView.routeName);
                         },
-                        child: const Text(
+                        child: Text(
                           "SKIP",
                           style: TextStyle(
                             color: Color(0XFF7a7a7a),
-                            fontSize: 16,
+                            fontSize: 16.sp,
                             fontFamily: 'Poppins',
                             fontWeight: FontWeight.w400,
                           ),
@@ -94,9 +95,9 @@ class _OnBoardingPageViewState extends State<OnBoardingPageView> {
                 ),
 
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 15,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 20.w,
+                    vertical: 15.h,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -110,11 +111,11 @@ class _OnBoardingPageViewState extends State<OnBoardingPageView> {
                               );
                             },
 
-                            child: const Text(
+                            child: Text(
                               "BACK",
                               style: TextStyle(
                                 color: Color(0XFF7a7a7a),
-                                fontSize: 16,
+                                fontSize: 16.sp,
                                 fontWeight: FontWeight.w400,
                               ),
                             ),
@@ -123,9 +124,9 @@ class _OnBoardingPageViewState extends State<OnBoardingPageView> {
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.primaryAccent,
-                          minimumSize: const Size(90, 48),
+                          minimumSize: Size(90.w, 48.h),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(4),
+                            borderRadius: BorderRadius.circular(4.r),
                           ),
                         ),
                         onPressed: () {
@@ -145,9 +146,9 @@ class _OnBoardingPageViewState extends State<OnBoardingPageView> {
                           _currentPage == _onBoardData.length - 1
                               ? "GET STARTED"
                               : "NEXT",
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: Colors.white,
-                            fontSize: 16,
+                            fontSize: 16.sp,
                           ),
                         ),
                       ),

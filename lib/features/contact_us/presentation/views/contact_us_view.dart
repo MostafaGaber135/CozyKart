@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:furni_iti/core/widgets/main_scaffold.dart';
 import 'package:furni_iti/core/widgets/primary_button.dart';
@@ -72,19 +73,19 @@ class _ContactUsViewState extends State<ContactUsView> {
   Widget build(BuildContext context) {
     return MainScaffold(
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
+        padding: EdgeInsets.all(24.r),
         child: Column(
           children: [
             ContactInputField(label: 'Name', controller: nameController),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
             ContactInputField(label: 'Email', controller: emailController),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
             ContactInputField(
               label: 'Subject',
               controller: messageController,
               maxLines: 5,
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: 24.h),
             SizedBox(
               width: double.infinity,
               child: PrimaryButton(title: 'Send', onPressed: sendEmail),

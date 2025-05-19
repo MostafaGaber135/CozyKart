@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:furni_iti/core/utils/toast_helper.dart';
 import 'package:furni_iti/features/shop/data/models/product_model.dart';
 import 'package:furni_iti/features/shop/presentation/views/widgets/product_details_view.dart';
@@ -52,31 +53,31 @@ class _WishlistViewBodyState extends State<WishlistViewBody> {
     return wishlist.isEmpty
         ? Center(
           child: Text(
-            "📝 Your wishlist is empty",
+            "Your wishlist is empty",
             style: TextStyle(fontSize: 18, color: theme.primaryColor),
           ),
         )
         : ListView.builder(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
           itemCount: wishlist.length,
           itemBuilder: (context, index) {
             final product = wishlist[index];
 
             return Container(
-              margin: const EdgeInsets.only(bottom: 20),
+              margin: EdgeInsets.only(bottom: 20.h),
               decoration: BoxDecoration(
                 color: theme.cardColor,
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withValues(alpha: 0.05),
-                    blurRadius: 10,
-                    offset: const Offset(0, 4),
+                    blurRadius: 10.r,
+                    offset: Offset(0.w, 4.h),
                   ),
                 ],
               ),
               child: InkWell(
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
                 onTap:
                     () => Navigator.push(
                       context,
@@ -85,22 +86,21 @@ class _WishlistViewBodyState extends State<WishlistViewBody> {
                       ),
                     ),
                 child: Padding(
-                  padding: const EdgeInsets.all(12),
+                  padding: EdgeInsets.all(12.r),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Product Image
                       ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(12.r),
                         child: CachedNetworkImage(
                           imageUrl: product.image,
-                          height: 100,
-                          width: 100,
+                          height: 100.h,
+                          width: 100.w,
                           fit: BoxFit.cover,
                           placeholder:
-                              (context, url) => const Center(
+                              (context, url) => Center(
                                 child: CircularProgressIndicator(
-                                  strokeWidth: 2,
+                                  strokeWidth: 2.w,
                                 ),
                               ),
                           errorWidget:
@@ -108,9 +108,8 @@ class _WishlistViewBodyState extends State<WishlistViewBody> {
                         ),
                       ),
 
-                      const SizedBox(width: 14),
+                      SizedBox(width: 14.w),
 
-                      // Product Info + Buttons
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -119,43 +118,45 @@ class _WishlistViewBodyState extends State<WishlistViewBody> {
                               product.name,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                fontSize: 16,
+                              style: TextStyle(
+                                fontSize: 16.sp,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            const SizedBox(height: 6),
+                            SizedBox(height: 6.h),
                             Text(
                               "EGP ${product.price.toStringAsFixed(2)}",
                               style: TextStyle(
                                 color: Colors.grey.shade600,
-                                fontSize: 14,
+                                fontSize: 14.sp,
                               ),
                             ),
-                            const SizedBox(height: 12),
+                            SizedBox(height: 12.h),
                             Row(
                               children: [
                                 Expanded(
                                   child: ElevatedButton.icon(
                                     onPressed: () => addToCart(product),
-                                    icon: const Icon(
+                                    icon: Icon(
                                       Icons.shopping_cart_outlined,
-                                      size: 18,
+                                      size: 18.sp,
                                     ),
                                     label: const Text("Add to Cart"),
                                     style: ElevatedButton.styleFrom(
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 10,
+                                      padding: EdgeInsets.symmetric(
+                                        vertical: 10.w,
                                       ),
                                       backgroundColor: theme.primaryColor,
                                       foregroundColor: Colors.white,
                                       shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(8),
+                                        borderRadius: BorderRadius.circular(
+                                          8.r,
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
-                                const SizedBox(width: 10),
+                                SizedBox(width: 10.w),
                                 IconButton(
                                   icon: const Icon(
                                     Icons.delete,

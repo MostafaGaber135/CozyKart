@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:furni_iti/core/services/shared_prefs_helper.dart';
@@ -7,10 +8,45 @@ import 'package:furni_iti/core/utils/toast_helper.dart';
 import 'package:furni_iti/core/widgets/primary_button.dart';
 import 'package:furni_iti/features/shop/data/models/product_model.dart';
 
-class ProductDetailsView extends StatelessWidget {
+class ProductDetailsView extends StatefulWidget {
   final Product product;
 
   const ProductDetailsView({super.key, required this.product});
+
+  @override
+  State<ProductDetailsView> createState() => _ProductDetailsViewState();
+}
+
+class _ProductDetailsViewState extends State<ProductDetailsView> {
+  bool isWishlisted = false;
+
+  @override
+  void initState() {
+    super.initState();
+    checkIfInWishlist();
+  }
+
+  Future<void> checkIfInWishlist() async {
+    final wishlist = await WishlistService.getWishlist();
+    setState(() {
+      isWishlisted = wishlist.any((item) => item.id == widget.product.id);
+    });
+  }
+
+  Future<void> toggleWishlist() async {
+    final wishlist = await WishlistService.getWishlist();
+    final alreadyExists = wishlist.any((item) => item.id == widget.product.id);
+
+    if (alreadyExists) {
+      await WishlistService.removeFromWishlist(widget.product.id);
+      setState(() => isWishlisted = false);
+      _showToast("Removed from Wishlist");
+    } else {
+      await WishlistService.addToWishlist(widget.product);
+      setState(() => isWishlisted = true);
+      _showToast("Added to Wishlist");
+    }
+  }
 
   Future<void> addToCart(Product product) async {
     final cart = await SharedPrefsHelper.getCart();
@@ -22,24 +58,6 @@ class ProductDetailsView extends StatelessWidget {
       showToast("Added to cart");
     } else {
       showToast("Already in cart", isError: true);
-    }
-  }
-
-  Future<void> addToWishlist(BuildContext context) async {
-    final wishlist = await WishlistService.getWishlist();
-    final alreadyExists = wishlist.any((item) => item.id == product.id);
-    if (!alreadyExists) {
-      final fixedProduct = Product(
-        id: product.id,
-        name: product.name,
-        price: product.price,
-        image: product.image,
-      );
-      await WishlistService.addToWishlist(fixedProduct);
-
-      _showToast("Added to Wishlist");
-    } else {
-      _showToast("Already in Wishlist", isError: true);
     }
   }
 
@@ -55,13 +73,18 @@ class ProductDetailsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final product = widget.product;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(product.name),
         actions: [
           IconButton(
-            icon: const Icon(Icons.favorite_border),
-            onPressed: () => addToWishlist(context),
+            icon: Icon(
+              isWishlisted ? Icons.favorite : Icons.favorite_border,
+              color: Colors.red,
+            ),
+            onPressed: toggleWishlist,
           ),
         ],
       ),
@@ -71,37 +94,40 @@ class ProductDetailsView extends StatelessWidget {
           children: [
             CachedNetworkImage(
               imageUrl: product.image,
-              height: 250,
+              height: 250.h,
               fit: BoxFit.cover,
               placeholder:
                   (context, url) =>
                       const Center(child: CircularProgressIndicator()),
               errorWidget: (context, url, error) => const Icon(Icons.error),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: EdgeInsets.all(16.r),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     product.name,
-                    style: const TextStyle(
-                      fontSize: 22,
+                    style: TextStyle(
+                      fontSize: 22.sp,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                   Text(
                     '${product.price.toStringAsFixed(2)} EGP',
-                    style: const TextStyle(fontSize: 18, color: Colors.grey),
+                    style: TextStyle(fontSize: 18.sp, color: Colors.grey),
                   ),
-                  const SizedBox(height: 16),
-                  const Text(
+                  SizedBox(height: 16.h),
+                  Text(
                     'Description:',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                    style: TextStyle(
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                   const Text(
                     'This is a high quality product perfect for your home or office.',
                   ),
@@ -112,11 +138,10 @@ class ProductDetailsView extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(16.0),
-
+        padding: EdgeInsets.all(16.r),
         child: PrimaryButton(
           title: 'Add to Cart',
-          onPressed: () => addToCart(context as Product),
+          onPressed: () => addToCart(product),
         ),
       ),
     );

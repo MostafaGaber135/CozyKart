@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:furni_iti/core/utils/app_colors.dart';
 import 'package:furni_iti/core/widgets/primary_button.dart';
 import 'package:furni_iti/features/blog/domain/entities/post.dart';
@@ -12,20 +13,20 @@ class PostCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.all(10),
+      margin: EdgeInsets.all(10.r),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       elevation: 4,
       child: Padding(
-        padding: const EdgeInsets.all(12),
+        padding: EdgeInsets.all(12.r),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
               child: CachedNetworkImage(
                 imageUrl: post.image,
-                height: 150,
-                width: double.infinity,
+                height: 150.h,
+                width: (double.infinity).w,
                 fit: BoxFit.cover,
                 progressIndicatorBuilder:
                     (context, url, downloadProgress) => Center(
@@ -35,10 +36,10 @@ class PostCard extends StatelessWidget {
                       ),
                     ),
                 errorWidget:
-                    (context, url, error) => const Icon(Icons.error, size: 80),
+                    (context, url, error) => Icon(Icons.error, size: 80.sp),
               ),
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: 12.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -46,9 +47,9 @@ class PostCard extends StatelessWidget {
                   child: Text(
                     post.title['en'] ?? '',
                     textAlign: TextAlign.start,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 16,
+                      fontSize: 16.sp,
                     ),
                   ),
                 ),
@@ -56,20 +57,20 @@ class PostCard extends StatelessWidget {
                 Expanded(
                   child: Text(
                     post.title['ar'] ?? '',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 16,
+                      fontSize: 16.sp,
                     ),
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 6),
+            SizedBox(height: 6.h),
             Text(
               "by ${post.author}",
               style: Theme.of(context).textTheme.bodySmall,
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: 8.h),
             Row(
               children: [
                 Expanded(
@@ -82,14 +83,14 @@ class PostCard extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    const Icon(Icons.favorite_border, size: 18),
-                    const SizedBox(width: 4),
+                    Icon(Icons.favorite_border, size: 18.sp),
+                    SizedBox(width: 4.w),
                     Text(post.likes.toString()),
                   ],
                 ),
               ],
             ),
-            const SizedBox(height: 15),
+            SizedBox(height: 15.h),
             Center(
               child: SizedBox(
                 width: double.infinity,

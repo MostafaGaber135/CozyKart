@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:furni_iti/core/utils/app_colors.dart';
 import 'package:furni_iti/core/utils/app_text_styles.dart';
 import 'package:furni_iti/features/settings/domain/settings_provider.dart';
@@ -40,12 +41,12 @@ class CustomInputField extends StatelessWidget {
         ),
         filled: true,
         enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(width: 1, color: Color(0xFFe5e6e9)),
-          borderRadius: BorderRadius.circular(15),
+          borderSide: BorderSide(width: 1.w, color: Color(0xFFe5e6e9)),
+          borderRadius: BorderRadius.circular(15.r),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(width: 1, color: Color(0xFFe5e6e9)),
-          borderRadius: BorderRadius.circular(15),
+          borderSide: BorderSide(width: 1.w, color: Color(0xFFe5e6e9)),
+          borderRadius: BorderRadius.circular(15.r),
         ),
       ),
       style: TextStyle(

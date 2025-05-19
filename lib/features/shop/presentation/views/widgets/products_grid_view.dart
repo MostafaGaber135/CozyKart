@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:furni_iti/core/services/shared_prefs_helper.dart';
+import 'package:furni_iti/core/utils/app_colors.dart';
 import 'package:furni_iti/core/utils/toast_helper.dart';
 import 'package:furni_iti/core/widgets/primary_button.dart';
 import 'package:furni_iti/features/shop/data/models/product_model.dart';
@@ -47,11 +49,11 @@ class _ProductsGridViewState extends State<ProductsGridView> {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      padding: const EdgeInsets.all(16),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      padding: EdgeInsets.all(16.r),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        crossAxisSpacing: 16,
-        mainAxisSpacing: 16,
+        crossAxisSpacing: 16.w,
+        mainAxisSpacing: 16.h,
         childAspectRatio: 0.68,
       ),
       itemCount: widget.products.length,
@@ -69,15 +71,15 @@ class _ProductsGridViewState extends State<ProductsGridView> {
             );
           },
           child: Container(
-            padding: const EdgeInsets.only(bottom: 10),
+            padding: EdgeInsets.only(bottom: 10.h),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
                   color: Colors.grey.withValues(alpha: 0.1),
-                  blurRadius: 8,
-                  offset: const Offset(0, 4),
+                  blurRadius: 8.r,
+                  offset: Offset(0.w, 4.h),
                 ),
               ],
               border: Border.all(color: Colors.grey.shade200),
@@ -88,25 +90,27 @@ class _ProductsGridViewState extends State<ProductsGridView> {
                 Stack(
                   children: [
                     ClipRRect(
-                      borderRadius: const BorderRadius.vertical(
-                        top: Radius.circular(16),
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(16.r),
                       ),
                       child: CachedNetworkImage(
                         imageUrl: product.image,
                         fit: BoxFit.cover,
-                        height: 140,
-                        width: double.infinity,
+                        height: 100.h,
+                        width: (double.infinity).w,
                         placeholder:
-                            (context, url) => const Center(
-                              child: CircularProgressIndicator(strokeWidth: 2),
+                            (context, url) => Center(
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2.w,
+                              ),
                             ),
                         errorWidget:
                             (context, url, error) => const Icon(Icons.error),
                       ),
                     ),
                     Positioned(
-                      top: 10,
-                      right: 10,
+                      top: 10.h,
+                      right: 10.w,
                       child: Container(
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
@@ -114,8 +118,8 @@ class _ProductsGridViewState extends State<ProductsGridView> {
                           boxShadow: [
                             BoxShadow(
                               color: Colors.black.withValues(alpha: 0.1),
-                              blurRadius: 4,
-                              offset: const Offset(0, 2),
+                              blurRadius: 4.r,
+                              offset: Offset(0.w, 2.h),
                             ),
                           ],
                         ),
@@ -125,7 +129,7 @@ class _ProductsGridViewState extends State<ProductsGridView> {
                                 ? Icons.favorite
                                 : Icons.favorite_border,
                             color: Colors.red,
-                            size: 22,
+                            size: 22.sp,
                           ),
                           onPressed: () async {
                             await WishlistService.addToWishlist(product);
@@ -138,30 +142,31 @@ class _ProductsGridViewState extends State<ProductsGridView> {
                   ],
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 6,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 10.w,
+                    vertical: 3.h,
                   ),
                   child: Text(
                     product.name,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 15,
+                      color: AppColors.primaryAccent,
+                      fontSize: 15.sp,
                     ),
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  padding: EdgeInsets.symmetric(horizontal: 10.w),
                   child: Text(
                     '${product.price.toStringAsFixed(2)} EGP',
-                    style: const TextStyle(color: Colors.grey),
+                    style: const TextStyle(color: AppColors.darkBackground),
                   ),
                 ),
                 const Spacer(),
                 Padding(
-                  padding: const EdgeInsets.only(left: 10),
+                  padding: EdgeInsets.only(top: 4.h, left: 10.w),
                   child: PrimaryButton(
                     title: 'Add To Cart',
                     onPressed: () => addToCart(product),

@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:furni_iti/core/services/shared_prefs_helper.dart';
 import 'package:furni_iti/core/utils/app_colors.dart';
@@ -99,10 +100,10 @@ class _LoginViewBodyState extends State<LoginViewBody> {
           child: SingleChildScrollView(
             reverse: true,
             padding: EdgeInsets.only(
-              left: 24,
-              right: 24,
-              top: 44,
-              bottom: MediaQuery.of(context).viewInsets.bottom + 24,
+              left: 24.w,
+              right: 24.w,
+              top: 44.h,
+              bottom: (MediaQuery.of(context).viewInsets.bottom + 24).h,
             ),
             child: Form(
               key: _formKey,
@@ -111,23 +112,23 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                 children: [
                   Icon(
                     Icons.lock_outline,
-                    size: 80,
+                    size: 80.sp,
                     color: AppColors.primaryAccent,
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 16.h),
                   Text(
                     'Login',
                     style: AppTextStyles.bold28.copyWith(
                       color: AppColors.primaryAccent,
                     ),
                   ),
-                  const SizedBox(height: 32),
+                  SizedBox(height: 32.h),
                   CustomInputField(
                     controller: emailController,
                     hintText: 'Email address',
                     textInputType: TextInputType.emailAddress,
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 16.h),
                   CustomInputField(
                     controller: passwordController,
                     hintText: 'Password',
@@ -143,7 +144,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                       onPressed: _togglePasswordVisibility,
                     ),
                   ),
-                  const SizedBox(height: 12),
+                  SizedBox(height: 12.h),
                   Align(
                     alignment: Alignment.centerRight,
                     child: GestureDetector(
@@ -164,12 +165,12 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 32),
+                  SizedBox(height: 32.h),
                   CustomTextButton(
                     onPressed: () => _submitLogin(context),
                     text: 'LOG IN',
                   ),
-                  const SizedBox(height: 32),
+                  SizedBox(height: 32.h),
                   const DontHaveAnAccountWidget(),
                 ],
               ),

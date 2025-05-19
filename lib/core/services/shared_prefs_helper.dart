@@ -120,7 +120,7 @@ class SharedPrefsHelper {
 static Future<void> setUser(UserModel user) async {
   final jsonString = jsonEncode(user.toJson());
   await _instance.setString(_userKey, jsonString);
-  log("✅ Saved user: $jsonString");
+  log("Saved user: $jsonString");
 }
 
 static Future<UserModel?> getUser() async {

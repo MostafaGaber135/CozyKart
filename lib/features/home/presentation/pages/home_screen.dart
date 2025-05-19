@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:furni_iti/features/shop/presentation/cubit/product_cubit.dart';
 import 'package:furni_iti/features/shop/presentation/cubit/product_state.dart';
 
@@ -24,14 +25,14 @@ class HomeScreen extends StatelessWidget {
         children: [
           CarouselSlider(
             options: CarouselOptions(
-              height: 180.0,
+              height: 180.h,
               autoPlay: true,
               enlargeCenterPage: true,
             ),
             items:
                 bannerImages.map((url) {
                   return ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                     child: Image.asset(
                       url,
                       fit: BoxFit.cover,
@@ -40,17 +41,17 @@ class HomeScreen extends StatelessWidget {
                   );
                 }).toList(),
           ),
-          const SizedBox(height: 24),
-          const Text(
+          SizedBox(height: 24.h),
+          Text(
             "Best Price",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: 24.h),
           BlocBuilder<ProductCubit, ProductState>(
             builder: (context, state) {
               if (state is ProductLoading) {
                 return SizedBox(
-                  height: 400,
+                  height: 400.h,
                   child: const Center(child: CircularProgressIndicator()),
                 );
               } else if (state is BestPriceProductsLoaded) {
@@ -59,10 +60,10 @@ class HomeScreen extends StatelessWidget {
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: bestProducts.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    crossAxisSpacing: 12,
-                    mainAxisSpacing: 12,
+                    crossAxisSpacing: 12.w,
+                    mainAxisSpacing: 12.h,
                     childAspectRatio: 3 / 4,
                   ),
                   itemBuilder: (context, index) {
@@ -72,25 +73,22 @@ class HomeScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         ClipRRect(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(12.r),
                           child: Image.network(
                             product.image,
-                            height: 120,
+                            height: 120.h,
                             width: double.infinity,
                             fit: BoxFit.cover,
                           ),
                         ),
-                        const SizedBox(height: 6),
+                        SizedBox(height: 6.h),
                         Text(
                           product.name,
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                         Text(
                           "EGP ${product.price}",
-                          style: const TextStyle(
-                            color: Colors.grey,
-                            fontSize: 12,
-                          ),
+                          style: TextStyle(color: Colors.grey, fontSize: 12.sp),
                         ),
                       ],
                     );
@@ -99,7 +97,7 @@ class HomeScreen extends StatelessWidget {
               } else if (state is ProductError) {
                 return Text("Error: ${state.message}");
               } else {
-                return const SizedBox.shrink();
+                return const SizedBox();
               }
             },
           ),

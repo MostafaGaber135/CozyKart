@@ -26,7 +26,7 @@ class _PaypalWebViewState extends State<PaypalWebView> {
                 if (url.contains("sandbox.paypal.com/checkoutnow")) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                      content: Text("🔐 Opened PayPal Sandbox Checkout"),
+                      content: Text("Opened PayPal Sandbox Checkout"),
                       duration: Duration(seconds: 2),
                     ),
                   );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:furni_iti/core/utils/app_colors.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -25,33 +26,33 @@ class CartItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 16),
-      padding: const EdgeInsets.all(8),
+      margin: EdgeInsets.only(bottom: 16.h),
+      padding: EdgeInsets.all(8.r),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(12.r),
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withValues(alpha: 0.1),
-            blurRadius: 6,
-            offset: const Offset(0, 3),
+            blurRadius: 6.r,
+            offset: Offset(0.w, 3.h),
           ),
         ],
       ),
       child: Row(
         children: [
           ClipRRect(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(8.r),
             child: CachedNetworkImage(
               imageUrl: imageUrl,
-              height: 60,
-              width: 60,
+              height: 60.h,
+              width: 60.w,
               fit: BoxFit.cover,
               placeholder: (context, url) => const CircularProgressIndicator(),
               errorWidget: (context, url, error) => const Icon(Icons.error),
             ),
           ),
-          const SizedBox(width: 12),
+          SizedBox(width: 12.w),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,7 +64,7 @@ class CartItemWidget extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 4),
+                SizedBox(height: 4.h),
                 Text(subtitle, style: TextStyle(color: AppColors.hintGrey)),
               ],
             ),
@@ -76,7 +77,7 @@ class CartItemWidget extends StatelessWidget {
               ),
               Text(
                 '$quantity',
-                style: const TextStyle(color: Colors.black, fontSize: 16),
+                style: TextStyle(color: Colors.black, fontSize: 16.sp),
               ),
               IconButton(
                 onPressed: onIncrement,

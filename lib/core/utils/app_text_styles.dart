@@ -1,98 +1,99 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 abstract class AppTextStyles {
   static const String _fontFamily = 'Poppins';
 
   // Extra Small
-  static const TextStyle regular11 = TextStyle(
+  static TextStyle regular11 = TextStyle(
     fontFamily: _fontFamily,
-    fontSize: 11,
+    fontSize: 11.sp,
     fontWeight: FontWeight.normal,
   );
-  static const TextStyle semiBold11 = TextStyle(
+  static TextStyle semiBold11 = TextStyle(
     fontFamily: _fontFamily,
-    fontSize: 11,
+    fontSize: 11.sp,
     fontWeight: FontWeight.w600,
   );
 
   // Small
-  static const TextStyle regular13 = TextStyle(
+  static TextStyle regular13 = TextStyle(
     fontFamily: _fontFamily,
-    fontSize: 13,
+    fontSize: 13.sp,
     fontWeight: FontWeight.normal,
   );
-  static const TextStyle semiBold13 = TextStyle(
+  static TextStyle semiBold13 = TextStyle(
     fontFamily: _fontFamily,
-    fontSize: 13,
+    fontSize: 13.sp,
     fontWeight: FontWeight.w600,
   );
-  static const TextStyle bold13 = TextStyle(
+  static TextStyle bold13 = TextStyle(
     fontFamily: _fontFamily,
-    fontSize: 13,
+    fontSize: 13.sp,
     fontWeight: FontWeight.bold,
   );
 
   // Medium
-  static const TextStyle regular15 = TextStyle(
+  static TextStyle regular15 = TextStyle(
     fontFamily: _fontFamily,
-    fontSize: 15,
+    fontSize: 15.sp,
     fontWeight: FontWeight.normal,
   );
-  static const TextStyle medium15 = TextStyle(
+  static TextStyle medium15 = TextStyle(
     fontFamily: _fontFamily,
-    fontSize: 15,
+    fontSize: 15.sp,
     fontWeight: FontWeight.w500,
   );
 
-  static const TextStyle regular16 = TextStyle(
+  static TextStyle regular16 = TextStyle(
     fontFamily: _fontFamily,
-    fontSize: 16,
+    fontSize: 16.sp,
     fontWeight: FontWeight.normal,
   );
-  static const TextStyle semiBold16 = TextStyle(
+  static TextStyle semiBold16 = TextStyle(
     fontFamily: _fontFamily,
-    fontSize: 16,
+    fontSize: 16.sp,
     fontWeight: FontWeight.w600,
   );
-  static const TextStyle bold16 = TextStyle(
+  static TextStyle bold16 = TextStyle(
     fontFamily: _fontFamily,
-    fontSize: 16,
+    fontSize: 16.sp,
     fontWeight: FontWeight.bold,
   );
 
   // Large
-  static const TextStyle bold19 = TextStyle(
+  static TextStyle bold19 = TextStyle(
     fontFamily: _fontFamily,
-    fontSize: 19,
+    fontSize: 19.sp,
     fontWeight: FontWeight.bold,
   );
 
-  static const TextStyle regular22 = TextStyle(
+  static TextStyle regular22 = TextStyle(
     fontFamily: _fontFamily,
-    fontSize: 22,
+    fontSize: 22.sp,
     fontWeight: FontWeight.normal,
   );
 
-  static const TextStyle regular26 = TextStyle(
+  static TextStyle regular26 = TextStyle(
     fontFamily: _fontFamily,
-    fontSize: 26,
+    fontSize: 26.sp,
     fontWeight: FontWeight.normal,
   );
 
-  static const TextStyle bold23 = TextStyle(
+  static TextStyle bold23 = TextStyle(
     fontFamily: _fontFamily,
-    fontSize: 23,
+    fontSize: 23.sp,
     fontWeight: FontWeight.bold,
   );
 
-  static const TextStyle bold28 = TextStyle(
+  static TextStyle bold28 = TextStyle(
     fontFamily: _fontFamily,
-    fontSize: 28,
+    fontSize: 28.sp,
     fontWeight: FontWeight.bold,
   );
-  static const TextStyle bold32 = TextStyle(
+  static TextStyle bold32 = TextStyle(
     fontFamily: _fontFamily,
-    fontSize: 32,
+    fontSize: 32.sp,
     fontWeight: FontWeight.bold,
   );
 }

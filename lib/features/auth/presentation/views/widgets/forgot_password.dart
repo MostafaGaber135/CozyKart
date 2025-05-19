@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:furni_iti/core/utils/app_colors.dart';
 import 'package:furni_iti/core/utils/app_text_styles.dart';
 import 'package:furni_iti/core/widgets/custom_input_field.dart';
@@ -30,17 +31,17 @@ class ForgotPassword extends StatelessWidget {
               children: [
                 Icon(
                   Icons.password_outlined,
-                  size: 80,
+                  size: 80.sp,
                   color: AppColors.primaryAccent,
                 ),
-                const SizedBox(height: 42),
+                SizedBox(height: 42.h),
                 Text(
                   'Forgot Password',
                   style: AppTextStyles.bold28.copyWith(
                     color: AppColors.primaryAccent,
                   ),
                 ),
-                const SizedBox(height: 42),
+                SizedBox(height: 42.h),
                 Text(
                   textAlign: TextAlign.center,
                   'Enter your email address to reset your password',
@@ -48,14 +49,14 @@ class ForgotPassword extends StatelessWidget {
                     color: AppColors.secondaryText,
                   ),
                 ),
-                const SizedBox(height: 42),
+                SizedBox(height: 42.h),
 
                 CustomInputField(
                   controller: emailController,
                   hintText: 'Email address',
                   textInputType: TextInputType.emailAddress,
                 ),
-                const SizedBox(height: 42),
+                SizedBox(height: 42.h),
                 PrimaryButton(title: 'RESET PASSWORD', onPressed: () {}),
               ],
             ),

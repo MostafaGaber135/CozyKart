@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:furni_iti/core/utils/app_colors.dart';
 import 'package:furni_iti/features/blog/domain/entities/post.dart';
 
@@ -16,8 +17,8 @@ class PostDetailsViewBody extends StatelessWidget {
         children: [
           CachedNetworkImage(
             imageUrl: post.image,
-            height: 200,
-            width: double.infinity,
+            height: 200.h,
+            width: (double.infinity).w,
             fit: BoxFit.cover,
             progressIndicatorBuilder:
                 (context, url, downloadProgress) => Center(
@@ -27,41 +28,41 @@ class PostDetailsViewBody extends StatelessWidget {
                   ),
                 ),
             errorWidget:
-                (context, url, error) => const Icon(Icons.error, size: 80),
+                (context, url, error) => Icon(Icons.error, size: 80.sp),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
           Text(
             post.title['en'] ?? '',
-            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.bold),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
           Text(
             post.title['ar'] ?? '',
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
           Text(
             "by ${post.author}",
             style: Theme.of(context).textTheme.bodySmall,
           ),
-          const SizedBox(height: 16),
-          Divider(color: AppColors.hintGrey, thickness: 1),
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
+          Divider(color: AppColors.hintGrey, thickness: 1.h),
+          SizedBox(height: 16.h),
 
           Text(
             post.description['en'] ?? '',
             style: Theme.of(context).textTheme.bodyMedium,
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
           Text(
             post.description['ar'] ?? '',
             style: Theme.of(context).textTheme.bodyMedium,
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
           Row(
             children: [
               const Icon(Icons.favorite, color: Colors.red),
-              const SizedBox(width: 4),
+              SizedBox(width: 4.w),
               Text(post.likes.toString()),
             ],
           ),

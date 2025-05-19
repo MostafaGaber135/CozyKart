@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:furni_iti/core/utils/app_colors.dart';
 
 class ProfileActionCard extends StatelessWidget {
@@ -17,36 +18,37 @@ class ProfileActionCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 325,
-        height: 60,
+        width: 325.w,
+        height: 60.h,
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(13),
+          borderRadius: BorderRadius.circular(13.r),
         ),
         child: Row(
           children: [
-            const SizedBox(width: 10),
+            SizedBox(width: 10.w),
             Container(
-              width: 40,
-              height: 40,
+              width: 40.w,
+              height: 40.h,
               decoration: BoxDecoration(
                 color: AppColors.primaryAccent,
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
               ),
-              child: Icon(icon, color: Colors.white, size: 22),
+              child: Icon(icon, color: Colors.white, size: 22.sp),
             ),
-            const SizedBox(width: 16),
+            SizedBox(width: 16.w),
             Expanded(
               child: Text(
                 title,
-                style: const TextStyle(
-                  fontSize: 14,
+                style: TextStyle(
+                  fontSize: 14.sp,
                   fontWeight: FontWeight.w500,
+                  color: AppColors.primaryAccent,
                 ),
               ),
             ),
             const Icon(Icons.arrow_forward_ios, color: AppColors.primaryAccent),
-            const SizedBox(width: 10),
+            SizedBox(width: 10.w),
           ],
         ),
       ),

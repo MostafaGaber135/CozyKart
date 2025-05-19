@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:furni_iti/features/shop/data/models/product_model.dart';
 import 'package:furni_iti/features/shop/presentation/cubit/product_cubit.dart';
 import 'package:furni_iti/features/shop/presentation/cubit/product_state.dart';
@@ -44,9 +45,8 @@ class _ShopProductsViewBodyState extends State<ShopProductsViewBody> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // Search Bar
         Padding(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           child: TextField(
             controller: searchController,
             decoration: InputDecoration(
@@ -55,14 +55,13 @@ class _ShopProductsViewBodyState extends State<ShopProductsViewBody> {
               filled: true,
               fillColor: Colors.white,
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
                 borderSide: BorderSide.none,
               ),
             ),
           ),
         ),
 
-        // Product Grid
         Expanded(
           child: BlocBuilder<ProductCubit, ProductState>(
             builder: (context, state) {

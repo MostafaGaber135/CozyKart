@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:furni_iti/core/utils/app_colors.dart';
 
 class PrivacyPage extends StatelessWidget {
@@ -21,20 +22,20 @@ class PrivacyPage extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(16.r),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
+          children: [
             Text(
               'Privacy Policy',
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 22.sp, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 12),
+            SizedBox(height: 12.h),
             Text(
               'This is the privacy policy of the app. Your personal data will be safe and secure. '
               'We never share your information with any third parties without your consent. '
               'By using our app, you agree to our terms and privacy rules.',
-              style: TextStyle(fontSize: 14, height: 1.5),
+              style: TextStyle(fontSize: 14.sp, height: 1.5.h),
             ),
           ],
         ),

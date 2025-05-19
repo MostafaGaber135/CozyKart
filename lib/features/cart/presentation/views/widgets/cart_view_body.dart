@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:furni_iti/core/services/shared_prefs_helper.dart';
 import 'package:furni_iti/core/utils/toast_helper.dart';
 import 'package:furni_iti/core/widgets/primary_button.dart';
@@ -118,16 +119,16 @@ class _CartViewBodyState extends State<CartViewBody> with RouteAware {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 32),
+              padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 32.h),
               child: Column(
                 children: [
                   Text(
                     "Total: EGP ${cartItems.fold<double>(0, (sum, item) => sum + (item.price * item.quantity)).toStringAsFixed(2)}",
-                    style: const TextStyle(fontSize: 18),
+                    style: TextStyle(fontSize: 18.sp),
                   ),
-                  const SizedBox(height: 12),
+                  SizedBox(height: 12.h),
                   SizedBox(
-                    width: double.infinity,
+                    width: (double.infinity).w,
                     child: PrimaryButton(
                       onPressed: startPayPalCheckout,
                       title: "Checkout with PayPal",

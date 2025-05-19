@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
 
@@ -8,6 +9,6 @@ void showToast(String message, {bool isError = false}) {
     gravity: ToastGravity.BOTTOM,
     backgroundColor: isError ? Colors.red : Colors.green,
     textColor: Colors.white,
-    fontSize: 14,
+    fontSize: 14.sp,
   );
 }

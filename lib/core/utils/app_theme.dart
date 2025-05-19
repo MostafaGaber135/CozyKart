@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:furni_iti/core/utils/app_colors.dart';
 
 class AppTheme {
@@ -7,7 +8,7 @@ class AppTheme {
     primaryColor: AppColors.primaryAccent,
     brightness: Brightness.light,
     fontFamily: 'Poppins',
-    appBarTheme: const AppBarTheme(
+    appBarTheme: AppBarTheme(
       centerTitle: true,
       surfaceTintColor: Colors.transparent,
       elevation: 0,
@@ -15,7 +16,7 @@ class AppTheme {
       iconTheme: IconThemeData(color: AppColors.primaryAccent),
       titleTextStyle: TextStyle(
         color: AppColors.primaryAccent,
-        fontSize: 20,
+        fontSize: 20.sp,
         fontWeight: FontWeight.w600,
       ),
     ),
@@ -44,7 +45,7 @@ class AppTheme {
     primaryColor: AppColors.primaryAccent,
     brightness: Brightness.dark,
     fontFamily: 'Poppins',
-    appBarTheme: const AppBarTheme(
+    appBarTheme: AppBarTheme(
       centerTitle: true,
       elevation: 0,
       surfaceTintColor: Colors.transparent,
@@ -52,7 +53,7 @@ class AppTheme {
       iconTheme: IconThemeData(color: AppColors.darkText),
       titleTextStyle: TextStyle(
         color: AppColors.darkText,
-        fontSize: 20,
+        fontSize: 20.sp,
         fontWeight: FontWeight.w600,
       ),
     ),

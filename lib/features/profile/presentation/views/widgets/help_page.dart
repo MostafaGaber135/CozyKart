@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:furni_iti/core/utils/app_colors.dart';
 
 class HelpPage extends StatelessWidget {
@@ -21,19 +22,19 @@ class HelpPage extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(16.r),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
+          children: [
             Text(
               'Help & Support',
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 22.sp, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 12),
+            SizedBox(height: 12.h),
             Text(
               'If you have any questions or issues, feel free to contact our support team. '
               'We are available 24/7 to assist you with any problems related to the app usage.',
-              style: TextStyle(fontSize: 14, height: 1.5),
+              style: TextStyle(fontSize: 14.sp, height: 1.5.h),
             ),
           ],
         ),

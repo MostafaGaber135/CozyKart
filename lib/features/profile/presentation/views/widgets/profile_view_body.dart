@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:furni_iti/core/services/shared_prefs_helper.dart';
 import 'package:furni_iti/core/utils/app_colors.dart';
 import 'package:furni_iti/core/widgets/primary_button.dart';
@@ -23,7 +24,7 @@ class _ProfileViewBodyState extends State<ProfileViewBody> {
   @override
   void initState() {
     super.initState();
-    context.read<ProfileCubit>().loadUser(); // تحميل البيانات عند فتح الصفحة
+    context.read<ProfileCubit>().loadUser();
   }
 
   @override
@@ -46,29 +47,29 @@ class _ProfileViewBodyState extends State<ProfileViewBody> {
             }
 
             return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   CircleAvatar(
-                    radius: 38,
+                    radius: 38.r,
                     backgroundColor: AppColors.primaryAccent,
                     backgroundImage: NetworkImage(user.image ?? ''),
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                   Text(
                     user.nameEn,
-                    style: const TextStyle(
-                      fontSize: 18,
+                    style: TextStyle(
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  SizedBox(height: 4.h),
                   Text(
                     user.email,
-                    style: const TextStyle(fontSize: 16, color: Colors.grey),
+                    style: TextStyle(fontSize: 16.sp, color: Colors.grey),
                   ),
-                  const SizedBox(height: 32),
+                  SizedBox(height: 32.h),
                   Expanded(
                     child: Column(
                       children: [
@@ -88,7 +89,7 @@ class _ProfileViewBodyState extends State<ProfileViewBody> {
                           icon: Icons.edit,
                           title: 'Edit Profile',
                         ),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 16.h),
                         ProfileActionCard(
                           onTap: () {
                             Navigator.push(
@@ -101,7 +102,7 @@ class _ProfileViewBodyState extends State<ProfileViewBody> {
                           icon: Icons.security,
                           title: 'Privacy',
                         ),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 16.h),
                         ProfileActionCard(
                           onTap: () {
                             Navigator.push(

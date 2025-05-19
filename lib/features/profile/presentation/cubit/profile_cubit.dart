@@ -56,20 +56,14 @@ class ProfileCubit extends Cubit<ProfileState> {
         emit(ProfileError("User not found"));
         return;
       }
-
       final userId = user.id;
-
-      // تأكد أن userName بيتبعت كـ JSON String
       final Map<String, dynamic> updatedData = {
         "userName": jsonEncode({"en": nameEn, "ar": nameAr}),
       };
-
       if (password != null && password.isNotEmpty) {
         updatedData["password"] = password;
       }
-
       Response response;
-
       if (imageFile != null) {
         final formData = FormData.fromMap({
           ...updatedData,
@@ -98,7 +92,7 @@ class ProfileCubit extends Cubit<ProfileState> {
         emit(ProfileError("Server error: ${response.statusCode}"));
       }
     } catch (e) {
-      log("❌ Exception: $e");
+      log("Exception: $e");
       emit(ProfileError("Exception: ${e.toString()}"));
     }
   }

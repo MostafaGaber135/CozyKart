@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:furni_iti/core/utils/app_colors.dart';
 import 'package:furni_iti/core/widgets/main_scaffold.dart';
 import 'package:furni_iti/features/settings/domain/settings_provider.dart';
@@ -12,7 +13,7 @@ class SettingsViewBody extends StatelessWidget {
     SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
     return MainScaffold(
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        padding:  EdgeInsets.symmetric(horizontal: 20.w),
         child: Column(
           children: [
             Row(

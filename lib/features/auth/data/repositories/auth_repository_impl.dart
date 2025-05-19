@@ -23,7 +23,7 @@ Future<Either<String, UserModel>> login(String email, String password) async {
 
     if (response.statusCode == 200 && token != null) {
       final decodedToken = JwtDecoder.decode(token);
-      log('🔥 Decoded Token: ${decodedToken["data"]}');
+      log('Decoded Token: ${decodedToken["data"]}');
 
       final userId = decodedToken["data"]["id"];
       final userName = decodedToken["data"]["userName"]?["en"] ?? "";

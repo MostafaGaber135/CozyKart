@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:furni_iti/core/utils/app_colors.dart';
 import 'package:furni_iti/core/widgets/custom_input_field.dart';
@@ -101,14 +102,14 @@ class _EditProfileViewState extends State<EditProfileView> {
                       : null);
 
           return Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: EdgeInsets.all(16.r),
             child: SingleChildScrollView(
               child: Column(
                 children: [
                   GestureDetector(
                     onTap: _pickImage,
                     child: CircleAvatar(
-                      radius: 40,
+                      radius: 40.r,
                       backgroundColor: AppColors.primaryAccent,
                       backgroundImage: avatar as ImageProvider?,
                       child:
@@ -120,19 +121,19 @@ class _EditProfileViewState extends State<EditProfileView> {
                               : null,
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 16.h),
                   CustomInputField(
                     controller: nameEnController,
                     hintText: 'Name (EN)',
                     textInputType: TextInputType.name,
                   ),
-                  const SizedBox(height: 10),
+                  SizedBox(height: 10.h),
                   CustomInputField(
                     controller: nameArController,
                     hintText: 'Name (AR)',
                     textInputType: TextInputType.name,
                   ),
-                  const SizedBox(height: 10),
+                  SizedBox(height: 10.h),
                   CustomInputField(
                     controller: passwordController,
                     hintText: 'New Password (optional)',
@@ -147,18 +148,18 @@ class _EditProfileViewState extends State<EditProfileView> {
                     ),
                     textInputType: TextInputType.visiblePassword,
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: 20.h),
                   SizedBox(
-                    width: double.infinity,
-                    height: 48,
+                    width: (double.infinity).w,
+                    height: 48.h,
                     child: ElevatedButton(
                       onPressed: _save,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.primaryAccent,
                       ),
-                      child: const Text(
+                      child: Text(
                         "Save",
-                        style: TextStyle(color: Colors.white, fontSize: 16),
+                        style: TextStyle(color: Colors.white, fontSize: 16.sp),
                       ),
                     ),
                   ),

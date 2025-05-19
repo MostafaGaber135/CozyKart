@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:furni_iti/core/widgets/custom_text_button.dart';
 import 'package:furni_iti/core/widgets/custom_input_field.dart';
@@ -40,7 +41,7 @@ class _SignupViewBodyState extends State<SignupViewBody> {
       gravity: ToastGravity.BOTTOM,
       backgroundColor: success ? Colors.green : Colors.red,
       textColor: Colors.white,
-      fontSize: 16.0,
+      fontSize: 16.sp,
     );
   }
 
@@ -74,37 +75,37 @@ class _SignupViewBodyState extends State<SignupViewBody> {
           child: SingleChildScrollView(
             reverse: true,
             padding: EdgeInsets.only(
-              left: 24,
-              right: 24,
-              bottom: MediaQuery.of(context).viewInsets.bottom + 24,
+              left: 24.w,
+              right: 24.w,
+              bottom: (MediaQuery.of(context).viewInsets.bottom + 24).h,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Image.asset(
                   'assets/images/person.png',
-                  height: 180,
-                  width: 180,
+                  height: 180.h,
+                  width: 180.w,
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
                 CustomInputField(
                   controller: englishNameController,
                   hintText: 'Full Name',
                   textInputType: TextInputType.name,
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
                 CustomInputField(
                   controller: arabicNameController,
                   hintText: 'الاسم الكامل (عربي)',
                   textInputType: TextInputType.name,
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
                 CustomInputField(
                   controller: emailController,
                   hintText: 'Email',
                   textInputType: TextInputType.emailAddress,
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
                 CustomInputField(
                   controller: passwordController,
                   hintText: 'Password',
@@ -120,7 +121,7 @@ class _SignupViewBodyState extends State<SignupViewBody> {
                     onPressed: _togglePasswordVisibility,
                   ),
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
                 CustomInputField(
                   controller: confirmPasswordController,
                   hintText: 'Confirm Password',
@@ -136,7 +137,7 @@ class _SignupViewBodyState extends State<SignupViewBody> {
                     onPressed: _toggleConfirmPasswordVisibility,
                   ),
                 ),
-                const SizedBox(height: 24),
+                SizedBox(height: 24.h),
                 CustomTextButton(
                   text: 'Register',
                   onPressed: () {
