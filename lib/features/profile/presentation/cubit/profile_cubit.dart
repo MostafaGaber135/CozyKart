@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:furni_iti/features/profile/presentation/cubit/profile_state.dart';
 import 'package:furni_iti/features/auth/data/models/user_model.dart';
@@ -50,31 +52,54 @@ class ProfileCubit extends Cubit<ProfileState> {
 
     try {
       final user = await SharedPrefsHelper.getUser();
-      if (user == null) throw Exception("User not logged in");
+      if (user == null) {
+        emit(ProfileError("User not found"));
+        return;
+      }
 
-      final body = {
-        "userName": {"en": nameEn, "ar": nameAr},
-        if (password != null && password.isNotEmpty) "password": password,
-        if (imageFile != null) "image": imageFile.path,
+      final userId = user.id;
+
+      // تأكد أن userName بيتبعت كـ JSON String
+      final Map<String, dynamic> updatedData = {
+        "userName": jsonEncode({"en": nameEn, "ar": nameAr}),
       };
 
-      final response = await DioHelper.putData(
-        url: "users/${user.id}",
-        data: body,
-      );
+      if (password != null && password.isNotEmpty) {
+        updatedData["password"] = password;
+      }
+
+      Response response;
+
+      if (imageFile != null) {
+        final formData = FormData.fromMap({
+          ...updatedData,
+          "image": await MultipartFile.fromFile(
+            imageFile.path,
+            filename: imageFile.path.split('/').last,
+          ),
+        });
+
+        response = await DioHelper.patchData(
+          url: 'users/$userId',
+          data: formData,
+        );
+      } else {
+        response = await DioHelper.patchData(
+          url: 'users/$userId',
+          data: updatedData,
+        );
+      }
 
       if (response.statusCode == 200) {
         final updatedUser = UserModel.fromJson(response.data['user']);
         await SharedPrefsHelper.setUser(updatedUser);
         emit(ProfileUpdated(updatedUser));
       } else {
-        log("Update failed: ${response.statusCode} - ${response.data}");
-        throw Exception(
-          "Failed to update profile: ${response.statusCode} - ${response.data}",
-        );
+        emit(ProfileError("Server error: ${response.statusCode}"));
       }
     } catch (e) {
-      emit(ProfileError(e.toString()));
+      log("❌ Exception: $e");
+      emit(ProfileError("Exception: ${e.toString()}"));
     }
   }
 }

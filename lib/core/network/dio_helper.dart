@@ -52,4 +52,12 @@ class DioHelper {
 
     return await dio.put(url, data: data, options: Options(headers: headers));
   }
+
+  static Future<Response> patchData({
+    required String url,
+    required dynamic data,
+  }) async {
+    await setTokenHeader();
+    return await dio.patch(url, data: data);
+  }
 }

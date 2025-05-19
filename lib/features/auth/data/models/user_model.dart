@@ -1,7 +1,9 @@
+import 'dart:convert';
+
 class UserModel {
   final String id;
   final String email;
-  final String? password; 
+  final String? password;
   final String role;
   final String? image;
   final bool isVerified;
@@ -87,7 +89,8 @@ class UserModel {
       ispurchased: ispurchased ?? this.ispurchased,
     );
   }
-    String get nameEn => userName.en;
+
+  String get nameEn => userName.en;
   String get nameAr => userName.ar;
 }
 
@@ -97,18 +100,20 @@ class Name {
 
   Name({required this.en, required this.ar});
 
-  factory Name.fromJson(Map<String, dynamic> json) {
-    return Name(
-      en: json['en'] ?? '',
-      ar: json['ar'] ?? '',
-    );
+  factory Name.fromJson(dynamic json) {
+    if (json is String) {
+      try {
+        json = jsonDecode(json);
+      } catch (_) {
+        json = {};
+      }
+    }
+
+    return Name(en: json['en'] ?? '', ar: json['ar'] ?? '');
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'en': en,
-      'ar': ar,
-    };
+    return {'en': en, 'ar': ar};
   }
 }
 
@@ -119,16 +124,10 @@ class Address {
   Address({required this.en, required this.ar});
 
   factory Address.fromJson(Map<String, dynamic> json) {
-    return Address(
-      en: json['en'] ?? '',
-      ar: json['ar'] ?? '',
-    );
+    return Address(en: json['en'] ?? '', ar: json['ar'] ?? '');
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'en': en,
-      'ar': ar,
-    };
+    return {'en': en, 'ar': ar};
   }
 }

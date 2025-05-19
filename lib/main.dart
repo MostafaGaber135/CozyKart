@@ -52,11 +52,11 @@ void main() async {
   Widget startWidget;
 
   if (!hasSeenOnboarding) {
-    startWidget = const MainScreen();
+    startWidget = const SplashScreen();
   } else if (token != null && !JwtDecoder.isExpired(token)) {
-    startWidget = const MainScreen();
+    startWidget = const LoginView();
   } else {
-    startWidget = MainScreen();
+    startWidget = SplashScreen();
   }
 
   runApp(FurniITI(startWidget: startWidget));

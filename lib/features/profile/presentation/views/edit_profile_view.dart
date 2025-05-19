@@ -49,9 +49,12 @@ class _EditProfileViewState extends State<EditProfileView> {
     }
 
     context.read<ProfileCubit>().updateProfile(
-      nameEn: nameEnController.text,
-      nameAr: nameArController.text,
-      password: passwordController.text,
+      nameEn: nameEnController.text.trim(),
+      nameAr: nameArController.text.trim(),
+      password:
+          passwordController.text.trim().isEmpty
+              ? null
+              : passwordController.text.trim(),
       imageFile: _image != null ? File(_image!.path) : null,
     );
   }
