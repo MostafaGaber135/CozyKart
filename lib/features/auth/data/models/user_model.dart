@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+
 class UserModel {
   final String id;
   final String email;
@@ -14,6 +15,7 @@ class UserModel {
   final Name userName;
   final List<String> wishlist;
   final List<String> ispurchased;
+  final String? phone;
 
   UserModel({
     required this.id,
@@ -29,6 +31,7 @@ class UserModel {
     required this.userName,
     this.wishlist = const [],
     this.ispurchased = const [],
+    this.phone,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -46,6 +49,7 @@ class UserModel {
       userName: Name.fromJson(json['userName'] ?? {}),
       wishlist: List<String>.from(json['wishlist'] ?? []),
       ispurchased: List<String>.from(json['ispurchased'] ?? []),
+      phone: json['phone'], 
     );
   }
 
@@ -64,6 +68,7 @@ class UserModel {
       'userName': userName.toJson(),
       'wishlist': wishlist,
       'ispurchased': ispurchased,
+      'phone': phone,
     };
   }
 
@@ -72,6 +77,7 @@ class UserModel {
     String? refreshToken,
     List<String>? wishlist,
     List<String>? ispurchased,
+    String? phone,
   }) {
     return UserModel(
       id: id,
@@ -87,6 +93,7 @@ class UserModel {
       userName: userName,
       wishlist: wishlist ?? this.wishlist,
       ispurchased: ispurchased ?? this.ispurchased,
+      phone: phone ?? this.phone,
     );
   }
 

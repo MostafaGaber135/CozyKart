@@ -7,7 +7,7 @@ class PayPalService {
       "AYSDaD8ZjfGIQ2w04v3OtLXP6VtsH2CklFd6zJGhY2zc0OdeG--3H78jGCBn_9zhyvXvS54mkurQIzmi";
   static const String secret =
       "ECnQhOKy4U5jVJM3rB9HrXfGO-Nr8kqSTq8F6P-LcxobtY7BxYEJBIzDOraYKn7e78wkNukORBJPz8Oe";
-  static const String domain = "https://sandbox.paypal.com";
+  static const String domain = "https://api.sandbox.paypal.com"; 
 
   static final Dio _dio = Dio();
 
@@ -47,9 +47,16 @@ class PayPalService {
           "intent": "CAPTURE",
           "purchase_units": [
             {
-              "amount": {"currency_code": "USD", "value": amount},
-            },
+              "amount": {
+                "currency_code": "USD",
+                "value": amount,
+              },
+            }
           ],
+          "application_context": {
+            "return_url": "https://example.com/success", 
+            "cancel_url": "https://example.com/cancel"
+          }
         },
       );
 

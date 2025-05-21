@@ -10,7 +10,6 @@ class SharedPrefsHelper {
   static Future<void> init() async {
     _instance = await SharedPreferences.getInstance();
   }
-
   static Future<void> setToken(String token) async {
     await _instance.setString('token', token);
     log("Saved token: $token");

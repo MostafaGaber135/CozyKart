@@ -37,14 +37,12 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SharedPrefsHelper.init();
   DioHelper.init();
-
   final prefs = await SharedPreferences.getInstance();
   final token = await SharedPrefsHelper.getToken();
   final hasSeenOnboarding = SharedPrefsHelper.getBool('onBoardingSeen');
   log("All Keys: ${prefs.getKeys()}");
   log("userId: ${prefs.getString("userId")}");
   Widget startWidget;
-
   if (!hasSeenOnboarding) {
     startWidget = const SplashScreen();
   } else if (token != null && !JwtDecoder.isExpired(token)) {
@@ -52,7 +50,6 @@ void main() async {
   } else {
     startWidget = SplashScreen();
   }
-
   runApp(
     ScreenUtilInit(
       designSize: const Size(360, 690),

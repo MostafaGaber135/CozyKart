@@ -6,10 +6,10 @@ import 'package:furni_iti/core/services/shared_prefs_helper.dart';
 import 'package:furni_iti/core/utils/toast_helper.dart';
 import 'package:furni_iti/core/widgets/primary_button.dart';
 import 'package:furni_iti/features/cart/presentation/views/widgets/cart_item_widget.dart';
+import 'package:furni_iti/features/payment/presentation/views/widgets/paypal_webview.dart';
 import 'package:furni_iti/features/shop/data/models/product_model.dart';
 
 import 'package:furni_iti/core/services/paypal_service.dart';
-import 'package:furni_iti/features/payment/presentation/views/widgets/paypal_webview.dart';
 
 class CartViewBody extends StatefulWidget {
   const CartViewBody({super.key});

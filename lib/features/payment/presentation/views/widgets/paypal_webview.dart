@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class PaypalWebView extends StatefulWidget {
@@ -11,6 +12,7 @@ class PaypalWebView extends StatefulWidget {
 
 class _PaypalWebViewState extends State<PaypalWebView> {
   late final WebViewController _controller;
+  bool _hasRedirected = false;
 
   @override
   void initState() {
@@ -21,23 +23,41 @@ class _PaypalWebViewState extends State<PaypalWebView> {
           ..setJavaScriptMode(JavaScriptMode.unrestricted)
           ..setNavigationDelegate(
             NavigationDelegate(
-              onPageStarted: (url) {
-                debugPrint("Navigating to: $url");
-                if (url.contains("sandbox.paypal.com/checkoutnow")) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("Opened PayPal Sandbox Checkout"),
-                      duration: Duration(seconds: 2),
-                    ),
+              onNavigationRequest: (request) {
+                final url = request.url;
+                debugPrint("➡️ Navigating to: $url");
+                if (!_hasRedirected &&
+                    (url.contains("/review") ||
+                        url.contains("/checkout/complete") ||
+                        url.contains("PayerID="))) {
+                  _hasRedirected = true;
+                  Navigator.pop(context);
+                  Fluttertoast.showToast(
+                    backgroundColor: Colors.green,
+                    msg: "Checkout completed successfully",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
                   );
+                  return NavigationDecision.prevent;
                 }
+
+                if (url.contains("cancel") ||
+                    url.contains("paypal.com/cancel")) {
+                  _hasRedirected = true;
+                  Navigator.pop(context);
+                  Fluttertoast.showToast(
+                    backgroundColor: Colors.red,
+                    msg: "Checkout cancelled",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                  );
+                  return NavigationDecision.prevent;
+                }
+
+                return NavigationDecision.navigate;
               },
-              onPageFinished: (url) {
-                debugPrint("Page loaded: $url");
-              },
-              onWebResourceError: (error) {
-                debugPrint("WebView Error: ${error.description}");
-              },
+              onWebResourceError:
+                  (error) => debugPrint("WebView error: ${error.description}"),
             ),
           );
 
@@ -50,10 +70,14 @@ class _PaypalWebViewState extends State<PaypalWebView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.black),
         backgroundColor: Colors.transparent,
         surfaceTintColor: Colors.transparent,
-        title: const Text("PayPal Checkout"),
+        title: const Text(
+          "PayPal Checkout",
+          style: TextStyle(color: Colors.black),
+        ),
+        centerTitle: true,
       ),
       body: WebViewWidget(controller: _controller),
     );
