@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:furni_iti/core/services/shared_prefs_helper.dart';
@@ -8,7 +7,6 @@ import 'package:furni_iti/core/widgets/primary_button.dart';
 import 'package:furni_iti/features/cart/presentation/views/widgets/cart_item_widget.dart';
 import 'package:furni_iti/features/payment/presentation/views/widgets/paypal_webview.dart';
 import 'package:furni_iti/features/shop/data/models/product_model.dart';
-
 import 'package:furni_iti/core/services/paypal_service.dart';
 
 class CartViewBody extends StatefulWidget {
@@ -53,7 +51,7 @@ class _CartViewBodyState extends State<CartViewBody> with RouteAware {
     if (token == null || !mounted) return;
 
     final total = cartItems.fold<double>(
-      0,
+      0.0,
       (sum, item) => sum + (item.price * item.quantity),
     );
 
@@ -66,11 +64,10 @@ class _CartViewBodyState extends State<CartViewBody> with RouteAware {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder:
-            (_) => PaypalWebView(
-              checkoutUrl:
-                  "https://www.sandbox.paypal.com/checkoutnow?token=$orderId",
-            ),
+        builder: (_) => PaypalWebView(
+          checkoutUrl:
+              "https://www.sandbox.paypal.com/checkoutnow?token=$orderId",
+        ),
       ),
     );
   }
@@ -80,64 +77,63 @@ class _CartViewBodyState extends State<CartViewBody> with RouteAware {
     return cartItems.isEmpty
         ? const Center(child: Text("Your cart is empty"))
         : Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                itemCount: cartItems.length,
-                itemBuilder: (context, index) {
-                  final item = cartItems[index];
-
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: CartItemWidget(
-                      title: item.name,
-                      subtitle: "EGP ${item.price.toStringAsFixed(2)}",
-                      imageUrl: item.image,
-                      quantity: item.quantity,
-                      onRemove: () async {
-                        await SharedPrefsHelper.removeFromCart(item.id);
-                        loadCart();
-                        showToast("Removed from cart");
-                      },
-                      onIncrement: () {
-                        setState(() {
-                          item.quantity++;
-                        });
-                        SharedPrefsHelper.saveCart(cartItems);
-                      },
-                      onDecrement: () {
-                        if (item.quantity > 1) {
+            children: [
+              Expanded(
+                child: ListView.builder(
+                  itemCount: cartItems.length,
+                  itemBuilder: (context, index) {
+                    final item = cartItems[index];
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: CartItemWidget(
+                        title: item.name,
+                        subtitle: "EGP ${item.price.toStringAsFixed(2)}",
+                        imageUrl: item.image,
+                        quantity: item.quantity,
+                        onRemove: () async {
+                          await SharedPrefsHelper.removeFromCart(item.id);
+                          loadCart();
+                          showToast("Removed from cart");
+                        },
+                        onIncrement: () {
                           setState(() {
-                            item.quantity--;
+                            item.quantity++;
                           });
                           SharedPrefsHelper.saveCart(cartItems);
-                        }
-                      },
-                    ),
-                  );
-                },
+                        },
+                        onDecrement: () {
+                          if (item.quantity > 1) {
+                            setState(() {
+                              item.quantity--;
+                            });
+                            SharedPrefsHelper.saveCart(cartItems);
+                          }
+                        },
+                      ),
+                    );
+                  },
+                ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 32.h),
-              child: Column(
-                children: [
-                  Text(
-                    "Total: EGP ${cartItems.fold<double>(0, (sum, item) => sum + (item.price * item.quantity)).toStringAsFixed(2)}",
-                    style: TextStyle(fontSize: 18.sp),
-                  ),
-                  SizedBox(height: 12.h),
-                  SizedBox(
-                    width: (double.infinity).w,
-                    child: PrimaryButton(
-                      onPressed: startPayPalCheckout,
-                      title: "Checkout with PayPal",
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 32.h),
+                child: Column(
+                  children: [
+                    Text(
+                      "Total: EGP ${cartItems.fold<double>(0.0, (sum, item) => sum + (item.price * item.quantity)).toStringAsFixed(2)}",
+                      style: TextStyle(fontSize: 18.sp),
                     ),
-                  ),
-                ],
+                    SizedBox(height: 12.h),
+                    SizedBox(
+                      width: double.infinity.w,
+                      child: PrimaryButton(
+                        onPressed: startPayPalCheckout,
+                        title: "Checkout with PayPal",
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
-        );
+            ],
+          );
   }
 }

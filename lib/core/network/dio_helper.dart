@@ -8,7 +8,7 @@ class DioHelper {
   static void init() {
     dio = Dio(
       BaseOptions(
-        baseUrl: 'https://furniture-backend-production-8726.up.railway.app/',
+        baseUrl: 'https://furniture-nodejs-production-665a.up.railway.app/',
         headers: {'Content-Type': 'application/json'},
         validateStatus: (status) => status! < 500,
       ),
@@ -30,13 +30,19 @@ class DioHelper {
     return await dio.get(url);
   }
 
-  static Future<Response> postData({
-    required String url,
-    required Map<String, dynamic> data,
-  }) async {
-    await setTokenHeader();
-    return await dio.post(url, data: data);
-  }
+static Future<Response> postData({
+  required String url,
+  required dynamic data,
+  Map<String, dynamic>? headers,
+}) async {
+  return await dio.post(
+    url,
+    data: data,
+    options: Options(headers: headers),
+  );
+}
+
+
 
   static Future<Response> putData({
     required String url,
