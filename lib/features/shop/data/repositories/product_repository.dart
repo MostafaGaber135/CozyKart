@@ -1,10 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:furni_iti/core/network/dio_helper.dart';
-import 'package:furni_iti/features/shop/data/models/product_model.dart';
+import 'package:cozykart/core/network/dio_helper.dart';
+import 'package:cozykart/features/shop/data/models/product_model.dart';
 
 class ProductRepository {
   final Dio _dio = DioHelper.dio;
-
 
   Future<List<Product>> fetchProducts() async {
     try {

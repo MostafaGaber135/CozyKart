@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:furni_iti/features/blog/domain/entities/post.dart';
+import 'package:cozykart/features/blog/domain/entities/post.dart';
 
 abstract class BlogState extends Equatable {
   const BlogState();

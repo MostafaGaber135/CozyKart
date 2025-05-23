@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:furni_iti/core/services/shared_prefs_helper.dart';
-import 'package:furni_iti/core/utils/app_colors.dart';
-import 'package:furni_iti/core/utils/toast_helper.dart';
-import 'package:furni_iti/core/widgets/primary_button.dart';
-import 'package:furni_iti/features/shop/data/models/product_model.dart';
-import 'package:furni_iti/features/shop/presentation/views/widgets/product_details_view.dart';
-import 'package:furni_iti/core/services/wishlist_service.dart';
+import 'package:cozykart/core/services/shared_prefs_helper.dart';
+import 'package:cozykart/core/utils/app_colors.dart';
+import 'package:cozykart/core/utils/toast_helper.dart';
+import 'package:cozykart/core/widgets/primary_button.dart';
+import 'package:cozykart/features/shop/data/models/product_model.dart';
+import 'package:cozykart/features/shop/presentation/views/widgets/product_details_view.dart';
+import 'package:cozykart/core/services/wishlist_service.dart';
+import 'package:cozykart/generated/l10n.dart';
 
 class ProductsGridView extends StatefulWidget {
   final List<Product> products;
@@ -40,9 +41,11 @@ class _ProductsGridViewState extends State<ProductsGridView> {
     if (!exists) {
       cart.add(product);
       await SharedPrefsHelper.saveCart(cart);
-      showToast("Added to cart");
+      if (!mounted) return;
+      showToast(S.of(context).addedToCart);
     } else {
-      showToast("Already in cart", isError: true);
+      if (!mounted) return;
+      showToast(S.of(context).alreadyInCart, isError: true);
     }
   }
 
@@ -60,7 +63,6 @@ class _ProductsGridViewState extends State<ProductsGridView> {
       itemBuilder: (context, index) {
         final product = widget.products[index];
         final isWishlisted = wishlistIds.contains(product.id);
-
         return GestureDetector(
           onTap: () {
             Navigator.push(
@@ -132,9 +134,32 @@ class _ProductsGridViewState extends State<ProductsGridView> {
                             size: 22.sp,
                           ),
                           onPressed: () async {
-                            await WishlistService.addToWishlist(product);
-                            await loadWishlist();
-                            showToast('Added to wishlist');
+                            final isInWishlist = wishlistIds.contains(
+                              product.id,
+                            );
+
+                            setState(() {
+                              if (isInWishlist) {
+                                wishlistIds.remove(product.id);
+                              } else {
+                                wishlistIds.add(product.id);
+                              }
+                            });
+
+                            if (isInWishlist) {
+                              await WishlistService.removeFromWishlist(
+                                product.id,
+                              );
+                              if (!context.mounted) return;
+                              showToast(
+                                S.of(context).removedFromWishlist,
+                                isError: true,
+                              );
+                            } else {
+                              await WishlistService.addToWishlist(product);
+                              if (!context.mounted) return;
+                              showToast(S.of(context).addedToWishlist);
+                            }
                           },
                         ),
                       ),
@@ -147,7 +172,7 @@ class _ProductsGridViewState extends State<ProductsGridView> {
                     vertical: 3.h,
                   ),
                   child: Text(
-                    product.name,
+                    product.localizedName(context),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
@@ -166,9 +191,9 @@ class _ProductsGridViewState extends State<ProductsGridView> {
                 ),
                 const Spacer(),
                 Padding(
-                  padding: EdgeInsets.only(top: 4.h, left: 10.w),
+                  padding: EdgeInsets.only(top: 4.h, left: 10.w, right: 10),
                   child: PrimaryButton(
-                    title: 'Add To Cart',
+                    title: S.of(context).addToCart,
                     onPressed: () => addToCart(product),
                   ),
                 ),

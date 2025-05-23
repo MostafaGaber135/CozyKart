@@ -4,17 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:furni_iti/core/services/shared_prefs_helper.dart';
-import 'package:furni_iti/core/utils/app_colors.dart';
-import 'package:furni_iti/core/widgets/custom_text_button.dart';
-import 'package:furni_iti/core/widgets/custom_input_field.dart';
-import 'package:furni_iti/core/widgets/main_screen.dart';
-import 'package:furni_iti/features/auth/presentation/cubit/auth_cubit.dart';
-import 'package:furni_iti/features/auth/presentation/cubit/auth_state.dart';
-import 'package:furni_iti/features/auth/presentation/views/widgets/dont_have_an_account_widget.dart';
-import 'package:furni_iti/core/utils/app_text_styles.dart';
-import 'package:furni_iti/features/auth/presentation/views/widgets/forgot_password.dart';
-import 'package:furni_iti/features/settings/domain/settings_provider.dart';
+import 'package:cozykart/core/services/shared_prefs_helper.dart';
+import 'package:cozykart/core/utils/app_colors.dart';
+import 'package:cozykart/core/widgets/custom_text_button.dart';
+import 'package:cozykart/core/widgets/custom_input_field.dart';
+import 'package:cozykart/core/widgets/main_screen.dart';
+import 'package:cozykart/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:cozykart/features/auth/presentation/cubit/auth_state.dart';
+import 'package:cozykart/features/auth/presentation/views/widgets/dont_have_an_account_widget.dart';
+import 'package:cozykart/core/utils/app_text_styles.dart';
+import 'package:cozykart/features/auth/presentation/views/widgets/forgot_password.dart';
+import 'package:cozykart/features/settings/domain/settings_provider.dart';
+import 'package:cozykart/generated/l10n.dart';
 import 'package:provider/provider.dart';
 
 class LoginViewBody extends StatefulWidget {
@@ -59,17 +60,17 @@ class _LoginViewBodyState extends State<LoginViewBody> {
     log("PASSWORD SENT: ${passwordController.text}");
 
     if (email.isEmpty || password.isEmpty) {
-      showToast("Email and password cannot be empty");
+      showToast(S.of(context).emptyFields);
       return;
     }
 
     if (!_isValidEmail(email)) {
-      showToast("Invalid email format");
+      showToast(S.of(context).invalidEmail);
       return;
     }
 
     if (password.length < 6) {
-      showToast("Password must be at least 6 characters");
+      showToast(S.of(context).shortPassword);
       return;
     }
 
@@ -85,7 +86,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
         if (state is AuthFailure) {
           showToast(state.message);
         } else if (state is AuthSuccess) {
-          showToast("Login Successful", success: true);
+          showToast(S.of(context).loginSuccess, success: true);
           await SharedPrefsHelper.saveUserId(state.user.id);
 
           Future.delayed(const Duration(seconds: 1), () {
@@ -117,7 +118,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                   ),
                   SizedBox(height: 16.h),
                   Text(
-                    'Login',
+                    S.of(context).login,
                     style: AppTextStyles.bold28.copyWith(
                       color: AppColors.primaryAccent,
                     ),
@@ -125,13 +126,13 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                   SizedBox(height: 32.h),
                   CustomInputField(
                     controller: emailController,
-                    hintText: 'Email address',
+                    hintText: S.of(context).emailAddress,
                     textInputType: TextInputType.emailAddress,
                   ),
                   SizedBox(height: 16.h),
                   CustomInputField(
                     controller: passwordController,
-                    hintText: 'Password',
+                    hintText: S.of(context).password,
                     textInputType: TextInputType.visiblePassword,
                     obscureText: _obscurePassword,
                     suffixIcon: IconButton(
@@ -155,7 +156,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                         );
                       },
                       child: Text(
-                        'Forgot password?',
+                        S.of(context).forgotPassword,
                         style: AppTextStyles.regular16.copyWith(
                           color:
                               settingsProvider.isDark
@@ -168,7 +169,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                   SizedBox(height: 32.h),
                   CustomTextButton(
                     onPressed: () => _submitLogin(context),
-                    text: 'LOG IN',
+                    text: S.of(context).logIn,
                   ),
                   SizedBox(height: 32.h),
                   const DontHaveAnAccountWidget(),

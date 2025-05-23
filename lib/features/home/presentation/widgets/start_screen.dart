@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:furni_iti/core/utils/app_colors.dart';
-import 'package:furni_iti/core/utils/app_text_styles.dart';
-import 'package:furni_iti/core/widgets/primary_button.dart';
-import 'package:furni_iti/features/onboarding/presentation/views/onboarding_views.dart';
+import 'package:cozykart/core/utils/app_colors.dart';
+import 'package:cozykart/core/utils/app_text_styles.dart';
+import 'package:cozykart/core/widgets/primary_button.dart';
+import 'package:cozykart/features/onboarding/presentation/views/onboarding_views.dart';
+import 'package:cozykart/generated/l10n.dart';
 
 class StartScreen extends StatelessWidget {
   const StartScreen({super.key});
@@ -10,6 +11,8 @@ class StartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final local = S.of(context);
+
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 32),
@@ -19,19 +22,20 @@ class StartScreen extends StatelessWidget {
             children: [
               Image.asset('assets/images/splash_screen.gif'),
               Text(
-                'FurniITI',
+                'ℂ𝑜𝓏𝘺𝐾𝓪𝕣𝘵',
                 style: AppTextStyles.bold32.copyWith(
                   color: AppColors.primaryAccent,
                 ),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Text(
-                'Find your perfect furniture for your home',
+                local.splashTitle,
+                textAlign: TextAlign.center,
                 style: AppTextStyles.semiBold16.copyWith(color: Colors.grey),
               ),
-              Spacer(),
+              const Spacer(),
               PrimaryButton(
-                title: 'get started'.toUpperCase(),
+                title: local.getStarted.toUpperCase(),
                 onPressed: () {
                   Navigator.pushReplacementNamed(
                     context,
@@ -39,7 +43,7 @@ class StartScreen extends StatelessWidget {
                   );
                 },
               ),
-              SizedBox(height: 64),
+              const SizedBox(height: 64),
             ],
           ),
         ),

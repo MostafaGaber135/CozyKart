@@ -1,10 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:furni_iti/core/utils/app_colors.dart';
-import 'package:furni_iti/core/widgets/primary_button.dart';
-import 'package:furni_iti/features/blog/domain/entities/post.dart';
-import 'package:furni_iti/features/blog/presentation/views/post_details_view.dart';
+import 'package:cozykart/core/utils/app_colors.dart';
+import 'package:cozykart/core/utils/lang_helper.dart';
+import 'package:cozykart/core/widgets/primary_button.dart';
+import 'package:cozykart/features/blog/domain/entities/post.dart';
+import 'package:cozykart/features/blog/presentation/views/post_details_view.dart';
+import 'package:cozykart/generated/l10n.dart';
 
 class PostCard extends StatelessWidget {
   final Post post;
@@ -40,34 +42,16 @@ class PostCard extends StatelessWidget {
               ),
             ),
             SizedBox(height: 12.h),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Text(
-                    post.title['en'] ?? '',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16.sp,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Text(
-                    post.title['ar'] ?? '',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16.sp,
-                    ),
-                  ),
-                ),
-              ],
+
+            Text(
+              getLocalizedValue(post.title, context),
+              textAlign: TextAlign.start,
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.sp),
             ),
+
             SizedBox(height: 6.h),
             Text(
-              "by ${post.author}",
+              S.of(context).byAuthor(post.author),
               style: Theme.of(context).textTheme.bodySmall,
             ),
             SizedBox(height: 8.h),
@@ -75,7 +59,7 @@ class PostCard extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    post.description['en'] ?? '',
+                    getLocalizedValue(post.description, context),
                     style: Theme.of(context).textTheme.bodySmall,
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
@@ -95,7 +79,7 @@ class PostCard extends StatelessWidget {
               child: SizedBox(
                 width: double.infinity,
                 child: PrimaryButton(
-                  title: 'Read More',
+                  title: S.of(context).readMore,
                   onPressed: () {
                     Navigator.push(
                       context,

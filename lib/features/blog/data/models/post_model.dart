@@ -1,4 +1,4 @@
-import 'package:furni_iti/features/blog/domain/entities/post.dart';
+import 'package:cozykart/features/blog/domain/entities/post.dart';
 
 class PostModel extends Post {
   PostModel({

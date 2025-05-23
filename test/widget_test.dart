@@ -8,12 +8,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:furni_iti/main.dart';
+import 'package:cozykart/main.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(FurniITI(startWidget: Container()));
+    await tester.pumpWidget(CozyKart(startWidget: Container()));
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

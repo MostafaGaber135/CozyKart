@@ -1,4 +1,4 @@
-import 'package:furni_iti/features/shop/data/models/product_model.dart';
+import 'package:cozykart/features/shop/data/models/product_model.dart';
 
 abstract class ProductState {}
 

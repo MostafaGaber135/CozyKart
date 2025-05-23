@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:furni_iti/core/services/shared_prefs_helper.dart';
-import 'package:furni_iti/core/services/wishlist_service.dart';
-import 'package:furni_iti/core/utils/toast_helper.dart';
-import 'package:furni_iti/core/widgets/primary_button.dart';
-import 'package:furni_iti/features/shop/data/models/product_model.dart';
+import 'package:cozykart/core/services/shared_prefs_helper.dart';
+import 'package:cozykart/core/services/wishlist_service.dart';
+import 'package:cozykart/core/utils/toast_helper.dart';
+import 'package:cozykart/core/widgets/primary_button.dart';
+import 'package:cozykart/features/shop/data/models/product_model.dart';
+import 'package:cozykart/generated/l10n.dart';
 
 class ProductDetailsView extends StatefulWidget {
   final Product product;
@@ -40,11 +41,13 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
     if (alreadyExists) {
       await WishlistService.removeFromWishlist(widget.product.id);
       setState(() => isWishlisted = false);
-      _showToast("Removed from Wishlist");
+      if (!mounted) return;
+      _showToast(S.of(context).removedFromWishlist, isError: true);
     } else {
       await WishlistService.addToWishlist(widget.product);
       setState(() => isWishlisted = true);
-      _showToast("Added to Wishlist");
+      if (!mounted) return;
+      _showToast(S.of(context).addedToWishlist);
     }
   }
 
@@ -55,9 +58,11 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
     if (!exists) {
       cart.add(product);
       await SharedPrefsHelper.saveCart(cart);
-      showToast("Added to cart");
+      if (!mounted) return;
+      showToast(S.of(context).addedToCart);
     } else {
-      showToast("Already in cart", isError: true);
+      if (!mounted) return;
+      showToast(S.of(context).alreadyInCart, isError: true);
     }
   }
 
@@ -77,7 +82,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(product.name),
+        title: Text(product.localizedName(context)),
         actions: [
           IconButton(
             icon: Icon(
@@ -108,7 +113,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    product.name,
+                    product.localizedName(context),
                     style: TextStyle(
                       fontSize: 22.sp,
                       fontWeight: FontWeight.bold,
@@ -121,16 +126,14 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                   ),
                   SizedBox(height: 16.h),
                   Text(
-                    'Description:',
+                    S.of(context).description,
                     style: TextStyle(
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                   SizedBox(height: 8.h),
-                  const Text(
-                    'This is a high quality product perfect for your home or office.',
-                  ),
+                  Text(product.localizedDescription(context)),
                 ],
               ),
             ),
@@ -140,7 +143,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
       bottomNavigationBar: Padding(
         padding: EdgeInsets.all(16.r),
         child: PrimaryButton(
-          title: 'Add to Cart',
+          title: S.of(context).addToCart,
           onPressed: () => addToCart(product),
         ),
       ),

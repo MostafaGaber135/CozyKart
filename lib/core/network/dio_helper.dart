@@ -1,6 +1,6 @@
 import 'dart:developer';
 import 'package:dio/dio.dart';
-import 'package:furni_iti/core/services/shared_prefs_helper.dart';
+import 'package:cozykart/core/services/shared_prefs_helper.dart';
 
 class DioHelper {
   static late Dio dio;
@@ -30,19 +30,13 @@ class DioHelper {
     return await dio.get(url);
   }
 
-static Future<Response> postData({
-  required String url,
-  required dynamic data,
-  Map<String, dynamic>? headers,
-}) async {
-  return await dio.post(
-    url,
-    data: data,
-    options: Options(headers: headers),
-  );
-}
-
-
+  static Future<Response> postData({
+    required String url,
+    required dynamic data,
+    Map<String, dynamic>? headers,
+  }) async {
+    return await dio.post(url, data: data, options: Options(headers: headers));
+  }
 
   static Future<Response> putData({
     required String url,

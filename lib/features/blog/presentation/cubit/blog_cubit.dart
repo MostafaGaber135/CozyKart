@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:furni_iti/features/blog/domain/entities/post.dart';
-import 'package:furni_iti/features/blog/domain/repositories/blog_repository.dart';
-import 'package:furni_iti/features/blog/presentation/cubit/blog_state.dart';
+import 'package:cozykart/features/blog/domain/entities/post.dart';
+import 'package:cozykart/features/blog/domain/repositories/blog_repository.dart';
+import 'package:cozykart/features/blog/presentation/cubit/blog_state.dart';
 
 class BlogCubit extends Cubit<BlogState> {
   final BlogRepository blogRepository;

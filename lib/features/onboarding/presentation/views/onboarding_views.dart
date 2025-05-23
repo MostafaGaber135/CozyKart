@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:furni_iti/core/services/shared_prefs_helper.dart';
-import 'package:furni_iti/core/utils/app_colors.dart';
-import 'package:furni_iti/features/auth/presentation/views/login_view.dart';
-import 'package:furni_iti/features/onboarding/presentation/views/widgets/onboarding_page_item.dart';
+import 'package:cozykart/core/services/shared_prefs_helper.dart';
+import 'package:cozykart/core/utils/app_colors.dart';
+import 'package:cozykart/features/auth/presentation/views/login_view.dart';
+import 'package:cozykart/features/onboarding/presentation/views/widgets/onboarding_page_item.dart';
 
 class OnBoardingPageView extends StatefulWidget {
   const OnBoardingPageView({super.key});

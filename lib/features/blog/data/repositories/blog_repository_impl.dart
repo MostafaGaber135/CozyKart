@@ -1,6 +1,6 @@
-import 'package:furni_iti/features/blog/data/datasources/blog_remote_datasource.dart';
-import 'package:furni_iti/features/blog/domain/entities/post.dart';
-import 'package:furni_iti/features/blog/domain/repositories/blog_repository.dart';
+import 'package:cozykart/features/blog/data/datasources/blog_remote_datasource.dart';
+import 'package:cozykart/features/blog/domain/entities/post.dart';
+import 'package:cozykart/features/blog/domain/repositories/blog_repository.dart';
 
 class BlogRepositoryImpl implements BlogRepository {
   final BlogRemoteDataSource remoteDataSource;

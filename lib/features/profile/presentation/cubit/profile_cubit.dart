@@ -3,10 +3,10 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:furni_iti/features/profile/presentation/cubit/profile_state.dart';
-import 'package:furni_iti/features/auth/data/models/user_model.dart';
-import 'package:furni_iti/core/network/dio_helper.dart';
-import 'package:furni_iti/core/services/shared_prefs_helper.dart';
+import 'package:cozykart/features/profile/presentation/cubit/profile_state.dart';
+import 'package:cozykart/features/auth/data/models/user_model.dart';
+import 'package:cozykart/core/network/dio_helper.dart';
+import 'package:cozykart/core/services/shared_prefs_helper.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
   ProfileCubit() : super(ProfileInitial());

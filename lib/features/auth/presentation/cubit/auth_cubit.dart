@@ -1,11 +1,11 @@
 import 'dart:developer';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:furni_iti/features/auth/data/repositories/auth_repository_impl.dart';
-import 'package:furni_iti/features/auth/presentation/cubit/auth_state.dart';
+import 'package:cozykart/features/auth/data/repositories/auth_repository_impl.dart';
+import 'package:cozykart/features/auth/presentation/cubit/auth_state.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:furni_iti/core/services/shared_prefs_helper.dart';
+import 'package:cozykart/core/services/shared_prefs_helper.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   final AuthRepositoryImpl authRepository;

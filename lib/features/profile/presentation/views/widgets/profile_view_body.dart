@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:furni_iti/core/services/shared_prefs_helper.dart';
-import 'package:furni_iti/core/utils/app_colors.dart';
-import 'package:furni_iti/core/widgets/primary_button.dart';
-import 'package:furni_iti/features/auth/presentation/views/login_view.dart';
-import 'package:furni_iti/features/profile/presentation/views/edit_profile_view.dart';
-import 'package:furni_iti/features/profile/presentation/views/widgets/help_page.dart';
-import 'package:furni_iti/features/profile/presentation/views/widgets/privacy_page.dart';
-import 'package:furni_iti/features/profile/presentation/views/widgets/profile_action_card.dart';
-import 'package:furni_iti/features/profile/presentation/cubit/profile_cubit.dart';
-import 'package:furni_iti/features/profile/presentation/cubit/profile_state.dart';
+import 'package:cozykart/core/services/shared_prefs_helper.dart';
+import 'package:cozykart/core/utils/app_colors.dart';
+import 'package:cozykart/core/widgets/primary_button.dart';
+import 'package:cozykart/features/auth/presentation/views/login_view.dart';
+import 'package:cozykart/features/profile/presentation/views/edit_profile_view.dart';
+import 'package:cozykart/features/profile/presentation/views/widgets/help_page.dart';
+import 'package:cozykart/features/profile/presentation/views/widgets/privacy_page.dart';
+import 'package:cozykart/features/profile/presentation/views/widgets/profile_action_card.dart';
+import 'package:cozykart/features/profile/presentation/cubit/profile_cubit.dart';
+import 'package:cozykart/features/profile/presentation/cubit/profile_state.dart';
+import 'package:cozykart/generated/l10n.dart';
 
 class ProfileViewBody extends StatefulWidget {
   const ProfileViewBody({super.key});
@@ -43,7 +44,7 @@ class _ProfileViewBodyState extends State<ProfileViewBody> {
                     : (state is ProfileUpdated ? state.updatedUser : null);
 
             if (user == null) {
-              return const Center(child: Text("User not found"));
+              return Center(child: Text(S.of(context).userNotFound));
             }
 
             return Padding(
@@ -58,12 +59,15 @@ class _ProfileViewBodyState extends State<ProfileViewBody> {
                   ),
                   SizedBox(height: 8.h),
                   Text(
-                    user.nameEn,
+                    Localizations.localeOf(context).languageCode == 'ar'
+                        ? user.nameAr
+                        : user.nameEn,
                     style: TextStyle(
                       fontSize: 18.sp,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+
                   SizedBox(height: 4.h),
                   Text(
                     user.email,
@@ -87,7 +91,7 @@ class _ProfileViewBodyState extends State<ProfileViewBody> {
                             }
                           },
                           icon: Icons.edit,
-                          title: 'Edit Profile',
+                          title: S.of(context).editProfile,
                         ),
                         SizedBox(height: 16.h),
                         ProfileActionCard(
@@ -100,7 +104,7 @@ class _ProfileViewBodyState extends State<ProfileViewBody> {
                             );
                           },
                           icon: Icons.security,
-                          title: 'Privacy',
+                          title: S.of(context).privacy,
                         ),
                         SizedBox(height: 16.h),
                         ProfileActionCard(
@@ -113,7 +117,7 @@ class _ProfileViewBodyState extends State<ProfileViewBody> {
                             );
                           },
                           icon: Icons.help_outline,
-                          title: 'Help',
+                          title: S.of(context).help,
                         ),
                       ],
                     ),
@@ -121,7 +125,7 @@ class _ProfileViewBodyState extends State<ProfileViewBody> {
                   SizedBox(
                     width: double.infinity,
                     child: PrimaryButton(
-                      title: 'Logout',
+                      title: S.of(context).logout,
                       onPressed: () async {
                         await SharedPrefsHelper.clearToken();
                         await SharedPrefsHelper.removeUserId();

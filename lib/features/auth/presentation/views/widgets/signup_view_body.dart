@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:furni_iti/core/widgets/custom_text_button.dart';
-import 'package:furni_iti/core/widgets/custom_input_field.dart';
-import 'package:furni_iti/features/auth/presentation/cubit/auth_cubit.dart';
-import 'package:furni_iti/features/auth/presentation/cubit/auth_state.dart';
-import 'package:furni_iti/features/auth/presentation/views/login_view.dart';
-import 'package:furni_iti/features/auth/presentation/views/widgets/already_have_an_account_widget.dart';
+import 'package:cozykart/core/widgets/custom_text_button.dart';
+import 'package:cozykart/core/widgets/custom_input_field.dart';
+import 'package:cozykart/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:cozykart/features/auth/presentation/cubit/auth_state.dart';
+import 'package:cozykart/features/auth/presentation/views/login_view.dart';
+import 'package:cozykart/features/auth/presentation/views/widgets/already_have_an_account_widget.dart';
+import 'package:cozykart/generated/l10n.dart';
 
 class SignupViewBody extends StatefulWidget {
   const SignupViewBody({super.key});
@@ -47,13 +48,12 @@ class _SignupViewBodyState extends State<SignupViewBody> {
 
   @override
   Widget build(BuildContext context) {
+    final local = S.of(context);
+
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is RegisterSuccessState) {
-          showToast(
-            "Account created successfully. Please login.",
-            success: true,
-          );
+          showToast(local.registerSuccess, success: true);
 
           Future.microtask(() {
             if (context.mounted) {
@@ -90,25 +90,25 @@ class _SignupViewBodyState extends State<SignupViewBody> {
                 SizedBox(height: 16.h),
                 CustomInputField(
                   controller: englishNameController,
-                  hintText: 'Full Name',
+                  hintText: local.fullName,
                   textInputType: TextInputType.name,
                 ),
                 SizedBox(height: 16.h),
                 CustomInputField(
                   controller: arabicNameController,
-                  hintText: 'الاسم الكامل (عربي)',
+                  hintText: local.fullNameAr,
                   textInputType: TextInputType.name,
                 ),
                 SizedBox(height: 16.h),
                 CustomInputField(
                   controller: emailController,
-                  hintText: 'Email',
+                  hintText: local.emailAddress,
                   textInputType: TextInputType.emailAddress,
                 ),
                 SizedBox(height: 16.h),
                 CustomInputField(
                   controller: passwordController,
-                  hintText: 'Password',
+                  hintText: local.password,
                   obscureText: _obscurePassword,
                   textInputType: TextInputType.visiblePassword,
                   suffixIcon: IconButton(
@@ -124,7 +124,7 @@ class _SignupViewBodyState extends State<SignupViewBody> {
                 SizedBox(height: 16.h),
                 CustomInputField(
                   controller: confirmPasswordController,
-                  hintText: 'Confirm Password',
+                  hintText: local.confirmPassword,
                   obscureText: _obscureConfirmPassword,
                   textInputType: TextInputType.visiblePassword,
                   suffixIcon: IconButton(
@@ -139,7 +139,7 @@ class _SignupViewBodyState extends State<SignupViewBody> {
                 ),
                 SizedBox(height: 24.h),
                 CustomTextButton(
-                  text: 'Register',
+                  text: local.signUp,
                   onPressed: () {
                     final nameEn = englishNameController.text.trim();
                     final nameAr = arabicNameController.text.trim();
@@ -152,22 +152,22 @@ class _SignupViewBodyState extends State<SignupViewBody> {
                         email.isEmpty ||
                         password.isEmpty ||
                         confirm.isEmpty) {
-                      showToast("All fields are required");
+                      showToast(local.emptyFields);
                       return;
                     }
 
                     if (!RegExp(r"^[\w\.-]+@[\w\.-]+\.\w+$").hasMatch(email)) {
-                      showToast("Invalid email format");
+                      showToast(local.invalidEmail);
                       return;
                     }
 
                     if (password.length < 6) {
-                      showToast("Password must be at least 6 characters");
+                      showToast(local.shortPassword);
                       return;
                     }
 
                     if (confirm != password) {
-                      showToast("Passwords do not match");
+                      showToast(local.passwordMismatch);
                       return;
                     }
 

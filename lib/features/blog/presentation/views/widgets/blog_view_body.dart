@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:furni_iti/core/utils/app_colors.dart';
-import 'package:furni_iti/features/blog/presentation/cubit/blog_cubit.dart';
-import 'package:furni_iti/features/blog/presentation/cubit/blog_state.dart';
-import 'package:furni_iti/features/blog/presentation/views/widgets/post_card.dart';
+import 'package:cozykart/core/utils/app_colors.dart';
+import 'package:cozykart/features/blog/presentation/cubit/blog_cubit.dart';
+import 'package:cozykart/features/blog/presentation/cubit/blog_state.dart';
+import 'package:cozykart/features/blog/presentation/views/widgets/post_card.dart';
+import 'package:cozykart/generated/l10n.dart';
 
 class BlogViewBody extends StatelessWidget {
   const BlogViewBody({super.key});
@@ -13,8 +14,7 @@ class BlogViewBody extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         surfaceTintColor: Colors.transparent,
-
-        title: const Text('Blog'),
+        title: Text(S.of(context).blogTitle),
       ),
 
       body: BlocBuilder<BlogCubit, BlogState>(

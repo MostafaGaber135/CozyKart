@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
-import 'package:furni_iti/core/utils/app_colors.dart';
-import 'package:furni_iti/features/auth/presentation/views/signup_view.dart';
-import 'package:furni_iti/core/utils/app_text_styles.dart';
-import 'package:furni_iti/features/settings/domain/settings_provider.dart';
+import 'package:cozykart/core/utils/app_colors.dart';
+import 'package:cozykart/features/auth/presentation/views/signup_view.dart';
+import 'package:cozykart/core/utils/app_text_styles.dart';
+import 'package:cozykart/features/settings/domain/settings_provider.dart';
+import 'package:cozykart/generated/l10n.dart';
 import 'package:provider/provider.dart';
 
 class DontHaveAnAccountWidget extends StatelessWidget {
@@ -18,7 +19,7 @@ class DontHaveAnAccountWidget extends StatelessWidget {
       TextSpan(
         children: [
           TextSpan(
-            text: 'Don\'t have an account?',
+            text: S.of(context).dontHaveAccount,
             style: AppTextStyles.bold16.copyWith(
               color:
                   settingsProvider.isDark
@@ -36,7 +37,7 @@ class DontHaveAnAccountWidget extends StatelessWidget {
             ),
           ),
           TextSpan(
-            text: 'Sign Up',
+            text: S.of(context).signUp,
             style: AppTextStyles.bold19.copyWith(
               color:
                   settingsProvider.isDark

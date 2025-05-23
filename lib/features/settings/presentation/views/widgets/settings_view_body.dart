@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:furni_iti/core/utils/app_colors.dart';
-import 'package:furni_iti/core/widgets/main_scaffold.dart';
-import 'package:furni_iti/features/settings/domain/settings_provider.dart';
+import 'package:cozykart/core/utils/app_colors.dart';
+import 'package:cozykart/core/utils/app_text_styles.dart';
+import 'package:cozykart/core/widgets/main_scaffold.dart';
+import 'package:cozykart/features/settings/domain/settings_provider.dart';
+import 'package:cozykart/generated/l10n.dart';
 import 'package:provider/provider.dart';
 
 class SettingsViewBody extends StatelessWidget {
@@ -11,17 +13,18 @@ class SettingsViewBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
+    final local = S.of(context);
     return MainScaffold(
       body: Padding(
-        padding:  EdgeInsets.symmetric(horizontal: 20.w),
+        padding: EdgeInsets.symmetric(horizontal: 20.w),
         child: Column(
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Dark Theme',
-                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                  S.of(context).darkTheme,
+                  style: AppTextStyles.bold16.copyWith(
                     color:
                         settingsProvider.isDark
                             ? AppColors.darkText
@@ -37,10 +40,65 @@ class SettingsViewBody extends StatelessWidget {
                 ),
               ],
             ),
+            SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  S.of(context).darkTheme,
+                  style: AppTextStyles.bold16.copyWith(
+                    color:
+                        settingsProvider.isDark
+                            ? AppColors.darkText
+                            : AppColors.primaryAccent,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: DropdownButton<String>(
+                    value: settingsProvider.currentLanguage?.languageCode,
+                    borderRadius: BorderRadius.circular(16.r),
+                    items: [
+                      DropdownMenuItem(
+                        value: 'en',
+                        child: Text(
+                          'English',
+                          style: AppTextStyles.bold16.copyWith(
+                            color:
+                                settingsProvider.isDark
+                                    ? AppColors.darkText
+                                    : AppColors.primaryAccent,
+                          ),
+                        ),
+                      ),
+                      DropdownMenuItem(
+                        value: 'ar',
+                        child: Text(
+                          'Arabic',
+                          style: AppTextStyles.bold16.copyWith(
+                            color:
+                                settingsProvider.isDark
+                                    ? AppColors.darkText
+                                    : AppColors.primaryAccent,
+                          ),
+                        ),
+                      ),
+                    ],
+                    onChanged: (String? newLanguage) {
+                      if (newLanguage != null) {
+                        Locale newLocale = Locale(newLanguage);
+                        settingsProvider.setLanguage(newLocale);
+                      }
+                    },
+                  ),
+                ),
+              ],
+            ),
+            const Spacer(),
           ],
         ),
       ),
-      title: 'Settings',
+      title: local.settings,
     );
   }
 }

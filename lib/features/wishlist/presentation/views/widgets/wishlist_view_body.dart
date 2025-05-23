@@ -2,11 +2,12 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:furni_iti/core/utils/toast_helper.dart';
-import 'package:furni_iti/features/shop/data/models/product_model.dart';
-import 'package:furni_iti/features/shop/presentation/views/widgets/product_details_view.dart';
-import 'package:furni_iti/core/services/wishlist_service.dart';
-import 'package:furni_iti/core/services/shared_prefs_helper.dart';
+import 'package:cozykart/core/utils/toast_helper.dart';
+import 'package:cozykart/features/shop/data/models/product_model.dart';
+import 'package:cozykart/features/shop/presentation/views/widgets/product_details_view.dart';
+import 'package:cozykart/core/services/wishlist_service.dart';
+import 'package:cozykart/core/services/shared_prefs_helper.dart';
+import 'package:cozykart/generated/l10n.dart';
 
 class WishlistViewBody extends StatefulWidget {
   const WishlistViewBody({super.key});
@@ -40,9 +41,11 @@ class _WishlistViewBodyState extends State<WishlistViewBody> {
     if (!exists) {
       cart.add(product);
       await SharedPrefsHelper.saveCart(cart);
-      showToast("Added to cart");
+      if (!mounted) return;
+      showToast(S.of(context).addedToCart);
     } else {
-      showToast("Already in cart", isError: true);
+      if (!mounted) return;
+      showToast(S.of(context).alreadyInCart, isError: true);
     }
   }
 
@@ -53,7 +56,7 @@ class _WishlistViewBodyState extends State<WishlistViewBody> {
     return wishlist.isEmpty
         ? Center(
           child: Text(
-            "Your wishlist is empty",
+            S.of(context).wishlistEmpty,
             style: TextStyle(fontSize: 18, color: theme.primaryColor),
           ),
         )
@@ -115,7 +118,7 @@ class _WishlistViewBodyState extends State<WishlistViewBody> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              product.name,
+                              product.localizedName(context),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
@@ -141,7 +144,7 @@ class _WishlistViewBodyState extends State<WishlistViewBody> {
                                       Icons.shopping_cart_outlined,
                                       size: 18.sp,
                                     ),
-                                    label: const Text("Add to Cart"),
+                                    label: Text(S.of(context).addToCart),
                                     style: ElevatedButton.styleFrom(
                                       padding: EdgeInsets.symmetric(
                                         vertical: 10.w,
@@ -167,7 +170,11 @@ class _WishlistViewBodyState extends State<WishlistViewBody> {
                                       product.id,
                                     );
                                     await loadWishlist();
-                                    showToast("Removed from wishlist");
+                                    if (!context.mounted) return;
+                                    showToast(
+                                      S.of(context).removedFromWishlist,
+                                      isError: true,
+                                    );
                                   },
                                 ),
                               ],

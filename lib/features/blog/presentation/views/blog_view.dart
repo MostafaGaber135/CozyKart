@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:furni_iti/features/blog/presentation/views/widgets/blog_view_body.dart';
+import 'package:cozykart/features/blog/presentation/views/widgets/blog_view_body.dart';
 
 class BlogView extends StatelessWidget {
   const BlogView({super.key});

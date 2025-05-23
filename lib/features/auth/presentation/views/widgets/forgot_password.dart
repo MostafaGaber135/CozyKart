@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:furni_iti/core/utils/app_colors.dart';
-import 'package:furni_iti/core/utils/app_text_styles.dart';
-import 'package:furni_iti/core/widgets/custom_input_field.dart';
-import 'package:furni_iti/core/widgets/primary_button.dart';
+import 'package:cozykart/core/utils/app_colors.dart';
+import 'package:cozykart/core/utils/app_text_styles.dart';
+import 'package:cozykart/core/widgets/custom_input_field.dart';
+import 'package:cozykart/core/widgets/primary_button.dart';
+import 'package:cozykart/generated/l10n.dart';
 
 class ForgotPassword extends StatelessWidget {
   const ForgotPassword({super.key});
@@ -36,7 +37,7 @@ class ForgotPassword extends StatelessWidget {
                 ),
                 SizedBox(height: 42.h),
                 Text(
-                  'Forgot Password',
+                  S.of(context).forgotPassword,
                   style: AppTextStyles.bold28.copyWith(
                     color: AppColors.primaryAccent,
                   ),
@@ -44,7 +45,7 @@ class ForgotPassword extends StatelessWidget {
                 SizedBox(height: 42.h),
                 Text(
                   textAlign: TextAlign.center,
-                  'Enter your email address to reset your password',
+                  S.of(context).enterEmailToReset,
                   style: AppTextStyles.bold19.copyWith(
                     color: AppColors.secondaryText,
                   ),
@@ -53,11 +54,14 @@ class ForgotPassword extends StatelessWidget {
 
                 CustomInputField(
                   controller: emailController,
-                  hintText: 'Email address',
+                  hintText: S.of(context).emailAddress,
                   textInputType: TextInputType.emailAddress,
                 ),
                 SizedBox(height: 42.h),
-                PrimaryButton(title: 'RESET PASSWORD', onPressed: () {}),
+                PrimaryButton(
+                  title: S.of(context).resetPassword,
+                  onPressed: () {},
+                ),
               ],
             ),
           ),

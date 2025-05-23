@@ -2,11 +2,12 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:furni_iti/core/widgets/main_scaffold.dart';
-import 'package:furni_iti/core/widgets/primary_button.dart';
-import 'package:furni_iti/features/contact_us/presentation/views/widgets/contact_input_field.dart';
+import 'package:cozykart/core/widgets/main_scaffold.dart';
+import 'package:cozykart/core/widgets/primary_button.dart';
+import 'package:cozykart/features/contact_us/presentation/views/widgets/contact_input_field.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
+import 'package:cozykart/generated/l10n.dart';
 
 class ContactUsView extends StatefulWidget {
   const ContactUsView({super.key});
@@ -22,13 +23,14 @@ class _ContactUsViewState extends State<ContactUsView> {
   final messageController = TextEditingController();
 
   Future<void> sendEmail() async {
+    final local = S.of(context);
     final name = nameController.text.trim();
     final email = emailController.text.trim();
     final message = messageController.text.trim();
 
     if (name.isEmpty || email.isEmpty || message.isEmpty) {
       Fluttertoast.showToast(
-        msg: "Please fill all fields",
+        msg: local.fillAllFields,
         backgroundColor: Colors.redAccent,
         textColor: Colors.white,
       );
@@ -42,15 +44,15 @@ class _ContactUsViewState extends State<ContactUsView> {
 
     final emailMessage =
         Message()
-          ..from = Address(username, 'FurniITI')
-          ..recipients.add('mostafagaber1234560@gmail.com')
+          ..from = Address(username, 'ℂ𝑜𝓏𝘺𝐾𝓪𝕣𝘵')
+          ..recipients.add(username)
           ..subject = 'Contact from $name'
           ..text = 'Name: $name\nEmail: $email\n\nMessage:\n$message';
 
     try {
       await send(emailMessage, smtpServer);
       Fluttertoast.showToast(
-        msg: "Email sent successfully",
+        msg: local.emailSentSuccess,
         backgroundColor: Colors.green,
         textColor: Colors.white,
       );
@@ -59,7 +61,7 @@ class _ContactUsViewState extends State<ContactUsView> {
       messageController.clear();
     } on MailerException catch (e) {
       Fluttertoast.showToast(
-        msg: "Failed to send email",
+        msg: local.emailSendFail,
         backgroundColor: Colors.redAccent,
         textColor: Colors.white,
       );
@@ -71,29 +73,31 @@ class _ContactUsViewState extends State<ContactUsView> {
 
   @override
   Widget build(BuildContext context) {
+    final local = S.of(context);
+
     return MainScaffold(
+      title: local.contactUs,
       body: SingleChildScrollView(
         padding: EdgeInsets.all(24.r),
         child: Column(
           children: [
-            ContactInputField(label: 'Name', controller: nameController),
+            ContactInputField(label: local.name, controller: nameController),
             SizedBox(height: 16.h),
-            ContactInputField(label: 'Email', controller: emailController),
+            ContactInputField(label: local.email, controller: emailController),
             SizedBox(height: 16.h),
             ContactInputField(
-              label: 'Subject',
+              label: local.subject,
               controller: messageController,
               maxLines: 5,
             ),
             SizedBox(height: 24.h),
             SizedBox(
               width: double.infinity,
-              child: PrimaryButton(title: 'Send', onPressed: sendEmail),
+              child: PrimaryButton(title: local.send, onPressed: sendEmail),
             ),
           ],
         ),
       ),
-      title: 'Contact Us',
     );
   }
 }

@@ -1,4 +1,4 @@
-import 'package:furni_iti/features/auth/data/models/user_model.dart';
+import 'package:cozykart/features/auth/data/models/user_model.dart';
 
 abstract class AuthState {}
 

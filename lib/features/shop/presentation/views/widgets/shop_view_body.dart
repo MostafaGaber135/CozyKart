@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:furni_iti/features/shop/data/models/product_model.dart';
-import 'package:furni_iti/features/shop/presentation/cubit/product_cubit.dart';
-import 'package:furni_iti/features/shop/presentation/cubit/product_state.dart';
-import 'package:furni_iti/features/shop/presentation/views/widgets/products_grid_view.dart';
+import 'package:cozykart/features/shop/data/models/product_model.dart';
+import 'package:cozykart/features/shop/presentation/cubit/product_cubit.dart';
+import 'package:cozykart/features/shop/presentation/cubit/product_state.dart';
+import 'package:cozykart/features/shop/presentation/views/widgets/products_grid_view.dart';
+import 'package:cozykart/generated/l10n.dart';
 
 class ShopProductsViewBody extends StatefulWidget {
   const ShopProductsViewBody({super.key});
@@ -30,7 +31,12 @@ class _ShopProductsViewBodyState extends State<ShopProductsViewBody> {
     setState(() {
       _filteredProducts =
           _allProducts
-              .where((product) => product.name.toLowerCase().contains(query))
+              .where(
+                (product) => product
+                    .localizedName(context)
+                    .toLowerCase()
+                    .contains(query),
+              )
               .toList();
     });
   }
@@ -50,7 +56,7 @@ class _ShopProductsViewBodyState extends State<ShopProductsViewBody> {
           child: TextField(
             controller: searchController,
             decoration: InputDecoration(
-              hintText: 'Search products...',
+              hintText: S.of(context).searchProducts,
               prefixIcon: const Icon(Icons.search),
               filled: true,
               fillColor: Colors.white,
@@ -74,9 +80,12 @@ class _ShopProductsViewBodyState extends State<ShopProductsViewBody> {
                         ? _allProducts
                         : _allProducts
                             .where(
-                              (p) => p.name.toLowerCase().contains(
-                                searchController.text.toLowerCase(),
-                              ),
+                              (p) => p
+                                  .localizedName(context)
+                                  .toLowerCase()
+                                  .contains(
+                                    searchController.text.toLowerCase(),
+                                  ),
                             )
                             .toList();
 

@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:furni_iti/features/shop/presentation/cubit/product_cubit.dart';
-import 'package:furni_iti/features/shop/presentation/cubit/product_state.dart';
+import 'package:cozykart/core/utils/lang_helper.dart';
+import 'package:cozykart/features/shop/presentation/cubit/product_cubit.dart';
+import 'package:cozykart/features/shop/presentation/cubit/product_state.dart';
+import 'package:cozykart/generated/l10n.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -43,7 +45,7 @@ class HomeScreen extends StatelessWidget {
           ),
           SizedBox(height: 24.h),
           Text(
-            "Best Price",
+            S.of(context).bestPrice,
             style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 24.h),
@@ -83,7 +85,14 @@ class HomeScreen extends StatelessWidget {
                         ),
                         SizedBox(height: 6.h),
                         Text(
-                          product.name,
+                          product.localizedName(context) is Map
+                              ? getLocalizedValue(
+                                product.localizedName(context)
+                                    as Map<String, dynamic>?,
+                                context,
+                              )
+                              : product.localizedName(context).toString(),
+
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                         Text(

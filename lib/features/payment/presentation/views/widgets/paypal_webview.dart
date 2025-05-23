@@ -1,13 +1,14 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:furni_iti/core/services/cart_service.dart';
-import 'package:furni_iti/features/settings/domain/settings_provider.dart';
+import 'package:cozykart/core/services/cart_service.dart';
+import 'package:cozykart/features/settings/domain/settings_provider.dart';
+import 'package:cozykart/generated/l10n.dart';
 import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-import 'package:furni_iti/core/services/shared_prefs_helper.dart';
-import 'package:furni_iti/core/network/dio_helper.dart';
+import 'package:cozykart/core/services/shared_prefs_helper.dart';
+import 'package:cozykart/core/network/dio_helper.dart';
 
 class PaypalWebView extends StatefulWidget {
   final String checkoutUrl;
@@ -107,7 +108,8 @@ class _PaypalWebViewState extends State<PaypalWebView> {
     final settingsProvider = Provider.of<SettingsProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text("PayPal Checkout"),
+        title: Text(S.of(context).paypalCheckout),
+
         backgroundColor: settingsProvider.isDark ? Colors.black : Colors.white,
       ),
       body: WebViewWidget(controller: _controller),

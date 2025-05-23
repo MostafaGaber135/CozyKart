@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:furni_iti/core/utils/app_colors.dart';
-import 'package:furni_iti/core/widgets/custom_input_field.dart';
-import 'package:furni_iti/core/utils/toast_helper.dart';
-import 'package:furni_iti/features/profile/presentation/cubit/profile_cubit.dart';
-import 'package:furni_iti/features/profile/presentation/cubit/profile_state.dart';
+import 'package:cozykart/core/utils/app_colors.dart';
+import 'package:cozykart/core/widgets/custom_input_field.dart';
+import 'package:cozykart/core/utils/toast_helper.dart';
+import 'package:cozykart/features/profile/presentation/cubit/profile_cubit.dart';
+import 'package:cozykart/features/profile/presentation/cubit/profile_state.dart';
+import 'package:cozykart/generated/l10n.dart';
 
 class EditProfileView extends StatefulWidget {
   const EditProfileView({super.key});
@@ -45,7 +46,7 @@ class _EditProfileViewState extends State<EditProfileView> {
 
   void _save() async {
     if (nameEnController.text.isEmpty || nameArController.text.isEmpty) {
-      showToast("Please fill in name fields", isError: true);
+      showToast(S.of(context).pleaseFillNameFields, isError: true);
       return;
     }
 
@@ -63,11 +64,11 @@ class _EditProfileViewState extends State<EditProfileView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Edit Profile')),
+      appBar: AppBar(title: Text(S.of(context).editProfile)),
       body: BlocConsumer<ProfileCubit, ProfileState>(
         listener: (context, state) {
           if (state is ProfileUpdated) {
-            showToast("Profile updated successfully");
+            showToast(S.of(context).profileUpdated);
             Navigator.pop(context, true);
           } else if (state is ProfileError) {
             showToast(state.message, isError: true);
@@ -106,37 +107,56 @@ class _EditProfileViewState extends State<EditProfileView> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  GestureDetector(
-                    onTap: _pickImage,
-                    child: CircleAvatar(
-                      radius: 40.r,
-                      backgroundColor: AppColors.primaryAccent,
-                      backgroundImage: avatar as ImageProvider?,
-                      child:
-                          avatar == null
-                              ? const Icon(
-                                Icons.camera_alt,
-                                color: Colors.white,
-                              )
-                              : null,
-                    ),
+                  Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      GestureDetector(
+                        onTap: _pickImage,
+                        child: CircleAvatar(
+                          radius: 40.r,
+                          backgroundColor: AppColors.primaryAccent,
+                          backgroundImage: avatar as ImageProvider?,
+                          child:
+                              avatar == null
+                                  ? const Icon(
+                                    Icons.camera_alt,
+                                    color: Colors.white,
+                                  )
+                                  : null,
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: CircleAvatar(
+                          radius: 14.r,
+                          backgroundColor: Colors.white,
+                          child: Icon(
+                            Icons.edit,
+                            size: 20.r,
+                            color: AppColors.primaryAccent,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
+
                   SizedBox(height: 16.h),
                   CustomInputField(
                     controller: nameEnController,
-                    hintText: 'Name (EN)',
+                    hintText: S.of(context).nameEn,
                     textInputType: TextInputType.name,
                   ),
                   SizedBox(height: 10.h),
                   CustomInputField(
                     controller: nameArController,
-                    hintText: 'Name (AR)',
+                    hintText: S.of(context).nameAr,
                     textInputType: TextInputType.name,
                   ),
                   SizedBox(height: 10.h),
                   CustomInputField(
                     controller: passwordController,
-                    hintText: 'New Password (optional)',
+                    hintText: S.of(context).newPasswordOptional,
                     obscureText: _obscurePassword,
                     suffixIcon: IconButton(
                       icon: Icon(
@@ -158,7 +178,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                         backgroundColor: AppColors.primaryAccent,
                       ),
                       child: Text(
-                        "Save",
+                        S.of(context).save,
                         style: TextStyle(color: Colors.white, fontSize: 16.sp),
                       ),
                     ),

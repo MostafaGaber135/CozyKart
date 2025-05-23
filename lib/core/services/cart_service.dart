@@ -1,7 +1,7 @@
 import 'dart:developer';
 
-import 'package:furni_iti/core/services/shared_prefs_helper.dart';
-import 'package:furni_iti/core/network/dio_helper.dart';
+import 'package:cozykart/core/services/shared_prefs_helper.dart';
+import 'package:cozykart/core/network/dio_helper.dart';
 
 Future<void> syncCartToBackend() async {
   final cartItems = await SharedPrefsHelper.getCart();
@@ -23,9 +23,9 @@ Future<void> syncCartToBackend() async {
         },
       );
     } catch (e) {
-      log("🔴 Failed to sync item to cart: $e");
+      log("Failed to sync item to cart: $e");
     }
   }
 
-  log("🟢 Cart synced to backend");
+  log("Cart synced to backend");
 }

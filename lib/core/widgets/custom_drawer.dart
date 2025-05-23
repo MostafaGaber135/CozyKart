@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cozykart/generated/l10n.dart';
 
 class CustomDrawer extends StatelessWidget {
   final Function(int) onTabSelected;
@@ -6,22 +7,33 @@ class CustomDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final local = S.of(context);
     return Drawer(
       child: ListView(
         padding: const EdgeInsets.symmetric(vertical: 46, horizontal: 32),
         children: [
-          drawerPageItem(context, Icons.info_outline, "About", '/AboutView'),
+          drawerPageItem(
+            context,
+            Icons.info_outline,
+            local.aboutUs,
+            '/AboutView',
+          ),
           drawerPageItem(
             context,
             Icons.email_outlined,
-            "Contact Us",
+            local.contactUs,
             '/ContactUsView',
           ),
-          drawerPageItem(context, Icons.article_outlined, "Blog", '/BlogView'),
+          drawerPageItem(
+            context,
+            Icons.article_outlined,
+            local.blogTitle,
+            '/BlogView',
+          ),
           drawerPageItem(
             context,
             Icons.settings_outlined,
-            "Settings",
+            local.settings,
             '/SettingsView',
           ),
         ],

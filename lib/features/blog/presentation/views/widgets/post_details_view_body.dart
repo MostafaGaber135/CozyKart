@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:furni_iti/core/utils/app_colors.dart';
-import 'package:furni_iti/features/blog/domain/entities/post.dart';
+import 'package:cozykart/core/utils/app_colors.dart';
+import 'package:cozykart/features/blog/domain/entities/post.dart';
+import 'package:cozykart/generated/l10n.dart';
 
 class PostDetailsViewBody extends StatelessWidget {
   final Post post;
@@ -10,6 +11,8 @@ class PostDetailsViewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final lang = Localizations.localeOf(context).languageCode;
+
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -32,31 +35,18 @@ class PostDetailsViewBody extends StatelessWidget {
           ),
           SizedBox(height: 16.h),
           Text(
-            post.title['en'] ?? '',
+            post.title[lang] ?? post.title['en'] ?? '',
             style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 8.h),
           Text(
-            post.title['ar'] ?? '',
+            post.description[lang] ?? post.description['en'] ?? '',
             style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 8.h),
           Text(
-            "by ${post.author}",
+            S.of(context).byAuthor(post.author),
             style: Theme.of(context).textTheme.bodySmall,
-          ),
-          SizedBox(height: 16.h),
-          Divider(color: AppColors.hintGrey, thickness: 1.h),
-          SizedBox(height: 16.h),
-
-          Text(
-            post.description['en'] ?? '',
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
-          SizedBox(height: 8.h),
-          Text(
-            post.description['ar'] ?? '',
-            style: Theme.of(context).textTheme.bodyMedium,
           ),
           SizedBox(height: 16.h),
           Row(
