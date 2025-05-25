@@ -17,7 +17,6 @@ class Product {
     this.quantity = 1,
   });
   factory Product.fromJson(Map<String, dynamic> json) {
-    // ✅ تعديل يدوي يدعم الاثنين: المباشر أو المضمن في productId
     final productJson =
         json.containsKey('variants') ? json : json['productId'] ?? {};
 

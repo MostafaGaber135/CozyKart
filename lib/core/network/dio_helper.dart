@@ -4,8 +4,6 @@ import 'package:furni_iti/core/services/shared_prefs_helper.dart';
 
 class DioHelper {
   static late Dio dio;
-
-  /// ✅ تهيئة Dio مرة واحدة فقط
   static void init() {
     dio = Dio(
       BaseOptions(
@@ -18,7 +16,6 @@ class DioHelper {
     );
   }
 
-  /// ✅ تعيين التوكن في Header
   static Future<void> setTokenHeader() async {
     final token = await SharedPrefsHelper.getToken();
     if (token != null && token.isNotEmpty) {
@@ -29,7 +26,6 @@ class DioHelper {
     }
   }
 
-  /// ✅ طلب GET
   static Future<Response> getData({
     required String url,
     Map<String, dynamic>? query,
@@ -42,7 +38,6 @@ class DioHelper {
     );
   }
 
-  /// ✅ طلب POST
   static Future<Response> postData({
     required String url,
     required dynamic data,
@@ -51,8 +46,6 @@ class DioHelper {
     return await dio.post(url, data: data, options: Options(headers: headers));
   }
 
-  /// ✅ طلب DELETE
-
   static Future<Response> deleteData({
     required String url,
     Map<String, dynamic>? headers,
@@ -60,7 +53,6 @@ class DioHelper {
     return await dio.delete(url, options: Options(headers: headers));
   }
 
-  /// ✅ طلب PUT مع إمكانية تمرير Headers إضافية
   static Future<Response> putData({
     required String url,
     required dynamic data,
@@ -76,10 +68,9 @@ class DioHelper {
     return await dio.put(url, data: data, options: Options(headers: headers));
   }
 
-  /// ✅ طلب PATCH
   static Future<Response> patchData({
     required String url,
-    dynamic data, // <-- هنا الحل
+    dynamic data,
     Map<String, dynamic>? headers,
   }) async {
     return await dio.patch(url, data: data, options: Options(headers: headers));

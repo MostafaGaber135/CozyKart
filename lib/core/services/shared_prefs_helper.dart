@@ -7,12 +7,12 @@ import 'package:furni_iti/features/auth/data/models/user_model.dart';
 class SharedPrefsHelper {
   static late SharedPreferences _instance;
 
-  /// ✅ تهيئة SharedPreferences
+  
   static Future<void> init() async {
     _instance = await SharedPreferences.getInstance();
   }
 
-  /// ✅ Token
+  
   static Future<void> setToken(String token) async {
     await _instance.setString('token', token);
     log("Saved token: $token");
@@ -26,7 +26,6 @@ class SharedPrefsHelper {
     await _instance.remove('token');
   }
 
-  /// ✅ User ID
   static Future<void> saveUserId(String userId) async {
     await _instance.setString("userId", userId);
     log("Saved userId: $userId");
@@ -40,7 +39,6 @@ class SharedPrefsHelper {
     await _instance.remove("userId");
   }
 
-  /// ✅ Key-Value String
   static Future<void> saveString(String key, String value) async {
     await _instance.setString(key, value);
   }
@@ -49,7 +47,7 @@ class SharedPrefsHelper {
     return _instance.getString(key) ?? '';
   }
 
-  /// ✅ Boolean Flags
+
   static void setBool(String key, bool value) {
     _instance.setBool(key, value);
   }
@@ -58,7 +56,6 @@ class SharedPrefsHelper {
     return _instance.getBool(key) ?? false;
   }
 
-  /// ✅ Cart
   static Future<void> saveCart(List<Product> cartItems) async {
     final userId = await getUserId();
     if (userId == null) return;
@@ -85,8 +82,6 @@ class SharedPrefsHelper {
     if (userId == null) return;
     await _instance.remove('cart_$userId');
   }
-
-  /// ✅ Wishlist
   static Future<void> saveWishlist(List<Product> wishlistItems) async {
     final userId = await getUserId();
     if (userId == null) return;
@@ -112,7 +107,7 @@ class SharedPrefsHelper {
     await _instance.setStringList('wishlist_$userId', list);
   }
 
-  /// ✅ Onboarding
+
   static const String _onboardingKey = 'onboarding_seen';
 
   static Future<void> setOnboardingSeen(bool value) async {
@@ -123,7 +118,6 @@ class SharedPrefsHelper {
     return _instance.getBool(_onboardingKey) ?? false;
   }
 
-  /// ✅ User Model
   static const String _userKey = "user_data";
 
   static Future<void> setUser(UserModel user) async {
@@ -148,7 +142,6 @@ class SharedPrefsHelper {
     await _instance.remove(_userKey);
   }
 
-  /// ✅ مسح شامل
   static Future<void> clear() async {
     await _instance.clear();
   }

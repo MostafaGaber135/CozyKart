@@ -28,7 +28,7 @@ class _ProductsGridViewState extends State<ProductsGridView> {
     super.initState();
     loadWishlist();
     for (var product in widget.products) {
-      quantities[product.id] = 1; // default quantity = 1
+      quantities[product.id] = 1; 
     }
   }
 

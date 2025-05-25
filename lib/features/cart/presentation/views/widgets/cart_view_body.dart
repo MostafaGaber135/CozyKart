@@ -122,7 +122,7 @@ class _CartViewBodyState extends State<CartViewBody> {
                   "country": "Egypt",
                 };
 
-                log("📦 Preparing order for API...");
+                log("Preparing order for API...");
                 final order = {
                   "shippingAddress": shippingAddress,
                   "paymentMethod": "paypal",
@@ -139,8 +139,8 @@ class _CartViewBodyState extends State<CartViewBody> {
 
                 try {
                   final token = await SharedPrefsHelper.getToken();
-                  log("🔑 TOKEN = $token");
-                  log("🛰 Sending Order to API: $order");
+                  log("TOKEN = $token");
+                  log("Sending Order to API: $order");
                   final response = await Dio().post(
                     "https://furniture-nodejs-production-665a.up.railway.app/orders",
                     data: order,
@@ -150,21 +150,22 @@ class _CartViewBodyState extends State<CartViewBody> {
                   );
 
                   if (response.statusCode == 201) {
-                    log("✅ Order saved");
-                    if (mounted) Navigator.pop(context);
+                    log("Order saved");
+                    if (!context.mounted) return;
+                    Navigator.pop(context);
                   } else {
-                    log("❌ Failed to save order: ${response.statusCode}");
+                    log("Failed to save order: ${response.statusCode}");
                   }
                 } catch (e) {
-                  log("❌ Exception: $e");
+                  log("Exception: $e");
                 }
               },
               onError: (error) {
-                log("❌ PayPal Error: $error");
+                log("PayPal Error: $error");
                 Navigator.pop(context);
               },
               onCancel: () {
-                log("🛑 Payment cancelled");
+                log("Payment cancelled");
                 Navigator.pop(context);
               },
             ),
