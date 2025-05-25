@@ -39,10 +39,12 @@ class _PaypalWebViewState extends State<PaypalWebView> {
   Future<void> _handleSuccessfulPayment() async {
     Fluttertoast.showToast(msg: "Payment successful. Creating order...");
 
-    final List<Product> cartItems = await CartService.getCart();
+    final cartItemsRaw = await CartService().getCart();
+    final List<Product> cartItems =
+        cartItemsRaw.map((e) => Product.fromJson(e['product'])).toList();
+
     final totalPrice = cartItems.fold(0.0, (total, item) {
-      final price = item.price;
-      return total + price * (item.quantity);
+      return total + item.price * (item.quantity);
     });
 
     final success = await OrderService.createOrder(

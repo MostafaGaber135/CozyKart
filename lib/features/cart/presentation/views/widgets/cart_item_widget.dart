@@ -3,20 +3,46 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:furni_iti/features/shop/data/models/product_model.dart';
 
-class CartItemWidget extends StatelessWidget {
+class CartItemWidget extends StatefulWidget {
   final Product product;
   final VoidCallback onRemove;
+  final Function(int) onQuantityChange;
 
   const CartItemWidget({
     super.key,
     required this.product,
     required this.onRemove,
+    required this.onQuantityChange,
   });
 
   @override
+  State<CartItemWidget> createState() => _CartItemWidgetState();
+}
+
+class _CartItemWidgetState extends State<CartItemWidget> {
+  late int quantity;
+
+  @override
+  void initState() {
+    super.initState();
+    quantity = widget.product.quantity;
+  }
+
+  void increment() {
+    setState(() => quantity++);
+    widget.onQuantityChange(quantity);
+  }
+
+  void decrement() {
+    if (quantity > 1) {
+      setState(() => quantity--);
+      widget.onQuantityChange(quantity);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final quantity = product.quantity;
-    final total = (product.price * quantity).toStringAsFixed(2);
+    final total = (widget.product.price * quantity).toStringAsFixed(2);
 
     return Container(
       margin: EdgeInsets.only(bottom: 16.h),
@@ -26,7 +52,7 @@ class CartItemWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withValues(alpha: 0.15),
+            color: Colors.grey.withValues(alpha:0.15),
             blurRadius: 6,
             offset: const Offset(0, 2),
           ),
@@ -35,7 +61,7 @@ class CartItemWidget extends StatelessWidget {
       child: Row(
         children: [
           CachedNetworkImage(
-            imageUrl: product.image,
+            imageUrl: widget.product.image,
             width: 80.w,
             height: 80.h,
             fit: BoxFit.cover,
@@ -47,26 +73,37 @@ class CartItemWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  product.localizedName(context),
+                  widget.product.localizedName(context),
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 4.h),
                 Text(
-                  product.localizedDescription(context),
+                  widget.product.localizedDescription(context),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(fontSize: 13.sp, color: Colors.grey[600]),
                 ),
                 SizedBox(height: 8.h),
-                Text(
-                  "Qty: $quantity × ${product.price.toStringAsFixed(2)} = $total EGP",
-                  style: TextStyle(fontSize: 13.sp, color: Colors.black87),
+                Row(
+                  children: [
+                    IconButton(
+                      onPressed: decrement,
+                      icon: const Icon(Icons.remove_circle_outline),
+                    ),
+                    Text('$quantity', style: TextStyle(fontSize: 16.sp)),
+                    IconButton(
+                      onPressed: increment,
+                      icon: const Icon(Icons.add_circle_outline),
+                    ),
+                  ],
                 ),
+                Text("Quantity: $quantity", style: TextStyle(fontSize: 13.sp)),
+                Text("Total: $total EGP", style: TextStyle(fontSize: 13.sp)),
               ],
             ),
           ),
           IconButton(
-            onPressed: onRemove,
+            onPressed: widget.onRemove,
             icon: const Icon(Icons.delete, color: Colors.red),
           ),
         ],

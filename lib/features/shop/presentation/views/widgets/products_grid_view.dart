@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:dio/dio.dart';
 import 'package:furni_iti/core/services/shared_prefs_helper.dart';
 import 'package:furni_iti/core/utils/app_colors.dart';
 import 'package:furni_iti/core/utils/toast_helper.dart';
@@ -20,30 +21,49 @@ class ProductsGridView extends StatefulWidget {
 
 class _ProductsGridViewState extends State<ProductsGridView> {
   Set<String> wishlistIds = {};
+  Map<String, int> quantities = {};
 
   @override
   void initState() {
     super.initState();
     loadWishlist();
+    for (var product in widget.products) {
+      quantities[product.id] = 1; // default quantity = 1
+    }
   }
 
   Future<void> loadWishlist() async {
-    final wishlist = await WishlistService.getWishlist();
+    final wishlist = await WishlistService().getWishlist();
     setState(() {
-      wishlistIds = wishlist.map((e) => e.id).toSet();
+      wishlistIds = wishlist.map((e) => e['_id'].toString()).toSet();
     });
   }
 
   Future<void> addToCart(Product product) async {
-    final cart = await SharedPrefsHelper.getCart();
-    final exists = cart.any((item) => item.id == product.id);
+    try {
+      final token = await SharedPrefsHelper.getToken();
+      final userId = await SharedPrefsHelper.getUserId();
+      final quantity = quantities[product.id] ?? 1;
 
-    if (!exists) {
-      cart.add(product);
-      await SharedPrefsHelper.saveCart(cart);
+      final response = await Dio().post(
+        'https://furniture-nodejs-production-665a.up.railway.app/carts',
+        data: {
+          "userId": userId,
+          "productId": product.id,
+          "quantity": quantity,
+          "priceAtAddition": product.price,
+        },
+        options: Options(headers: {"Authorization": "Bearer $token"}),
+      );
+
       if (!mounted) return;
-      showToast(S.of(context).addedToCart);
-    } else {
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        showToast(S.of(context).addedToCart);
+      } else {
+        showToast(S.of(context).alreadyInCart, isError: true);
+      }
+    } catch (e) {
       if (!mounted) return;
       showToast(S.of(context).alreadyInCart, isError: true);
     }
@@ -57,7 +77,7 @@ class _ProductsGridViewState extends State<ProductsGridView> {
         crossAxisCount: 2,
         crossAxisSpacing: 16.w,
         mainAxisSpacing: 16.h,
-        childAspectRatio: 0.68,
+        childAspectRatio: 0.56,
       ),
       itemCount: widget.products.length,
       itemBuilder: (context, index) {
@@ -98,8 +118,8 @@ class _ProductsGridViewState extends State<ProductsGridView> {
                       child: CachedNetworkImage(
                         imageUrl: product.image,
                         fit: BoxFit.cover,
-                        height: 100.h,
-                        width: (double.infinity).w,
+                        height: 101.h,
+                        width: double.infinity,
                         placeholder:
                             (context, url) => Center(
                               child: CircularProgressIndicator(
@@ -137,7 +157,6 @@ class _ProductsGridViewState extends State<ProductsGridView> {
                             final isInWishlist = wishlistIds.contains(
                               product.id,
                             );
-
                             setState(() {
                               if (isInWishlist) {
                                 wishlistIds.remove(product.id);
@@ -146,18 +165,15 @@ class _ProductsGridViewState extends State<ProductsGridView> {
                               }
                             });
 
+                            await WishlistService().toggleWishlist(product.id);
+
+                            if (!context.mounted) return;
                             if (isInWishlist) {
-                              await WishlistService.removeFromWishlist(
-                                product.id,
-                              );
-                              if (!context.mounted) return;
                               showToast(
                                 S.of(context).removedFromWishlist,
                                 isError: true,
                               );
                             } else {
-                              await WishlistService.addToWishlist(product.id);
-                              if (!context.mounted) return;
                               showToast(S.of(context).addedToWishlist);
                             }
                           },
@@ -189,9 +205,43 @@ class _ProductsGridViewState extends State<ProductsGridView> {
                     style: const TextStyle(color: AppColors.darkBackground),
                   ),
                 ),
-                const Spacer(),
                 Padding(
-                  padding: EdgeInsets.only(top: 4.h, left: 10.w, right: 10),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 10.w,
+                    vertical: 4.h,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          setState(() {
+                            final current = quantities[product.id] ?? 1;
+                            if (current > 1) {
+                              quantities[product.id] = current - 1;
+                            }
+                          });
+                        },
+                        icon: const Icon(Icons.remove),
+                      ),
+                      Text(
+                        '${quantities[product.id] ?? 1}',
+                        style: TextStyle(fontSize: 16.sp),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          setState(() {
+                            final current = quantities[product.id] ?? 1;
+                            quantities[product.id] = current + 1;
+                          });
+                        },
+                        icon: const Icon(Icons.add),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 6.h, left: 10.w, right: 10),
                   child: PrimaryButton(
                     title: S.of(context).addToCart,
                     onPressed: () => addToCart(product),

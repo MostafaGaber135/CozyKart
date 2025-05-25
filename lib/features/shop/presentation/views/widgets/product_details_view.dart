@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:furni_iti/core/services/cart_service.dart';
 import 'package:furni_iti/core/services/shared_prefs_helper.dart';
 import 'package:furni_iti/core/services/wishlist_service.dart';
 import 'package:furni_iti/core/utils/toast_helper.dart';
@@ -28,26 +29,21 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
   }
 
   Future<void> checkIfInWishlist() async {
-    final wishlist = await WishlistService.getWishlist();
+    final wishlist = await WishlistService().getWishlist();
     setState(() {
-      isWishlisted = wishlist.any((item) => item.id == widget.product.id);
+      isWishlisted = wishlist.any((item) => item['_id'] == widget.product.id);
     });
   }
 
   Future<void> toggleWishlist() async {
-    final wishlist = await WishlistService.getWishlist();
-    final alreadyExists = wishlist.any((item) => item.id == widget.product.id);
+    await WishlistService().toggleWishlist(widget.product.id);
+    setState(() => isWishlisted = !isWishlisted);
 
-    if (alreadyExists) {
-      await WishlistService.removeFromWishlist(widget.product.id);
-      setState(() => isWishlisted = false);
-      if (!mounted) return;
-      _showToast(S.of(context).removedFromWishlist, isError: true);
-    } else {
-      await WishlistService.addToWishlist(widget.product.id);
-      setState(() => isWishlisted = true);
-      if (!mounted) return;
+    if (!mounted) return;
+    if (isWishlisted) {
       _showToast(S.of(context).addedToWishlist);
+    } else {
+      _showToast(S.of(context).removedFromWishlist, isError: true);
     }
   }
 
@@ -144,7 +140,11 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
         padding: EdgeInsets.all(16.r),
         child: PrimaryButton(
           title: S.of(context).addToCart,
-          onPressed: () => addToCart(product),
+          onPressed: () async {
+            await CartService().addToCart(widget.product.id, quantity: 1);
+            if (!context.mounted) return;
+            showToast(S.of(context).addedToCart);
+          },
         ),
       ),
     );

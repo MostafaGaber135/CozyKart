@@ -52,6 +52,7 @@ class DioHelper {
   }
 
   /// ✅ طلب DELETE
+
   static Future<Response> deleteData({
     required String url,
     Map<String, dynamic>? headers,
@@ -78,13 +79,9 @@ class DioHelper {
   /// ✅ طلب PATCH
   static Future<Response> patchData({
     required String url,
-    required dynamic data,
+    dynamic data, // <-- هنا الحل
+    Map<String, dynamic>? headers,
   }) async {
-    await setTokenHeader();
-    return await dio.patch(
-      url,
-      data: data,
-      options: Options(headers: dio.options.headers),
-    );
+    return await dio.patch(url, data: data, options: Options(headers: headers));
   }
 }

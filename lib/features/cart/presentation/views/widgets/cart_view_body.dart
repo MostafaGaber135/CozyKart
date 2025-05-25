@@ -1,10 +1,10 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:furni_iti/core/services/cart_service.dart';
 import 'package:furni_iti/core/widgets/primary_button.dart';
-import 'package:furni_iti/features/cart/presentation/views/widgets/cart_item_widget.dart';
-import 'package:furni_iti/features/payment/presentation/views/widgets/paypal_webview.dart';
 import 'package:furni_iti/features/shop/data/models/product_model.dart';
+import 'cart_item_widget.dart';
 
 class CartViewBody extends StatefulWidget {
   const CartViewBody({super.key});
@@ -13,9 +13,9 @@ class CartViewBody extends StatefulWidget {
   State<CartViewBody> createState() => _CartViewBodyState();
 }
 
-class _CartViewBodyState extends State<CartViewBody> with RouteAware {
-  List<Product> cartItems = [];
-  bool isLoading = true;
+class _CartViewBodyState extends State<CartViewBody> {
+  List<dynamic> cartItems = [];
+  double total = 0;
 
   @override
   void initState() {
@@ -24,69 +24,90 @@ class _CartViewBodyState extends State<CartViewBody> with RouteAware {
   }
 
   Future<void> loadCart() async {
-    setState(() => isLoading = true);
-    cartItems = await CartService.getCart();
-    setState(() => isLoading = false);
+    try {
+      final items = await CartService().getCart();
+      setState(() {
+        cartItems = items;
+        calculateTotal();
+      });
+    } catch (e) {
+      log('Error loading cart: $e');
+    }
   }
 
-  double calculateTotalPrice() {
-    return cartItems.fold(
-      0.0,
-      (total, item) => total + item.price * (item.quantity),
-    );
+  void calculateTotal() {
+    total = 0;
+    for (var item in cartItems) {
+      final price = item['priceAtAddition'] ?? 0;
+      final quantity = item['quantity'] ?? 1;
+      total += price * quantity;
+    }
+  }
+
+  Future<void> deleteItem(String cartItemId) async {
+    try {
+      await CartService().removeFromCart(cartItemId);
+      setState(() {
+        cartItems.removeWhere((item) => item['_id'] == cartItemId);
+        calculateTotal();
+      });
+    } catch (e) {
+      log("Error deleting item: $e");
+    }
+  }
+
+  Future<void> updateItemQuantity(String cartItemId, int quantity) async {
+    await CartService().updateQuantity(cartItemId, quantity);
+    await loadCart();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (isLoading) {
-      return const Center(child: CircularProgressIndicator());
-    }
-
     if (cartItems.isEmpty) {
-      return const Center(child: Text("Your cart is empty"));
+      return Center(
+        child: Text(
+          "Your cart is empty 🛒",
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+        ),
+      );
     }
 
-    return Column(
-      children: [
-        Expanded(
-          child: ListView.builder(
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
             itemCount: cartItems.length,
             itemBuilder: (context, index) {
-              final product = cartItems[index];
-              return CartItemWidget(
-                product: product,
-                onRemove: () async {
-                  final success = await CartService.removeFromCart(product.id);
-                  if (!mounted) return;
-                  if (success) {
-                    Fluttertoast.showToast(msg: "Removed from cart");
-                    loadCart();
-                  } else {
-                    Fluttertoast.showToast(msg: "Failed to remove");
-                  }
-                },
-              );
-            },
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: PrimaryButton(
-            title: "Checkout \$${calculateTotalPrice().toStringAsFixed(2)}",
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder:
-                      (_) => const PaypalWebView(
-                        checkoutUrl: "https://example.com/success",
-                      ),
+              final item = cartItems[index];
+              final cartItemId = item['_id'];
+              final productJson = item['product'];
+              final quantity = item['quantity'] ?? 1;
+              final product = Product.fromJson(productJson);
+              product.quantity = quantity;
+
+              return Padding(
+                padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.w),
+                child: CartItemWidget(
+                  product: product,
+                  onRemove: () => deleteItem(cartItemId),
+                  onQuantityChange:
+                      (newQty) => updateItemQuantity(cartItemId, newQty),
                 ),
               );
             },
           ),
-        ),
-      ],
+          const SizedBox(height: 16),
+          Text(
+            "Total: ${total.toStringAsFixed(2)} EGP",
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 12),
+          PrimaryButton(title: 'Checkout', onPressed: () {}),
+          const SizedBox(height: 20),
+        ],
+      ),
     );
   }
 }
