@@ -1,7 +1,10 @@
 import 'dart:developer';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_paypal_payment/flutter_paypal_payment.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:furni_iti/core/services/cart_service.dart';
+import 'package:furni_iti/core/services/shared_prefs_helper.dart';
 import 'package:furni_iti/core/widgets/primary_button.dart';
 import 'package:furni_iti/features/shop/data/models/product_model.dart';
 import 'cart_item_widget.dart';
@@ -61,6 +64,114 @@ class _CartViewBodyState extends State<CartViewBody> {
     await loadCart();
   }
 
+  double egpToUsd(dynamic egp) {
+    if (egp is int) return egp.toDouble() / 45;
+    if (egp is double) return egp / 45;
+    return 0;
+  }
+
+  void _startPaypalCheckout() {
+    final usdTotal = egpToUsd(total).toStringAsFixed(2);
+
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder:
+            (BuildContext context) => PaypalCheckoutView(
+              sandboxMode: true,
+              clientId:
+                  "AYSDaD8ZjfGIQ2w04v3OtLXP6VtsH2CklFd6zJGhY2zc0OdeG--3H78jGCBn_9zhyvXvS54mkurQIzmi",
+              secretKey:
+                  "ECnQhOKy4U5jVJM3rB9HrXfGO-Nr8kqSTq8F6P-LcxobtY7BxYEJBIzDOraYKn7e78wkNukORBJPz8Oe",
+              transactions: [
+                {
+                  "amount": {
+                    "total": usdTotal,
+                    "currency": "USD",
+                    "details": {
+                      "subtotal": usdTotal,
+                      "shipping": '0',
+                      "shipping_discount": 0,
+                    },
+                  },
+                  "description": "Furniture order via CozyKart.",
+                  "item_list": {
+                    "items":
+                        cartItems.map((item) {
+                          final product = item['product'];
+                          final quantity = item['quantity'];
+                          final price = item['priceAtAddition'];
+                          return {
+                            "name": product['name']?['en'] ?? "Unnamed Product",
+                            "quantity": quantity.toString(),
+                            "price": egpToUsd(price).toStringAsFixed(2),
+                            "currency": "USD",
+                          };
+                        }).toList(),
+                  },
+                },
+              ],
+              note: "Thanks for your order!",
+              onSuccess: (Map params) async {
+                final shippingAddress = {
+                  "fullName": "Flutter User",
+                  "street": "123 Main St",
+                  "city": "Cairo",
+                  "state": "Cairo",
+                  "postalCode": "12345",
+                  "phone": "+201000000000",
+                  "country": "Egypt",
+                };
+
+                log("📦 Preparing order for API...");
+                final order = {
+                  "shippingAddress": shippingAddress,
+                  "paymentMethod": "paypal",
+                  "paypalOrderId": params['data']['id'],
+                  "products":
+                      cartItems.map((item) {
+                        return {
+                          "productId": item["product"]["_id"],
+                          "quantity": item["quantity"],
+                          "priceAtPurchase": item["priceAtAddition"],
+                        };
+                      }).toList(),
+                };
+
+                try {
+                  final token = await SharedPrefsHelper.getToken();
+                  log("🔑 TOKEN = $token");
+                  log("🛰 Sending Order to API: $order");
+                  final response = await Dio().post(
+                    "https://furniture-nodejs-production-665a.up.railway.app/orders",
+                    data: order,
+                    options: Options(
+                      headers: {"Authorization": "Bearer $token"},
+                    ),
+                  );
+
+                  if (response.statusCode == 201) {
+                    log("✅ Order saved");
+                    if (mounted) Navigator.pop(context);
+                  } else {
+                    log("❌ Failed to save order: ${response.statusCode}");
+                  }
+                } catch (e) {
+                  log("❌ Exception: $e");
+                }
+              },
+              onError: (error) {
+                log("❌ PayPal Error: $error");
+                Navigator.pop(context);
+              },
+              onCancel: () {
+                log("🛑 Payment cancelled");
+                Navigator.pop(context);
+              },
+            ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     if (cartItems.isEmpty) {
@@ -104,7 +215,7 @@ class _CartViewBodyState extends State<CartViewBody> {
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 12),
-          PrimaryButton(title: 'Checkout', onPressed: () {}),
+          PrimaryButton(title: 'Checkout', onPressed: _startPaypalCheckout),
           const SizedBox(height: 20),
         ],
       ),
