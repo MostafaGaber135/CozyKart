@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:furni_iti/core/utils/app_theme.dart';
+import 'package:furni_iti/core/utils/app_colors.dart';
 
 class PageViewItem extends StatelessWidget {
   final String imagePath, title, subTitle;

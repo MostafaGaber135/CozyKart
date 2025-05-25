@@ -1,4 +1,4 @@
-# furni_iti
+# CozyKart
 
 A new Flutter project.
 

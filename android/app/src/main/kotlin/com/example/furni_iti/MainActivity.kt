@@ -1,4 +1,4 @@
-package com.example.furni_iti
+package com.example.CozyKart
 
 import io.flutter.embedding.android.FlutterActivity
 

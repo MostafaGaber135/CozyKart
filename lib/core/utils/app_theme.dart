@@ -1,111 +1,79 @@
-// ✅ Updated Theme Colors and Fonts for Furniture App UI Style
-
 import 'package:flutter/material.dart';
-
-class AppColors {
-  static const Color lightBackground = Color(0xFFEDEDED);
-  static const Color primaryAccent = Color(0xFF3B4E54);
-  static const Color hintGrey = Color(0xFF949D9E);
-  static const Color secondaryText = Color(0xFF4E5456);
-  static const Color unselectedNav = Color(0xFFA5B5B5);
-  static const Color darkBackground = Color(0xFF121212);
-  static const Color darkInputFill = Color(0xFF2C2C2C);
-  static const Color darkNavBackground = Color(0xFF1F1F1F);
-  static const Color darkText = Color(0xFFD7DBE0);
-}
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:furni_iti/core/utils/app_colors.dart';
 
 class AppTheme {
-  static ThemeData lightTheme = ThemeData(
-    brightness: Brightness.light,
+  static final ThemeData lightTheme = ThemeData(
     scaffoldBackgroundColor: AppColors.lightBackground,
     primaryColor: AppColors.primaryAccent,
-    hintColor: AppColors.hintGrey,
-    inputDecorationTheme: InputDecorationTheme(
-      filled: true,
-      fillColor: AppColors.lightBackground,
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8),
-        borderSide: BorderSide.none,
-      ),
-      contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-    ),
-    textTheme: const TextTheme(
-      headlineLarge: TextStyle(
-        fontSize: 28,
-        fontWeight: FontWeight.bold,
+    brightness: Brightness.light,
+    fontFamily: 'Poppins',
+    appBarTheme: AppBarTheme(
+      centerTitle: true,
+      surfaceTintColor: Colors.transparent,
+      elevation: 0,
+      backgroundColor: AppColors.lightBackground,
+      iconTheme: IconThemeData(color: AppColors.primaryAccent),
+      titleTextStyle: TextStyle(
         color: AppColors.primaryAccent,
-      ),
-      headlineMedium: TextStyle(
-        fontSize: 24,
-        fontWeight: FontWeight.bold,
-        color: AppColors.primaryAccent,
-      ),
-      titleLarge: TextStyle(
-        fontSize: 18,
+        fontSize: 20.sp,
         fontWeight: FontWeight.w600,
-        color: AppColors.primaryAccent,
-      ),
-      bodyMedium: TextStyle(fontSize: 16, color: AppColors.secondaryText),
-      labelLarge: TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.w600,
-        color: Colors.white,
       ),
     ),
-    elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: AppColors.primaryAccent,
-        shape: StadiumBorder(),
-        textStyle: const TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
-          color: Colors.white,
-        ),
-      ),
+    cardColor: AppColors.lightSurface,
+    dividerColor: AppColors.lightBorder,
+    colorScheme: ColorScheme.light(
+      primary: AppColors.primaryAccent,
+      surfaceBright: AppColors.lightBackground,
+      surface: AppColors.lightSurface,
+      error: AppColors.lightError,
+      onPrimary: Colors.white,
+      onSurface: AppColors.secondaryText,
+      onSurfaceVariant: AppColors.secondaryText,
+      onError: Colors.white,
     ),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.lightBackground,
       selectedItemColor: AppColors.primaryAccent,
       unselectedItemColor: AppColors.unselectedNav,
       showUnselectedLabels: true,
     ),
   );
 
-  static ThemeData darkTheme = ThemeData.dark().copyWith(
+  static final ThemeData darkTheme = ThemeData(
     scaffoldBackgroundColor: AppColors.darkBackground,
     primaryColor: AppColors.primaryAccent,
-    inputDecorationTheme: InputDecorationTheme(
-      filled: true,
-      fillColor: AppColors.darkInputFill,
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8),
-        borderSide: BorderSide.none,
-      ),
-      contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-    ),
-    textTheme: ThemeData.dark().textTheme.copyWith(
-      bodyMedium: const TextStyle(color: AppColors.darkText),
-      headlineMedium: const TextStyle(
-        color: Colors.white,
-        fontSize: 24,
-        fontWeight: FontWeight.bold,
-      ),
-      labelLarge: const TextStyle(
-        color: Colors.white,
-        fontWeight: FontWeight.bold,
+    brightness: Brightness.dark,
+    fontFamily: 'Poppins',
+    appBarTheme: AppBarTheme(
+      centerTitle: true,
+      elevation: 0,
+      surfaceTintColor: Colors.transparent,
+      backgroundColor: AppColors.darkBackground,
+      iconTheme: IconThemeData(color: AppColors.darkText),
+      titleTextStyle: TextStyle(
+        color: AppColors.darkText,
+        fontSize: 20.sp,
+        fontWeight: FontWeight.w600,
       ),
     ),
-    elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: AppColors.primaryAccent,
-        shape: StadiumBorder(),
-        textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-      ),
+    cardColor: AppColors.darkSurface,
+    dividerColor: AppColors.darkBorder,
+    colorScheme: ColorScheme.dark(
+      primary: AppColors.primaryAccent,
+      surfaceBright: AppColors.darkBackground,
+      surface: AppColors.darkSurface,
+      error: AppColors.darkError,
+      onPrimary: Colors.white,
+      onSurface: AppColors.darkText,
+      onSurfaceVariant: AppColors.darkText,
+      onError: Colors.white,
     ),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       backgroundColor: AppColors.darkNavBackground,
-      selectedItemColor: AppColors.darkText,
-      unselectedItemColor: Colors.grey,
+      selectedItemColor: AppColors.primaryAccent,
+      unselectedItemColor: AppColors.darkUnselectedNav,
+      showUnselectedLabels: true,
     ),
   );
 }
