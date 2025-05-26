@@ -178,5 +178,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "wishlistEmpty": MessageLookupByLibrary.simpleMessage(
       "Your wishlist is empty",
     ),
+    "yourCartIsEmpty": MessageLookupByLibrary.simpleMessage(
+      "Your cart is empty 🛒",
+    ),
   };
 }

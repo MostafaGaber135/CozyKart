@@ -763,6 +763,16 @@ class S {
   String get errorPrefix {
     return Intl.message('Error:', name: 'errorPrefix', desc: '', args: []);
   }
+
+  /// `Your cart is empty 🛒`
+  String get yourCartIsEmpty {
+    return Intl.message(
+      'Your cart is empty 🛒',
+      name: 'yourCartIsEmpty',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

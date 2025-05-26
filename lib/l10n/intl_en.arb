@@ -90,5 +90,7 @@
   "paypalCheckout": "PayPal Checkout",
   "quantity": "Quantity",
   "egp": "EGP",
-  "errorPrefix": "Error:"
+  "errorPrefix": "Error:",
+    "yourCartIsEmpty": "Your cart is empty 🛒"
+
 }

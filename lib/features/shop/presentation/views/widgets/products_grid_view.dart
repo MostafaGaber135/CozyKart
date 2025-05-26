@@ -145,7 +145,7 @@ class _ProductsGridViewState extends State<ProductsGridView> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10.w),
                   child: Text(
-                    '${product.price.toStringAsFixed(2)} EGP',
+                    '${product.price.toStringAsFixed(2)} ${S.of(context).egp}',
                     style: const TextStyle(color: AppColors.darkBackground),
                   ),
                 ),
@@ -166,11 +166,17 @@ class _ProductsGridViewState extends State<ProductsGridView> {
                             }
                           });
                         },
-                        icon: const Icon(Icons.remove_circle_outline),
+                        icon: const Icon(
+                          Icons.remove_circle_outline,
+                          color: AppColors.primaryAccent,
+                        ),
                       ),
                       Text(
                         '${quantities[product.id] ?? 1}',
-                        style: TextStyle(fontSize: 16.sp),
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          color: AppColors.primaryAccent,
+                        ),
                       ),
                       IconButton(
                         onPressed: () {
@@ -179,7 +185,10 @@ class _ProductsGridViewState extends State<ProductsGridView> {
                             quantities[product.id] = current + 1;
                           });
                         },
-                        icon: const Icon(Icons.add_circle_outline),
+                        icon: const Icon(
+                          Icons.add_circle_outline,
+                          color: AppColors.primaryAccent,
+                        ),
                       ),
                     ],
                   ),

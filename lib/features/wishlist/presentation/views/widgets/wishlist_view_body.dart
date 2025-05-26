@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:furni_iti/core/services/cart_service.dart';
 import 'package:furni_iti/core/services/wishlist_service.dart';
-import 'package:furni_iti/core/utils/app_colors.dart';
 import 'package:furni_iti/core/utils/toast_helper.dart';
 import 'package:furni_iti/core/widgets/primary_button.dart';
 import 'package:furni_iti/features/shop/data/models/product_model.dart'
@@ -31,7 +30,7 @@ class _WishlistViewBodyState extends State<WishlistViewBody> {
     setState(() {
       _wishlist.remove(product);
     });
-    showToast('Removed from wishlist', isError: true);
+    showToast(S.of(context).removedFromWishlist, isError: true);
   }
 
   @override
@@ -45,7 +44,7 @@ class _WishlistViewBodyState extends State<WishlistViewBody> {
                 _wishlist.isEmpty
                     ? Center(
                       child: Text(
-                        'Your wishlist is empty',
+                        S.of(context).wishlistEmpty,
                         style: TextStyle(fontSize: 16.sp),
                       ),
                     )
@@ -122,10 +121,7 @@ class _WishlistItem extends StatelessWidget {
                   SizedBox(height: 4.h),
                   Text(
                     '${product.price.toStringAsFixed(2)} EGP',
-                    style: TextStyle(
-                      fontSize: 14.sp,
-                      color: AppColors.darkBackground,
-                    ),
+                    style: TextStyle(fontSize: 14.sp, color: Colors.white),
                   ),
                   SizedBox(height: 8.h),
                   SizedBox(

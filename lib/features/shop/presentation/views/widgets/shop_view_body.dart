@@ -60,6 +60,8 @@ class _ShopProductsViewBodyState extends State<ShopProductsViewBody> {
               prefixIcon: const Icon(Icons.search),
               filled: true,
               fillColor: Colors.white,
+              hintStyle: TextStyle(fontSize: 14.sp, color: Colors.grey),
+              iconColor: Colors.grey,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12.r),
                 borderSide: BorderSide.none,
