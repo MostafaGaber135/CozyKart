@@ -61,10 +61,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "darkTheme": MessageLookupByLibrary.simpleMessage("Dark Theme"),
     "description": MessageLookupByLibrary.simpleMessage("Description:"),
     "dontHaveAccount": MessageLookupByLibrary.simpleMessage(
-      "Don\'t have an account? Sign Up",
+      "Don\'t have an account?",
     ),
     "editProfile": MessageLookupByLibrary.simpleMessage("Edit Profile"),
     "editProfileTitle": MessageLookupByLibrary.simpleMessage("Edit Profile"),
+    "egp": MessageLookupByLibrary.simpleMessage("EGP"),
     "elegantBlackFinish": MessageLookupByLibrary.simpleMessage(
       "Elegant black marble finish",
     ),
@@ -83,6 +84,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "enterEmailToReset": MessageLookupByLibrary.simpleMessage(
       "Enter your email address to reset your password",
     ),
+    "errorPrefix": MessageLookupByLibrary.simpleMessage("Error:"),
     "fillAllFields": MessageLookupByLibrary.simpleMessage(
       "Please fill all fields",
     ),
@@ -140,6 +142,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "profileUpdated": MessageLookupByLibrary.simpleMessage(
       "Profile updated successfully",
     ),
+    "quantity": MessageLookupByLibrary.simpleMessage("Quantity"),
     "readMore": MessageLookupByLibrary.simpleMessage("Read More"),
     "register": MessageLookupByLibrary.simpleMessage("Register"),
     "registerSuccess": MessageLookupByLibrary.simpleMessage(

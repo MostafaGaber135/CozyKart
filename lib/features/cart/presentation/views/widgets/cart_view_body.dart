@@ -54,6 +54,7 @@ class _CartViewBodyState extends State<CartViewBody> {
       await CartService().removeFromCart(cartItemId);
       setState(() {
         cartItems.removeWhere((item) => item['_id'] == cartItemId);
+        showToast('Item removed from cart', isError: true);
         calculateTotal();
       });
     } catch (e) {

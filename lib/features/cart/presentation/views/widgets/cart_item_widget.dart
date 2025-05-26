@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:furni_iti/features/shop/data/models/product_model.dart';
+import 'package:furni_iti/generated/l10n.dart';
 
 class CartItemWidget extends StatefulWidget {
   final Product product;
@@ -52,7 +53,7 @@ class _CartItemWidgetState extends State<CartItemWidget> {
         borderRadius: BorderRadius.circular(12.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withValues(alpha:0.15),
+            color: Colors.grey.withValues(alpha: 0.15),
             blurRadius: 6,
             offset: const Offset(0, 2),
           ),
@@ -97,8 +98,14 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                     ),
                   ],
                 ),
-                Text("Quantity: $quantity", style: TextStyle(fontSize: 13.sp)),
-                Text("Total: $total EGP", style: TextStyle(fontSize: 13.sp)),
+                Text(
+                  "${S.of(context).quantity}: $quantity",
+                  style: TextStyle(fontSize: 13.sp),
+                ),
+                Text(
+                  "${S.of(context).total}: $total ${S.of(context).egp}",
+                  style: TextStyle(fontSize: 13.sp),
+                ),
               ],
             ),
           ),

@@ -53,7 +53,7 @@ class _ProductsGridViewState extends State<ProductsGridView> {
       itemBuilder: (context, index) {
         final product = widget.products[index];
         final isWishlisted = _wishlistService.isInWishlist(product);
-        
+
         return GestureDetector(
           onTap: () {
             Navigator.push(
@@ -115,7 +115,9 @@ class _ProductsGridViewState extends State<ProductsGridView> {
                         ),
                         child: IconButton(
                           icon: Icon(
-                            isWishlisted ? Icons.favorite : Icons.favorite_border,
+                            isWishlisted
+                                ? Icons.favorite
+                                : Icons.favorite_border,
                             color: isWishlisted ? Colors.red : null,
                           ),
                           onPressed: () => _toggleWishlist(product),
@@ -183,7 +185,7 @@ class _ProductsGridViewState extends State<ProductsGridView> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: 6.h, left: 10.w, right: 10),
+                  padding: EdgeInsets.only(left: 10.w, right: 10.w),
                   child: PrimaryButton(
                     title: S.of(context).addToCart,
                     onPressed: () => addToCart(product),

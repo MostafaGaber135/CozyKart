@@ -28,10 +28,9 @@ class S {
   static const AppLocalizationDelegate delegate = AppLocalizationDelegate();
 
   static Future<S> load(Locale locale) {
-    final name =
-        (locale.countryCode?.isEmpty ?? false)
-            ? locale.languageCode
-            : locale.toString();
+    final name = (locale.countryCode?.isEmpty ?? false)
+        ? locale.languageCode
+        : locale.toString();
     final localeName = Intl.canonicalizedLocale(name);
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
@@ -210,10 +209,10 @@ class S {
     return Intl.message('LOG IN', name: 'logIn', desc: '', args: []);
   }
 
-  /// `Don't have an account? Sign Up`
+  /// `Don't have an account?`
   String get dontHaveAccount {
     return Intl.message(
-      'Don\'t have an account? Sign Up',
+      'Don\'t have an account?',
       name: 'dontHaveAccount',
       desc: '',
       args: [],
@@ -748,6 +747,21 @@ class S {
       desc: '',
       args: [],
     );
+  }
+
+  /// `Quantity`
+  String get quantity {
+    return Intl.message('Quantity', name: 'quantity', desc: '', args: []);
+  }
+
+  /// `EGP`
+  String get egp {
+    return Intl.message('EGP', name: 'egp', desc: '', args: []);
+  }
+
+  /// `Error:`
+  String get errorPrefix {
+    return Intl.message('Error:', name: 'errorPrefix', desc: '', args: []);
   }
 }
 

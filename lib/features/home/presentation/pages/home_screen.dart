@@ -104,7 +104,7 @@ class HomeScreen extends StatelessWidget {
                   },
                 );
               } else if (state is ProductError) {
-                return Text("Error: ${state.message}");
+                return Text("${S.of(context).errorPrefix} ${state.message}");
               } else {
                 return const SizedBox();
               }

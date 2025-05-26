@@ -20,7 +20,7 @@ class DontHaveAnAccountWidget extends StatelessWidget {
         children: [
           TextSpan(
             text: S.of(context).dontHaveAccount,
-            style: AppTextStyles.bold16.copyWith(
+            style: AppTextStyles.bold13.copyWith(
               color:
                   settingsProvider.isDark
                       ? AppColors.darkText
@@ -29,7 +29,7 @@ class DontHaveAnAccountWidget extends StatelessWidget {
           ),
           TextSpan(
             text: ' ',
-            style: AppTextStyles.bold16.copyWith(
+            style: AppTextStyles.bold13.copyWith(
               color:
                   settingsProvider.isDark
                       ? AppColors.darkText
@@ -38,7 +38,7 @@ class DontHaveAnAccountWidget extends StatelessWidget {
           ),
           TextSpan(
             text: S.of(context).signUp,
-            style: AppTextStyles.bold19.copyWith(
+            style: AppTextStyles.bold16.copyWith(
               color:
                   settingsProvider.isDark
                       ? AppColors.primaryAccent

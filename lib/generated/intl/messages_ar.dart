@@ -71,6 +71,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "editProfileTitle": MessageLookupByLibrary.simpleMessage(
       "تعديل الملف الشخصي",
     ),
+    "egp": MessageLookupByLibrary.simpleMessage("جنيه"),
     "elegantBlackFinish": MessageLookupByLibrary.simpleMessage(
       "تشطيب رخامي أسود أنيق",
     ),
@@ -89,6 +90,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "enterEmailToReset": MessageLookupByLibrary.simpleMessage(
       "أدخل بريدك الإلكتروني لإعادة تعيين كلمة المرور",
     ),
+    "errorPrefix": MessageLookupByLibrary.simpleMessage("خطأ:"),
     "fillAllFields": MessageLookupByLibrary.simpleMessage(
       "يرجى ملء جميع الحقول",
     ),
@@ -148,6 +150,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "profileUpdated": MessageLookupByLibrary.simpleMessage(
       "تم تحديث الملف الشخصي بنجاح",
     ),
+    "quantity": MessageLookupByLibrary.simpleMessage("الكمية"),
     "readMore": MessageLookupByLibrary.simpleMessage("اقرأ المزيد"),
     "register": MessageLookupByLibrary.simpleMessage("تسجيل"),
     "registerSuccess": MessageLookupByLibrary.simpleMessage(
