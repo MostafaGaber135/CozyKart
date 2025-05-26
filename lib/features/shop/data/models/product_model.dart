@@ -7,7 +7,7 @@ class Product {
   final Map<String, dynamic> descriptionMap;
   final double price;
   int quantity;
-
+  final int inStock;
   Product({
     required this.id,
     required this.image,
@@ -15,6 +15,7 @@ class Product {
     required this.descriptionMap,
     required this.price,
     this.quantity = 1,
+    required this.inStock,
   });
   factory Product.fromJson(Map<String, dynamic> json) {
     final productJson =
@@ -37,6 +38,7 @@ class Product {
       ),
       price: (variant?['price'] ?? productJson['price'] ?? 0).toDouble(),
       quantity: json['quantity'] ?? 1,
+      inStock: json['inStock'] ?? 0,
     );
   }
 
@@ -58,6 +60,7 @@ class Product {
       'price': price,
       'image': image,
       'quantity': quantity,
+      'inStock': inStock,
     };
   }
 }

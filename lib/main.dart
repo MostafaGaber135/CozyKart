@@ -46,11 +46,11 @@ void main() async {
 
   Widget startWidget;
   if (!hasSeenOnboarding) {
-    startWidget = const SplashScreen();
+    startWidget = const MainScreen();
   } else if (token != null && !JwtDecoder.isExpired(token)) {
     startWidget = const MainScreen();
   } else {
-    startWidget = SplashScreen();
+    startWidget = MainScreen();
   }
 
   runApp(

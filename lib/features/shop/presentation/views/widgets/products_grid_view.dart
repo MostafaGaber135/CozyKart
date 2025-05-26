@@ -1,8 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:dio/dio.dart';
-import 'package:furni_iti/core/services/shared_prefs_helper.dart';
+import 'package:furni_iti/core/services/cart_service.dart';
 import 'package:furni_iti/core/utils/app_colors.dart';
 import 'package:furni_iti/core/utils/toast_helper.dart';
 import 'package:furni_iti/core/widgets/primary_button.dart';
@@ -28,7 +29,7 @@ class _ProductsGridViewState extends State<ProductsGridView> {
     super.initState();
     loadWishlist();
     for (var product in widget.products) {
-      quantities[product.id] = 1; 
+      quantities[product.id] = 1;
     }
   }
 
@@ -40,33 +41,19 @@ class _ProductsGridViewState extends State<ProductsGridView> {
   }
 
   Future<void> addToCart(Product product) async {
+    final quantity = quantities[product.id] ?? 1;
+
     try {
-      final token = await SharedPrefsHelper.getToken();
-      final userId = await SharedPrefsHelper.getUserId();
-      final quantity = quantities[product.id] ?? 1;
-
-      final response = await Dio().post(
-        'https://furniture-nodejs-production-665a.up.railway.app/carts',
-        data: {
-          "userId": userId,
-          "productId": product.id,
-          "quantity": quantity,
-          "priceAtAddition": product.price,
-        },
-        options: Options(headers: {"Authorization": "Bearer $token"}),
-      );
-
-      if (!mounted) return;
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        showToast(S.of(context).addedToCart);
-      } else {
-        showToast(S.of(context).alreadyInCart, isError: true);
-      }
+      await CartService().addToCart(product.id, quantity: quantity);
     } catch (e) {
-      if (!mounted) return;
-      showToast(S.of(context).alreadyInCart, isError: true);
+      log("Error adding to cart: $e");
+      showToast("Error adding to cart", isError: true);
+      return;
     }
+
+    await CartService().getCart();
+    if (!mounted) return;
+    showToast(S.of(context).addedToCart);
   }
 
   @override

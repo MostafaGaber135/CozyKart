@@ -1,9 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:furni_iti/core/services/cart_service.dart';
-import 'package:furni_iti/core/services/shared_prefs_helper.dart';
 import 'package:furni_iti/core/services/wishlist_service.dart';
 import 'package:furni_iti/core/utils/toast_helper.dart';
 import 'package:furni_iti/core/widgets/primary_button.dart';
@@ -46,21 +47,26 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
       _showToast(S.of(context).removedFromWishlist, isError: true);
     }
   }
-
-  Future<void> addToCart(Product product) async {
-    final cart = await SharedPrefsHelper.getCart();
-    final exists = cart.any((item) => item.id == product.id);
-
-    if (!exists) {
-      cart.add(product);
-      await SharedPrefsHelper.saveCart(cart);
-      if (!mounted) return;
-      showToast(S.of(context).addedToCart);
-    } else {
-      if (!mounted) return;
-      showToast(S.of(context).alreadyInCart, isError: true);
-    }
+Future<void> addToCart(Product product) async {
+  if (product.inStock == 0) {
+    showToast("This product is out of stock", isError: true);
+    return;
   }
+
+  try {
+    await CartService().addToCart(product.id);
+  } catch (e) {
+    log("Error adding to cart: $e");
+    showToast("Error adding to cart", isError: true);
+    return;
+  }
+
+  await CartService().getCart();
+
+  if (!mounted) return;
+  showToast(S.of(context).addedToCart);
+}
+
 
   void _showToast(String message, {bool isError = false}) {
     Fluttertoast.showToast(

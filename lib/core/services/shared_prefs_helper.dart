@@ -7,12 +7,10 @@ import 'package:furni_iti/features/auth/data/models/user_model.dart';
 class SharedPrefsHelper {
   static late SharedPreferences _instance;
 
-  
   static Future<void> init() async {
     _instance = await SharedPreferences.getInstance();
   }
 
-  
   static Future<void> setToken(String token) async {
     await _instance.setString('token', token);
     log("Saved token: $token");
@@ -47,7 +45,6 @@ class SharedPrefsHelper {
     return _instance.getString(key) ?? '';
   }
 
-
   static void setBool(String key, bool value) {
     _instance.setBool(key, value);
   }
@@ -56,32 +53,6 @@ class SharedPrefsHelper {
     return _instance.getBool(key) ?? false;
   }
 
-  static Future<void> saveCart(List<Product> cartItems) async {
-    final userId = await getUserId();
-    if (userId == null) return;
-    final cartJson =
-        cartItems.map((item) => jsonEncode(item.toJson())).toList();
-    await _instance.setStringList('cart_$userId', cartJson);
-  }
-
-  static Future<List<Product>> getCart() async {
-    final userId = await getUserId();
-    if (userId == null) return [];
-    final cartJson = _instance.getStringList('cart_$userId') ?? [];
-    return cartJson.map((item) => Product.fromJson(jsonDecode(item))).toList();
-  }
-
-  static Future<void> removeFromCart(String productId) async {
-    final cart = await getCart();
-    cart.removeWhere((item) => item.id == productId);
-    await saveCart(cart);
-  }
-
-  static Future<void> clearCart() async {
-    final userId = await getUserId();
-    if (userId == null) return;
-    await _instance.remove('cart_$userId');
-  }
   static Future<void> saveWishlist(List<Product> wishlistItems) async {
     final userId = await getUserId();
     if (userId == null) return;
@@ -106,7 +77,6 @@ class SharedPrefsHelper {
     list.removeWhere((item) => jsonDecode(item)['id'] == productId);
     await _instance.setStringList('wishlist_$userId', list);
   }
-
 
   static const String _onboardingKey = 'onboarding_seen';
 

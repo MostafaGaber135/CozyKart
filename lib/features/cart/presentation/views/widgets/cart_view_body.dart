@@ -5,6 +5,7 @@ import 'package:flutter_paypal_payment/flutter_paypal_payment.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:furni_iti/core/services/cart_service.dart';
 import 'package:furni_iti/core/services/shared_prefs_helper.dart';
+import 'package:furni_iti/core/utils/toast_helper.dart';
 import 'package:furni_iti/core/widgets/primary_button.dart';
 import 'package:furni_iti/features/shop/data/models/product_model.dart';
 import 'cart_item_widget.dart';
@@ -41,7 +42,8 @@ class _CartViewBodyState extends State<CartViewBody> {
   void calculateTotal() {
     total = 0;
     for (var item in cartItems) {
-      final price = item['priceAtAddition'] ?? 0;
+      final product = item['product'];
+      final price = item['priceAtAddition'] ?? product?['price'] ?? 0;
       final quantity = item['quantity'] ?? 1;
       total += price * quantity;
     }
@@ -71,7 +73,27 @@ class _CartViewBodyState extends State<CartViewBody> {
   }
 
   void _startPaypalCheckout() {
-    final usdTotal = egpToUsd(total).toStringAsFixed(2);
+    final items =
+        cartItems.map((item) {
+          final product = item['product'];
+          final quantity = item['quantity'];
+          final priceEgp = item['priceAtAddition'];
+          final priceUsd = egpToUsd(priceEgp); // تحويل السعر من جنيه لدولار
+
+          return {
+            "name": product['name']?['en'] ?? "Unnamed Product",
+            "quantity": quantity.toString(),
+            "price": priceUsd.toStringAsFixed(2),
+            "currency": "USD",
+          };
+        }).toList();
+
+    double subtotal = 0;
+    for (var item in items) {
+      subtotal += double.parse(item['price']) * int.parse(item['quantity']);
+    }
+
+    final usdTotal = subtotal.toStringAsFixed(2);
 
     Navigator.of(context).push(
       MaterialPageRoute(
@@ -94,20 +116,7 @@ class _CartViewBodyState extends State<CartViewBody> {
                     },
                   },
                   "description": "Furniture order via CozyKart.",
-                  "item_list": {
-                    "items":
-                        cartItems.map((item) {
-                          final product = item['product'];
-                          final quantity = item['quantity'];
-                          final price = item['priceAtAddition'];
-                          return {
-                            "name": product['name']?['en'] ?? "Unnamed Product",
-                            "quantity": quantity.toString(),
-                            "price": egpToUsd(price).toStringAsFixed(2),
-                            "currency": "USD",
-                          };
-                        }).toList(),
-                  },
+                  "item_list": {"items": items},
                 },
               ],
               note: "Thanks for your order!",
@@ -122,7 +131,6 @@ class _CartViewBodyState extends State<CartViewBody> {
                   "country": "Egypt",
                 };
 
-                log("Preparing order for API...");
                 final order = {
                   "shippingAddress": shippingAddress,
                   "paymentMethod": "paypal",
@@ -139,8 +147,6 @@ class _CartViewBodyState extends State<CartViewBody> {
 
                 try {
                   final token = await SharedPrefsHelper.getToken();
-                  log("TOKEN = $token");
-                  log("Sending Order to API: $order");
                   final response = await Dio().post(
                     "https://furniture-nodejs-production-665a.up.railway.app/orders",
                     data: order,
@@ -151,6 +157,7 @@ class _CartViewBodyState extends State<CartViewBody> {
 
                   if (response.statusCode == 201) {
                     log("Order saved");
+                    showToast('Order saved successfully');
                     if (!context.mounted) return;
                     Navigator.pop(context);
                   } else {
