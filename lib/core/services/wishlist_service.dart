@@ -1,26 +1,33 @@
-import 'dart:developer';
-
-import '../../core/network/dio_helper.dart';
-import 'shared_prefs_helper.dart';
+import 'package:furni_iti/features/shop/data/models/product_model.dart';
 
 class WishlistService {
-  Future<void> toggleWishlist(String productId) async {
-    final token = await SharedPrefsHelper.getToken();
-    final response = await DioHelper.postData(
-      url: 'wishlist/toggle',
-      data: {'productId': productId},
-      headers: {'Authorization': 'Bearer $token'},
-    );
-    log('WISHLIST TOGGLE RESPONSE: ${response.data}');
+  static final WishlistService _instance = WishlistService._internal();
+  factory WishlistService() => _instance;
+  WishlistService._internal();
+
+  final List<Product> _wishlist = [];
+
+  List<Product> get wishlist => _wishlist;
+
+  bool isInWishlist(Product product) {
+    return _wishlist.any((item) => item.id == product.id);
   }
 
-  Future<List<dynamic>> getWishlist() async {
-    final token = await SharedPrefsHelper.getToken();
-    final response = await DioHelper.getData(
-      url: 'wishlist',
-      headers: {'Authorization': 'Bearer $token'},
-    );
-    log('GET WISHLIST RESPONSE: ${response.data}');
-    return response.data['wishlist'] ?? [];
+  void addToWishlist(Product product) {
+    if (!isInWishlist(product)) {
+      _wishlist.add(product);
+    }
+  }
+
+  void removeFromWishlist(Product product) {
+    _wishlist.removeWhere((item) => item.id == product.id);
+  }
+
+  void toggleWishlist(Product product) {
+    if (isInWishlist(product)) {
+      removeFromWishlist(product);
+    } else {
+      addToWishlist(product);
+    }
   }
 }

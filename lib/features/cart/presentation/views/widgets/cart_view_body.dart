@@ -78,7 +78,7 @@ class _CartViewBodyState extends State<CartViewBody> {
           final product = item['product'];
           final quantity = item['quantity'];
           final priceEgp = item['priceAtAddition'];
-          final priceUsd = egpToUsd(priceEgp); // تحويل السعر من جنيه لدولار
+          final priceUsd = egpToUsd(priceEgp);
 
           return {
             "name": product['name']?['en'] ?? "Unnamed Product",

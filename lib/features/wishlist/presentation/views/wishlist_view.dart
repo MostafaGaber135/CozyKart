@@ -6,6 +6,6 @@ class WishlistView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: const WishlistViewBody());
+    return Scaffold(body: WishlistViewBody());
   }
 }

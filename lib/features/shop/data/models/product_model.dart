@@ -8,6 +8,7 @@ class Product {
   final double price;
   int quantity;
   final int inStock;
+
   Product({
     required this.id,
     required this.image,
@@ -17,9 +18,17 @@ class Product {
     this.quantity = 1,
     required this.inStock,
   });
+
   factory Product.fromJson(Map<String, dynamic> json) {
-    final productJson =
-        json.containsKey('variants') ? json : json['productId'] ?? {};
+    Map<String, dynamic> productJson;
+
+    if (json.containsKey('variants')) {
+      productJson = json;
+    } else if (json['productId'] is Map<String, dynamic>) {
+      productJson = json['productId'];
+    } else {
+      productJson = json;
+    }
 
     final variants = productJson['variants'] as List?;
     final variant =

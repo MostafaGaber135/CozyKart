@@ -39,6 +39,7 @@ void main() async {
   await SharedPrefsHelper.init();
   DioHelper.init();
   final prefs = await SharedPreferences.getInstance();
+  prefs.remove('wishlist');
   final token = await SharedPrefsHelper.getToken();
   final hasSeenOnboarding = SharedPrefsHelper.getBool('onBoardingSeen');
   log("All Keys: ${prefs.getKeys()}");

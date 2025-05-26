@@ -1,15 +1,13 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:furni_iti/core/services/cart_service.dart';
+import 'package:furni_iti/core/services/wishlist_service.dart';
 import 'package:furni_iti/core/utils/app_colors.dart';
 import 'package:furni_iti/core/utils/toast_helper.dart';
 import 'package:furni_iti/core/widgets/primary_button.dart';
 import 'package:furni_iti/features/shop/data/models/product_model.dart';
 import 'package:furni_iti/features/shop/presentation/views/widgets/product_details_view.dart';
-import 'package:furni_iti/core/services/wishlist_service.dart';
 import 'package:furni_iti/generated/l10n.dart';
 
 class ProductsGridView extends StatefulWidget {
@@ -21,39 +19,24 @@ class ProductsGridView extends StatefulWidget {
 }
 
 class _ProductsGridViewState extends State<ProductsGridView> {
-  Set<String> wishlistIds = {};
   Map<String, int> quantities = {};
-
-  @override
-  void initState() {
-    super.initState();
-    loadWishlist();
-    for (var product in widget.products) {
-      quantities[product.id] = 1;
-    }
-  }
-
-  Future<void> loadWishlist() async {
-    final wishlist = await WishlistService().getWishlist();
-    setState(() {
-      wishlistIds = wishlist.map((e) => e['_id'].toString()).toSet();
-    });
-  }
+  final WishlistService _wishlistService = WishlistService();
 
   Future<void> addToCart(Product product) async {
     final quantity = quantities[product.id] ?? 1;
-
     try {
       await CartService().addToCart(product.id, quantity: quantity);
+      if (!mounted) return;
+      showToast(S.of(context).addedToCart);
     } catch (e) {
-      log("Error adding to cart: $e");
       showToast("Error adding to cart", isError: true);
-      return;
     }
+  }
 
-    await CartService().getCart();
-    if (!mounted) return;
-    showToast(S.of(context).addedToCart);
+  void _toggleWishlist(Product product) {
+    setState(() {
+      _wishlistService.toggleWishlist(product);
+    });
   }
 
   @override
@@ -69,7 +52,8 @@ class _ProductsGridViewState extends State<ProductsGridView> {
       itemCount: widget.products.length,
       itemBuilder: (context, index) {
         final product = widget.products[index];
-        final isWishlisted = wishlistIds.contains(product.id);
+        final isWishlisted = _wishlistService.isInWishlist(product);
+        
         return GestureDetector(
           onTap: () {
             Navigator.push(
@@ -88,7 +72,7 @@ class _ProductsGridViewState extends State<ProductsGridView> {
                 BoxShadow(
                   color: Colors.grey.withValues(alpha: 0.1),
                   blurRadius: 8.r,
-                  offset: Offset(0.w, 4.h),
+                  offset: Offset(0, 4),
                 ),
               ],
               border: Border.all(color: Colors.grey.shade200),
@@ -108,11 +92,8 @@ class _ProductsGridViewState extends State<ProductsGridView> {
                         height: 101.h,
                         width: double.infinity,
                         placeholder:
-                            (context, url) => Center(
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2.w,
-                              ),
-                            ),
+                            (context, url) =>
+                                Center(child: CircularProgressIndicator()),
                         errorWidget:
                             (context, url, error) => const Icon(Icons.error),
                       ),
@@ -128,42 +109,16 @@ class _ProductsGridViewState extends State<ProductsGridView> {
                             BoxShadow(
                               color: Colors.black.withValues(alpha: 0.1),
                               blurRadius: 4.r,
-                              offset: Offset(0.w, 2.h),
+                              offset: Offset(0, 2),
                             ),
                           ],
                         ),
                         child: IconButton(
                           icon: Icon(
-                            isWishlisted
-                                ? Icons.favorite
-                                : Icons.favorite_border,
-                            color: Colors.red,
-                            size: 22.sp,
+                            isWishlisted ? Icons.favorite : Icons.favorite_border,
+                            color: isWishlisted ? Colors.red : null,
                           ),
-                          onPressed: () async {
-                            final isInWishlist = wishlistIds.contains(
-                              product.id,
-                            );
-                            setState(() {
-                              if (isInWishlist) {
-                                wishlistIds.remove(product.id);
-                              } else {
-                                wishlistIds.add(product.id);
-                              }
-                            });
-
-                            await WishlistService().toggleWishlist(product.id);
-
-                            if (!context.mounted) return;
-                            if (isInWishlist) {
-                              showToast(
-                                S.of(context).removedFromWishlist,
-                                isError: true,
-                              );
-                            } else {
-                              showToast(S.of(context).addedToWishlist);
-                            }
-                          },
+                          onPressed: () => _toggleWishlist(product),
                         ),
                       ),
                     ),
@@ -209,7 +164,7 @@ class _ProductsGridViewState extends State<ProductsGridView> {
                             }
                           });
                         },
-                        icon: const Icon(Icons.remove),
+                        icon: const Icon(Icons.remove_circle_outline),
                       ),
                       Text(
                         '${quantities[product.id] ?? 1}',
@@ -222,7 +177,7 @@ class _ProductsGridViewState extends State<ProductsGridView> {
                             quantities[product.id] = current + 1;
                           });
                         },
-                        icon: const Icon(Icons.add),
+                        icon: const Icon(Icons.add_circle_outline),
                       ),
                     ],
                   ),

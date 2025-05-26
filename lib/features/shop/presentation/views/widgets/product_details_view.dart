@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:furni_iti/core/services/cart_service.dart';
 import 'package:furni_iti/core/services/wishlist_service.dart';
@@ -21,66 +20,34 @@ class ProductDetailsView extends StatefulWidget {
 }
 
 class _ProductDetailsViewState extends State<ProductDetailsView> {
-  bool isWishlisted = false;
+  final WishlistService _wishlistService = WishlistService();
 
-  @override
-  void initState() {
-    super.initState();
-    checkIfInWishlist();
-  }
+  Future<void> addToCart(Product product) async {
+    if (product.inStock == 0) {
+      showToast("This product is out of stock", isError: true);
+      return;
+    }
 
-  Future<void> checkIfInWishlist() async {
-    final wishlist = await WishlistService().getWishlist();
-    setState(() {
-      isWishlisted = wishlist.any((item) => item['_id'] == widget.product.id);
-    });
-  }
-
-  Future<void> toggleWishlist() async {
-    await WishlistService().toggleWishlist(widget.product.id);
-    setState(() => isWishlisted = !isWishlisted);
-
-    if (!mounted) return;
-    if (isWishlisted) {
-      _showToast(S.of(context).addedToWishlist);
-    } else {
-      _showToast(S.of(context).removedFromWishlist, isError: true);
+    try {
+      await CartService().addToCart(product.id);
+      if (!mounted) return;
+      showToast(S.of(context).addedToCart);
+    } catch (e) {
+      log("Error adding to cart: $e");
+      showToast("Error adding to cart", isError: true);
     }
   }
-Future<void> addToCart(Product product) async {
-  if (product.inStock == 0) {
-    showToast("This product is out of stock", isError: true);
-    return;
-  }
 
-  try {
-    await CartService().addToCart(product.id);
-  } catch (e) {
-    log("Error adding to cart: $e");
-    showToast("Error adding to cart", isError: true);
-    return;
-  }
-
-  await CartService().getCart();
-
-  if (!mounted) return;
-  showToast(S.of(context).addedToCart);
-}
-
-
-  void _showToast(String message, {bool isError = false}) {
-    Fluttertoast.showToast(
-      msg: message,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      backgroundColor: isError ? Colors.red : Colors.green,
-      textColor: Colors.white,
-    );
+  void _toggleWishlist() {
+    setState(() {
+      _wishlistService.toggleWishlist(widget.product);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final product = widget.product;
+    final isWishlisted = _wishlistService.isInWishlist(product);
 
     return Scaffold(
       appBar: AppBar(
@@ -89,9 +56,9 @@ Future<void> addToCart(Product product) async {
           IconButton(
             icon: Icon(
               isWishlisted ? Icons.favorite : Icons.favorite_border,
-              color: Colors.red,
+              color: isWishlisted ? Colors.red : null,
             ),
-            onPressed: toggleWishlist,
+            onPressed: _toggleWishlist,
           ),
         ],
       ),
@@ -103,12 +70,7 @@ Future<void> addToCart(Product product) async {
               imageUrl: product.image,
               height: 250.h,
               fit: BoxFit.cover,
-              placeholder:
-                  (context, url) =>
-                      const Center(child: CircularProgressIndicator()),
-              errorWidget: (context, url, error) => const Icon(Icons.error),
             ),
-            SizedBox(height: 16.h),
             Padding(
               padding: EdgeInsets.all(16.r),
               child: Column(
@@ -116,41 +78,24 @@ Future<void> addToCart(Product product) async {
                 children: [
                   Text(
                     product.localizedName(context),
-                    style: TextStyle(
-                      fontSize: 22.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: Theme.of(context).textTheme.headlineSmall,
                   ),
                   SizedBox(height: 8.h),
                   Text(
-                    '${product.price.toStringAsFixed(2)} EGP',
-                    style: TextStyle(fontSize: 18.sp, color: Colors.grey),
+                    "${product.price.toStringAsFixed(2)} EGP",
+                    style: Theme.of(context).textTheme.titleLarge,
                   ),
                   SizedBox(height: 16.h),
-                  Text(
-                    S.of(context).description,
-                    style: TextStyle(
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  SizedBox(height: 8.h),
                   Text(product.localizedDescription(context)),
+                  SizedBox(height: 24.h),
+                  PrimaryButton(
+                    title: S.of(context).addToCart,
+                    onPressed: () => addToCart(product),
+                  ),
                 ],
               ),
             ),
           ],
-        ),
-      ),
-      bottomNavigationBar: Padding(
-        padding: EdgeInsets.all(16.r),
-        child: PrimaryButton(
-          title: S.of(context).addToCart,
-          onPressed: () async {
-            await CartService().addToCart(widget.product.id, quantity: 1);
-            if (!context.mounted) return;
-            showToast(S.of(context).addedToCart);
-          },
         ),
       ),
     );
