@@ -7,7 +7,7 @@ class DioHelper {
   static void init() {
     dio = Dio(
       BaseOptions(
-        baseUrl: 'http://192.168.1.7:3000/',
+        baseUrl: 'https://furniture-nodejs-production-665a.up.railway.app/',
         headers: {'Content-Type': 'application/json'},
         validateStatus: (status) => status != null && status < 500,
         connectTimeout: const Duration(seconds: 30),
