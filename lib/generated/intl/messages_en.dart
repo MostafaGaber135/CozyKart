@@ -102,6 +102,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "invalidEmail": MessageLookupByLibrary.simpleMessage(
       "Invalid email format",
     ),
+    "language": MessageLookupByLibrary.simpleMessage("Language"),
     "logIn": MessageLookupByLibrary.simpleMessage("LOG IN"),
     "login": MessageLookupByLibrary.simpleMessage("Login"),
     "loginSuccess": MessageLookupByLibrary.simpleMessage("Login Successful"),
@@ -171,6 +172,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "subject": MessageLookupByLibrary.simpleMessage("Subject"),
     "success": MessageLookupByLibrary.simpleMessage("Success"),
+    "switchLanguage": MessageLookupByLibrary.simpleMessage("Switch Language"),
     "total": MessageLookupByLibrary.simpleMessage("Total"),
     "totalAmount": MessageLookupByLibrary.simpleMessage("Total"),
     "userNotFound": MessageLookupByLibrary.simpleMessage("User not found"),

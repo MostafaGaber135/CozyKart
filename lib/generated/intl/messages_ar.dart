@@ -110,6 +110,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "invalidEmail": MessageLookupByLibrary.simpleMessage(
       "تنسيق البريد الإلكتروني غير صالح",
     ),
+    "language": MessageLookupByLibrary.simpleMessage("اللغة"),
     "logIn": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
     "login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
     "loginSuccess": MessageLookupByLibrary.simpleMessage(
@@ -181,6 +182,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "subject": MessageLookupByLibrary.simpleMessage("الموضوع"),
     "success": MessageLookupByLibrary.simpleMessage("تم بنجاح"),
+    "switchLanguage": MessageLookupByLibrary.simpleMessage("تغيير اللغة"),
     "total": MessageLookupByLibrary.simpleMessage("الإجمالي"),
     "totalAmount": MessageLookupByLibrary.simpleMessage("الإجمالي"),
     "userNotFound": MessageLookupByLibrary.simpleMessage("المستخدم غير موجود"),

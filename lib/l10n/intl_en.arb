@@ -91,6 +91,8 @@
   "quantity": "Quantity",
   "egp": "EGP",
   "errorPrefix": "Error:",
-    "yourCartIsEmpty": "Your cart is empty 🛒"
+    "yourCartIsEmpty": "Your cart is empty 🛒",
+    "language": "Language",
+     "switchLanguage": "Switch Language"
 
 }

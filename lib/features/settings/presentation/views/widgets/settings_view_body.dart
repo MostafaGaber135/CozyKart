@@ -45,7 +45,7 @@ class SettingsViewBody extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  S.of(context).darkTheme,
+                  S.of(context).switchLanguage,
                   style: AppTextStyles.bold16.copyWith(
                     color:
                         settingsProvider.isDark
