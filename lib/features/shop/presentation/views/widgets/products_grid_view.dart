@@ -95,7 +95,7 @@ class _ProductsGridViewState extends State<ProductsGridView> {
                       child: CachedNetworkImage(
                         imageUrl: product.image,
                         fit: BoxFit.cover,
-                        height: 101.h,
+                        height: 100.h,
                         width: double.infinity,
                         placeholder:
                             (context, url) =>
@@ -164,7 +164,7 @@ class _ProductsGridViewState extends State<ProductsGridView> {
                 Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: 10.w,
-                    vertical: 4.h,
+                    vertical: 1.h,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

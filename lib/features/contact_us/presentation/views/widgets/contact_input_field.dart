@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:furni_iti/core/utils/app_colors.dart';
 
 class ContactInputField extends StatelessWidget {
   final String label;
@@ -37,7 +36,7 @@ class ContactInputField extends StatelessWidget {
               vertical: 14.h,
             ),
             filled: true,
-            fillColor: AppColors.hintGrey,
+            fillColor: Color(0xFFe5e6e9),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8.r),
               borderSide: BorderSide.none,
