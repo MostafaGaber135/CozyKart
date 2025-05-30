@@ -84,8 +84,8 @@ class _SignupViewBodyState extends State<SignupViewBody> {
               children: [
                 Image.asset(
                   'assets/images/person.png',
-                  height: 180.h,
-                  width: 180.w,
+                  height: 150.h,
+                  width: 150.w,
                 ),
                 SizedBox(height: 16.h),
                 CustomInputField(

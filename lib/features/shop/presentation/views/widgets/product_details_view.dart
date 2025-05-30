@@ -47,18 +47,22 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
   @override
   Widget build(BuildContext context) {
     final product = widget.product;
-    final isWishlisted = _wishlistService.isInWishlist(product);
-
     return Scaffold(
       appBar: AppBar(
         title: Text(product.localizedName(context)),
         actions: [
-          IconButton(
-            icon: Icon(
-              isWishlisted ? Icons.favorite : Icons.favorite_border,
-              color: isWishlisted ? Colors.red : null,
-            ),
-            onPressed: _toggleWishlist,
+          FutureBuilder<bool>(
+            future: _wishlistService.isInWishlist(product),
+            builder: (context, snapshot) {
+              final isWishlisted = snapshot.data ?? false;
+              return IconButton(
+                icon: Icon(
+                  isWishlisted ? Icons.favorite : Icons.favorite_border,
+                  color: isWishlisted ? Colors.red : null,
+                ),
+                onPressed: _toggleWishlist,
+              );
+            },
           ),
         ],
       ),

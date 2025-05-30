@@ -75,36 +75,48 @@ class _CartItemWidgetState extends State<CartItemWidget> {
               children: [
                 Text(
                   widget.product.localizedName(context),
-                  style: const TextStyle(fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
                 ),
                 SizedBox(height: 4.h),
                 Text(
                   widget.product.localizedDescription(context),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontSize: 13.sp, color: Colors.grey[600]),
+                  style: TextStyle(fontSize: 13.sp, color: Colors.black),
                 ),
                 SizedBox(height: 8.h),
                 Row(
                   children: [
                     IconButton(
                       onPressed: decrement,
-                      icon: const Icon(Icons.remove_circle_outline),
+                      icon: const Icon(
+                        Icons.remove_circle_outline,
+                        color: Colors.black,
+                      ),
                     ),
-                    Text('$quantity', style: TextStyle(fontSize: 16.sp)),
+                    Text(
+                      '$quantity',
+                      style: TextStyle(fontSize: 16.sp, color: Colors.black),
+                    ),
                     IconButton(
                       onPressed: increment,
-                      icon: const Icon(Icons.add_circle_outline),
+                      icon: const Icon(
+                        Icons.add_circle_outline,
+                        color: Colors.black,
+                      ),
                     ),
                   ],
                 ),
                 Text(
                   "${S.of(context).quantity}: $quantity",
-                  style: TextStyle(fontSize: 13.sp),
+                  style: TextStyle(fontSize: 13.sp, color: Colors.black),
                 ),
                 Text(
                   "${S.of(context).total}: $total ${S.of(context).egp}",
-                  style: TextStyle(fontSize: 13.sp),
+                  style: TextStyle(fontSize: 13.sp, color: Colors.black),
                 ),
               ],
             ),

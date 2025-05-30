@@ -33,10 +33,17 @@ class _ProductsGridViewState extends State<ProductsGridView> {
     }
   }
 
-  void _toggleWishlist(Product product) {
-    setState(() {
-      _wishlistService.toggleWishlist(product);
-    });
+  void _toggleWishlist(Product product) async {
+    await _wishlistService.toggleWishlist(product);
+    final isNowInWishlist = await _wishlistService.isInWishlist(product);
+    setState(() {});
+    if (!mounted) return;
+    showToast(
+      isNowInWishlist
+          ? S.of(context).addedToWishlist
+          : S.of(context).removedFromWishlist,
+      isError: !isNowInWishlist,
+    );
   }
 
   @override
@@ -52,7 +59,6 @@ class _ProductsGridViewState extends State<ProductsGridView> {
       itemCount: widget.products.length,
       itemBuilder: (context, index) {
         final product = widget.products[index];
-        final isWishlisted = _wishlistService.isInWishlist(product);
 
         return GestureDetector(
           onTap: () {
@@ -113,14 +119,20 @@ class _ProductsGridViewState extends State<ProductsGridView> {
                             ),
                           ],
                         ),
-                        child: IconButton(
-                          icon: Icon(
-                            isWishlisted
-                                ? Icons.favorite
-                                : Icons.favorite_border,
-                            color: isWishlisted ? Colors.red : null,
-                          ),
-                          onPressed: () => _toggleWishlist(product),
+                        child: FutureBuilder<bool>(
+                          future: _wishlistService.isInWishlist(product),
+                          builder: (context, snapshot) {
+                            final isWishlisted = snapshot.data ?? false;
+                            return IconButton(
+                              icon: Icon(
+                                isWishlisted
+                                    ? Icons.favorite
+                                    : Icons.favorite_border,
+                                color: isWishlisted ? Colors.red : null,
+                              ),
+                              onPressed: () => _toggleWishlist(product),
+                            );
+                          },
                         ),
                       ),
                     ),

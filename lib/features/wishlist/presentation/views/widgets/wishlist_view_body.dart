@@ -5,8 +5,7 @@ import 'package:furni_iti/core/services/cart_service.dart';
 import 'package:furni_iti/core/services/wishlist_service.dart';
 import 'package:furni_iti/core/utils/toast_helper.dart';
 import 'package:furni_iti/core/widgets/primary_button.dart';
-import 'package:furni_iti/features/shop/data/models/product_model.dart'
-    show Product;
+import 'package:furni_iti/features/shop/data/models/product_model.dart';
 import 'package:furni_iti/generated/l10n.dart';
 
 class WishlistViewBody extends StatefulWidget {
@@ -22,14 +21,20 @@ class _WishlistViewBodyState extends State<WishlistViewBody> {
   @override
   void initState() {
     super.initState();
-    _wishlist = WishlistService().wishlist;
+    _loadWishlist();
   }
 
-  void _removeItem(Product product) {
-    WishlistService().removeFromWishlist(product);
+  Future<void> _loadWishlist() async {
+    final list = await WishlistService().getWishlist();
     setState(() {
-      _wishlist.remove(product);
+      _wishlist = list;
     });
+  }
+
+  void _removeItem(Product product) async {
+    await WishlistService().removeFromWishlist(product);
+    _loadWishlist();
+    if (!mounted) return;
     showToast(S.of(context).removedFromWishlist, isError: true);
   }
 
@@ -121,7 +126,7 @@ class _WishlistItem extends StatelessWidget {
                   SizedBox(height: 4.h),
                   Text(
                     '${product.price.toStringAsFixed(2)} EGP',
-                    style: TextStyle(fontSize: 14.sp, color: Colors.white),
+                    style: TextStyle(fontSize: 14.sp),
                   ),
                   SizedBox(height: 8.h),
                   SizedBox(

@@ -35,19 +35,17 @@ class Product {
         (variants != null && variants.isNotEmpty) ? variants.first : null;
 
     return Product(
-      id: productJson['_id'] ?? '',
+      id: productJson['_id'] ?? json['id'] ?? '',
       image: variant?['image'] ?? productJson['image'] ?? '',
       nameMap: Map<String, dynamic>.from(
-        variant?['name'] ??
-            productJson['name'] ??
-            {'en': 'Unnamed', 'ar': 'بدون اسم'},
+        variant?['name'] ?? productJson['name'] ?? {'en': 'Unnamed', 'ar': 'بدون اسم'},
       ),
       descriptionMap: Map<String, dynamic>.from(
         productJson['description'] ?? {'en': '', 'ar': ''},
       ),
       price: (variant?['price'] ?? productJson['price'] ?? 0).toDouble(),
       quantity: json['quantity'] ?? 1,
-      inStock: json['inStock'] ?? 0,
+      inStock: productJson['inStock'] ?? 0,
     );
   }
 
