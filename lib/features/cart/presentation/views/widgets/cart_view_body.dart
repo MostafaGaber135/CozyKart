@@ -68,25 +68,18 @@ class _CartViewBodyState extends State<CartViewBody> {
     await loadCart();
   }
 
-  double egpToUsd(dynamic egp) {
-    if (egp is int) return egp.toDouble() / 45;
-    if (egp is double) return egp / 45;
-    return 0;
-  }
-
   void _startPaypalCheckout() {
     final items =
         cartItems.map((item) {
           final product = item['product'];
           final quantity = item['quantity'];
           final priceEgp = item['priceAtAddition'];
-          final priceUsd = egpToUsd(priceEgp);
 
           return {
             "name": product['name']?['en'] ?? "Unnamed Product",
             "quantity": quantity.toString(),
-            "price": priceUsd.toStringAsFixed(2),
-            "currency": "USD",
+            "price": priceEgp.toStringAsFixed(2), // لا تحويل
+            "currency": "USD", // PayPal بيقبل USD بس
           };
         }).toList();
 
@@ -95,7 +88,7 @@ class _CartViewBodyState extends State<CartViewBody> {
       subtotal += double.parse(item['price']) * int.parse(item['quantity']);
     }
 
-    final usdTotal = subtotal.toStringAsFixed(2);
+    final totalFormatted = subtotal.toStringAsFixed(2);
 
     Navigator.of(context).push(
       MaterialPageRoute(
@@ -109,10 +102,10 @@ class _CartViewBodyState extends State<CartViewBody> {
               transactions: [
                 {
                   "amount": {
-                    "total": usdTotal,
+                    "total": totalFormatted,
                     "currency": "USD",
                     "details": {
-                      "subtotal": usdTotal,
+                      "subtotal": totalFormatted,
                       "shipping": '0',
                       "shipping_discount": 0,
                     },
