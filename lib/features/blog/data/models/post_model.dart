@@ -1,5 +1,4 @@
 import 'package:furni_iti/features/blog/domain/entities/post.dart';
-
 class PostModel extends Post {
   PostModel({
     required super.id,
@@ -8,6 +7,7 @@ class PostModel extends Post {
     required super.description,
     required super.author,
     required super.likes,
+    required super.comments,
   });
 
   factory PostModel.fromJson(Map<String, dynamic> json) {
@@ -17,7 +17,8 @@ class PostModel extends Post {
       title: Map<String, String>.from(json['title'] ?? {}),
       description: Map<String, String>.from(json['description'] ?? {}),
       author: json['author'] ?? '',
-      likes: (json['likes'] as List?)?.length ?? 0,
+      likes: List<Map<String, dynamic>>.from(json['likes'] ?? []),
+      comments: List<Map<String, dynamic>>.from(json['comments'] ?? []),
     );
   }
 }

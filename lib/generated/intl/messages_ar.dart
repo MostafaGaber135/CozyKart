@@ -54,12 +54,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "byAuthor": m0,
     "cart": MessageLookupByLibrary.simpleMessage("السلة"),
     "cartEmpty": MessageLookupByLibrary.simpleMessage("سلة التسوق فارغة"),
+    "checkoutButton": MessageLookupByLibrary.simpleMessage("الدفع"),
     "checkoutWithPayPal": MessageLookupByLibrary.simpleMessage(
       "الدفع عبر PayPal",
     ),
     "checkoutWithPaypal": MessageLookupByLibrary.simpleMessage(
       "الدفع عبر باي بال",
     ),
+    "comments": MessageLookupByLibrary.simpleMessage("التعليقات"),
     "confirmPassword": MessageLookupByLibrary.simpleMessage(
       "تأكيد كلمة المرور",
     ),

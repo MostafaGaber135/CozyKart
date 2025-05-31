@@ -69,7 +69,7 @@ class PostCard extends StatelessWidget {
                   children: [
                     Icon(Icons.favorite_border, size: 18.sp),
                     SizedBox(width: 4.w),
-                    Text(post.likes.toString()),
+                    Text(post.likes.length.toString()),
                   ],
                 ),
               ],

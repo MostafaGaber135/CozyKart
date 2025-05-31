@@ -21,7 +21,7 @@ class PostDetailsViewBody extends StatelessWidget {
           CachedNetworkImage(
             imageUrl: post.image,
             height: 200.h,
-            width: (double.infinity).w,
+            width: double.infinity,
             fit: BoxFit.cover,
             progressIndicatorBuilder:
                 (context, url, downloadProgress) => Center(
@@ -49,13 +49,76 @@ class PostDetailsViewBody extends StatelessWidget {
             style: Theme.of(context).textTheme.bodySmall,
           ),
           SizedBox(height: 16.h),
-          Row(
-            children: [
-              const Icon(Icons.favorite, color: Colors.red),
-              SizedBox(width: 4.w),
-              Text(post.likes.toString()),
-            ],
+
+          // Likes with clickable dialog
+          InkWell(
+            onTap: () {
+              showDialog(
+                context: context,
+                builder:
+                    (_) => AlertDialog(
+                      title: Text('المعجبين'),
+                      content: SizedBox(
+                        width: double.maxFinite,
+                        child: ListView(
+                          shrinkWrap: true,
+                          children:
+                              post.likes.map((like) {
+                                final user = like['user'];
+                                final name =
+                                    user['userName'][lang] ??
+                                    user['userName']['en'] ??
+                                    '';
+                                final image = user['image'];
+                                return ListTile(
+                                  leading: CircleAvatar(
+                                    backgroundImage: NetworkImage(image),
+                                  ),
+                                  title: Text(name),
+                                );
+                              }).toList(),
+                        ),
+                      ),
+                    ),
+              );
+            },
+            child: Row(
+              children: [
+                const Icon(Icons.favorite, color: Colors.red),
+                SizedBox(width: 4.w),
+                Text(post.likes.length.toString()),
+              ],
+            ),
           ),
+
+          SizedBox(height: 24.h),
+
+          // Comments title
+          Text(
+            S.of(context).comments,
+            style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(height: 8.h),
+
+          // Comments list
+          ...post.comments.map((comment) {
+            final user = comment['user'];
+            final username =
+                user?['userName']?[lang] ??
+                user?['userName']?['en'] ??
+                comment['username'] ??
+                '';
+            final image = user?['image'];
+            final content = comment['comment'];
+            return ListTile(
+              leading: CircleAvatar(
+                backgroundImage: image != null ? NetworkImage(image) : null,
+                child: image == null ? const Icon(Icons.person) : null,
+              ),
+              title: Text(username),
+              subtitle: Text(content),
+            );
+          }),
         ],
       ),
     );

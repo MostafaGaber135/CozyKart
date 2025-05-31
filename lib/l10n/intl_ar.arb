@@ -93,5 +93,7 @@
   "errorPrefix": "خطأ:",
   "yourCartIsEmpty": "عربة التسوق فارغة 🛒",
   "language": "اللغة",
-  "switchLanguage": "تغيير اللغة"
+  "switchLanguage": "تغيير اللغة",
+  "checkoutButton": "الدفع",
+  "comments": "التعليقات"
 }

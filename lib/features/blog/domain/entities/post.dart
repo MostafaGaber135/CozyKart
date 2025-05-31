@@ -4,7 +4,8 @@ class Post {
   final Map<String, String> title;
   final Map<String, String> description;
   final String author;
-  final int likes;
+  final List<Map<String, dynamic>> likes;
+  final List<Map<String, dynamic>> comments;
 
   Post({
     required this.id,
@@ -13,5 +14,6 @@ class Post {
     required this.description,
     required this.author,
     required this.likes,
+    required this.comments,
   });
 }

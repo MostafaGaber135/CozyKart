@@ -788,6 +788,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Checkout`
+  String get checkoutButton {
+    return Intl.message('Checkout', name: 'checkoutButton', desc: '', args: []);
+  }
+
+  /// `Comments`
+  String get comments {
+    return Intl.message('Comments', name: 'comments', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

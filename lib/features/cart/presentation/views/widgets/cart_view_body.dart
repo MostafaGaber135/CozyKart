@@ -221,11 +221,14 @@ class _CartViewBodyState extends State<CartViewBody> {
           ),
           const SizedBox(height: 16),
           Text(
-            "Total: ${total.toStringAsFixed(2)} EGP",
+            "${S.of(context).total}: $total ${S.of(context).egp}",
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 12),
-          PrimaryButton(title: 'Checkout', onPressed: _startPaypalCheckout),
+          PrimaryButton(
+            title: S.of(context).checkoutButton,
+            onPressed: _startPaypalCheckout,
+          ),
           const SizedBox(height: 20),
         ],
       ),

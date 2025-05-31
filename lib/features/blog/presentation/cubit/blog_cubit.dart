@@ -27,13 +27,22 @@ class BlogCubit extends Cubit<BlogState> {
     if (isLoadingMore) return;
     isLoadingMore = true;
     currentPage++;
+
     try {
       final morePosts = await blogRepository.getPosts(currentPage, limit);
-      allPosts.addAll(morePosts);
+      final newPosts =
+          morePosts.where((newPost) {
+            return !allPosts.any(
+              (existingPost) => existingPost.id == newPost.id,
+            );
+          }).toList();
+
+      allPosts.addAll(newPosts);
       emit(BlogLoaded(List.from(allPosts)));
     } catch (e) {
       emit(BlogError(e.toString()));
     }
+
     isLoadingMore = false;
   }
 
