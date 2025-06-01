@@ -96,7 +96,7 @@ class HomeScreen extends StatelessWidget {
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          "EGP ${product.price}",
+                          "${product.price} USD",
                           style: TextStyle(color: Colors.grey, fontSize: 12.sp),
                         ),
                       ],

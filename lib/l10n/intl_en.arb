@@ -89,11 +89,12 @@
   "helpContent": "If you have any questions or issues, feel free to contact our support team. We are available 24/7 to assist you with any problems related to the app usage.",
   "paypalCheckout": "PayPal Checkout",
   "quantity": "Quantity",
-  "egp": "EGP",
+  "usd": "USD",
   "errorPrefix": "Error:",
   "yourCartIsEmpty": "Your cart is empty 🛒",
   "language": "Language",
   "switchLanguage": "Switch Language",
   "checkoutButton": "Checkout",
-  "comments": "Comments"
+  "comments": "Comments",
+  "likes": "Likes"
 }

@@ -57,7 +57,7 @@ class PostDetailsViewBody extends StatelessWidget {
                 context: context,
                 builder:
                     (_) => AlertDialog(
-                      title: Text('المعجبين'),
+                      title: Text(S.of(context).likes),
                       content: SizedBox(
                         width: double.maxFinite,
                         child: ListView(
@@ -93,14 +93,12 @@ class PostDetailsViewBody extends StatelessWidget {
 
           SizedBox(height: 24.h),
 
-          // Comments title
           Text(
             S.of(context).comments,
             style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 8.h),
 
-          // Comments list
           ...post.comments.map((comment) {
             final user = comment['user'];
             final username =

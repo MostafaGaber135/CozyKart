@@ -115,7 +115,7 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                   style: TextStyle(fontSize: 13.sp, color: Colors.black),
                 ),
                 Text(
-                  "${S.of(context).total}: $total ${S.of(context).egp}",
+                  "${S.of(context).total}: $total ${S.of(context).usd}",
                   style: TextStyle(fontSize: 13.sp, color: Colors.black),
                 ),
               ],

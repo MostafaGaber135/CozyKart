@@ -754,9 +754,9 @@ class S {
     return Intl.message('Quantity', name: 'quantity', desc: '', args: []);
   }
 
-  /// `EGP`
-  String get egp {
-    return Intl.message('EGP', name: 'egp', desc: '', args: []);
+  /// `USD`
+  String get usd {
+    return Intl.message('USD', name: 'usd', desc: '', args: []);
   }
 
   /// `Error:`
@@ -797,6 +797,11 @@ class S {
   /// `Comments`
   String get comments {
     return Intl.message('Comments', name: 'comments', desc: '', args: []);
+  }
+
+  /// `Likes`
+  String get likes {
+    return Intl.message('Likes', name: 'likes', desc: '', args: []);
   }
 }
 

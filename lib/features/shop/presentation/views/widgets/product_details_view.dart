@@ -86,7 +86,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                   ),
                   SizedBox(height: 8.h),
                   Text(
-                    "${product.price.toStringAsFixed(2)} ${S.of(context).egp}",
+                    "${product.price.toStringAsFixed(2)} ${S.of(context).usd}",
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   SizedBox(height: 16.h),

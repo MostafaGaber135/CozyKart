@@ -73,13 +73,13 @@ class _CartViewBodyState extends State<CartViewBody> {
         cartItems.map((item) {
           final product = item['product'];
           final quantity = item['quantity'];
-          final priceEgp = item['priceAtAddition'];
+          final priceusd = item['priceAtAddition'];
 
           return {
             "name": product['name']?['en'] ?? "Unnamed Product",
             "quantity": quantity.toString(),
-            "price": priceEgp.toStringAsFixed(2), // لا تحويل
-            "currency": "USD", // PayPal بيقبل USD بس
+            "price": priceusd.toStringAsFixed(2), 
+            "currency": "USD", 
           };
         }).toList();
 
@@ -214,7 +214,7 @@ class _CartViewBodyState extends State<CartViewBody> {
           ),
           const SizedBox(height: 16),
           Text(
-            "${S.of(context).total}: $total ${S.of(context).egp}",
+            "${S.of(context).total}: $total ${S.of(context).usd}",
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 12),

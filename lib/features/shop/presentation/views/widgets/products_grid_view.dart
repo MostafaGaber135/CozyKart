@@ -157,7 +157,7 @@ class _ProductsGridViewState extends State<ProductsGridView> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10.w),
                   child: Text(
-                    '${product.price.toStringAsFixed(2)} ${S.of(context).egp}',
+                    '${product.price.toStringAsFixed(2)} ${S.of(context).usd}',
                     style: const TextStyle(color: AppColors.darkBackground),
                   ),
                 ),

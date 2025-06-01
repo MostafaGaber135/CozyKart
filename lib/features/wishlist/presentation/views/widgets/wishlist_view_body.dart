@@ -125,7 +125,7 @@ class _WishlistItem extends StatelessWidget {
                   ),
                   SizedBox(height: 4.h),
                   Text(
-                    '${product.price.toStringAsFixed(2)} EGP',
+                    '${product.price.toStringAsFixed(2)} USD',
                     style: TextStyle(fontSize: 14.sp),
                   ),
                   SizedBox(height: 8.h),

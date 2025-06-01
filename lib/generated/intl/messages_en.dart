@@ -67,7 +67,6 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "editProfile": MessageLookupByLibrary.simpleMessage("Edit Profile"),
     "editProfileTitle": MessageLookupByLibrary.simpleMessage("Edit Profile"),
-    "egp": MessageLookupByLibrary.simpleMessage("EGP"),
     "elegantBlackFinish": MessageLookupByLibrary.simpleMessage(
       "Elegant black marble finish",
     ),
@@ -105,6 +104,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Invalid email format",
     ),
     "language": MessageLookupByLibrary.simpleMessage("Language"),
+    "likes": MessageLookupByLibrary.simpleMessage("Likes"),
     "logIn": MessageLookupByLibrary.simpleMessage("LOG IN"),
     "login": MessageLookupByLibrary.simpleMessage("Login"),
     "loginSuccess": MessageLookupByLibrary.simpleMessage("Login Successful"),
@@ -177,6 +177,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "switchLanguage": MessageLookupByLibrary.simpleMessage("Switch Language"),
     "total": MessageLookupByLibrary.simpleMessage("Total"),
     "totalAmount": MessageLookupByLibrary.simpleMessage("Total"),
+    "usd": MessageLookupByLibrary.simpleMessage("USD"),
     "userNotFound": MessageLookupByLibrary.simpleMessage("User not found"),
     "wishlist": MessageLookupByLibrary.simpleMessage("Wishlist"),
     "wishlistEmpty": MessageLookupByLibrary.simpleMessage(

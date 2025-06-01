@@ -14,7 +14,14 @@ class BlogViewBody extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         surfaceTintColor: Colors.transparent,
-        title: Text(S.of(context).blogTitle),
+        title: Text(
+          S.of(context).blogTitle,
+          style: const TextStyle(
+            color: AppColors.primaryAccent,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
 
       body: BlocBuilder<BlogCubit, BlogState>(

@@ -73,7 +73,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "editProfileTitle": MessageLookupByLibrary.simpleMessage(
       "تعديل الملف الشخصي",
     ),
-    "egp": MessageLookupByLibrary.simpleMessage("جنيه"),
     "elegantBlackFinish": MessageLookupByLibrary.simpleMessage(
       "تشطيب رخامي أسود أنيق",
     ),
@@ -113,6 +112,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "تنسيق البريد الإلكتروني غير صالح",
     ),
     "language": MessageLookupByLibrary.simpleMessage("اللغة"),
+    "likes": MessageLookupByLibrary.simpleMessage("الاعجابات"),
     "logIn": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
     "login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
     "loginSuccess": MessageLookupByLibrary.simpleMessage(
@@ -187,6 +187,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "switchLanguage": MessageLookupByLibrary.simpleMessage("تغيير اللغة"),
     "total": MessageLookupByLibrary.simpleMessage("الإجمالي"),
     "totalAmount": MessageLookupByLibrary.simpleMessage("الإجمالي"),
+    "usd": MessageLookupByLibrary.simpleMessage("USD"),
     "userNotFound": MessageLookupByLibrary.simpleMessage("المستخدم غير موجود"),
     "wishlist": MessageLookupByLibrary.simpleMessage("المفضلة"),
     "wishlistEmpty": MessageLookupByLibrary.simpleMessage(
